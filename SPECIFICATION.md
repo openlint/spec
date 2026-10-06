@@ -2,9 +2,12 @@
 
 **Status: draft.** This document describes the ruleset format as it is implemented today:
 the Spectral ruleset format, documented faithfully and without extension. It is a complete
-description, but not yet a formal specification. Normative wording, requirement IDs and a
-conformance section are being worked out in
-[discussion #13](https://github.com/orgs/openlint/discussions/13).
+description, but not yet a formal specification. [Discussion #13](https://github.com/orgs/openlint/discussions/13)
+proposes how it will be rewritten: BCP 14 keywords, a glossary of defined terms, exact
+normative references, one conformance target and a permanent ID per requirement, conformance
+tests for every requirement, a normative result model, and immutable releases at
+`spec.openlint.org`. Until then, the **MUST** below is descriptive of the reference
+implementation, not yet a normative requirement.
 
 Where this document and the reference implementation disagree, the implementation is right
 and the document has to be corrected. A ruleset that behaves differently from what this
@@ -39,7 +42,7 @@ document says is a bug report: please [open an issue](https://github.com/openlin
 The schema validates a ruleset expressed as JSON or YAML. Its canonical `$id` is:
 
 ```
-https://openlint.org/schema/v1/ruleset.schema.json
+https://spec.openlint.org/schema/v1/ruleset.schema.json
 ```
 
 **In an editor.** VS Code and other JSON Schema-aware editors give you completion and inline
@@ -49,7 +52,7 @@ the schema from outside the document rather than inside it.
 For YAML rulesets, a modeline comment:
 
 ```yaml
-# yaml-language-server: $schema=https://openlint.org/schema/v1/ruleset.schema.json
+# yaml-language-server: $schema=https://spec.openlint.org/schema/v1/ruleset.schema.json
 extends: spectral:oas
 ```
 
@@ -60,7 +63,7 @@ For JSON rulesets, map it by filename in `.vscode/settings.json`:
   "json.schemas": [
     {
       "fileMatch": [".spectral.json", "*.ruleset.json"],
-      "url": "https://openlint.org/schema/v1/ruleset.schema.json"
+      "url": "https://spec.openlint.org/schema/v1/ruleset.schema.json"
     }
   ]
 }
@@ -508,7 +511,9 @@ Two further limits on scope:
 ## Versioning
 
 The schema lives under `schema/v1/` and is versioned independently of the reference
-implementation. Within `v1`, changes will be additive and backward-compatible: new optional
+implementation. [Discussion #13](https://github.com/orgs/openlint/discussions/13) proposes that
+each release of the specification live at its own URL that never changes, such as
+`spec.openlint.org/1.0.0/`, with work in progress at `spec.openlint.org/draft/`. Within `v1`, changes will be additive and backward-compatible: new optional
 properties, newly registered format identifiers, clarified descriptions. Anything that would
 reject a previously valid ruleset gets a new directory and a new `$id`.
 

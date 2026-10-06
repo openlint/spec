@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://openlint.org/schema/v1/ruleset.schema.json",
+  "$id": "https://spec.openlint.org/schema/v1/ruleset.schema.json",
   "title": "OpenLint Ruleset",
   "description": "An OpenLint ruleset (the Spectral ruleset format): a portable, machine-readable set of rules applied to JSON or YAML documents. This schema describes the serialized (JSON/YAML) form of the format. See https://github.com/openlint/spec for the specification.",
   "type": "object",
