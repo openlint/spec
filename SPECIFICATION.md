@@ -533,8 +533,7 @@ extensions removed.
 The schema is verified against the real-world rulesets published across the API Commons,
 which it accepts, and against a suite of malformed rulesets, which it rejects.
 
-This document and schema were first published by the Spotlight effort at
-[api-commons/spotlight-spec](https://github.com/api-commons/spotlight-spec), and carried over
-here when the project took the OpenLint name.
+This document and schema were first drafted by the OpenLint community, before it took its name,
+in [api-commons](https://github.com/api-commons/spotlight-spec), and moved here.
 
 This repository is licensed [Apache-2.0](LICENSE), the same as Spectral.

@@ -71,6 +71,6 @@ The most useful contribution is a ruleset that behaves differently from what thi
 
 ## Provenance and license
 
-The format originates in [Spectral](https://github.com/stoplightio/spectral) by Stoplight, licensed Apache-2.0. The specification and schema were derived from Spectral's internal validation meta-schemas and guides, first published by the Spotlight effort at [api-commons/spotlight-spec](https://github.com/api-commons/spotlight-spec), and carried over here when the project took the OpenLint name.
+The format originates in [Spectral](https://github.com/stoplightio/spectral) by Stoplight, licensed Apache-2.0. The specification and schema were derived from Spectral's internal validation meta-schemas and guides, first drafted by the OpenLint community, before it took its name, in [api-commons](https://github.com/api-commons/spotlight-spec), and moved here.
 
 Licensed [Apache-2.0](LICENSE). Everyone taking part follows the [OpenLint Code of Conduct](https://github.com/openlint/.github/blob/main/CODE_OF_CONDUCT.md).
