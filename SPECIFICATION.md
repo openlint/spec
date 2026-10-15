@@ -194,8 +194,8 @@ The reference implementation, [openlint/openlint](https://github.com/openlint/op
 
 | Function | Asserts that the target… |
 | --- | --- |
-| `truthy` | is present and not `false`, `""`, `0`, `null`, or `undefined`. |
-| `falsy` | is absent or falsy. |
+| `truthy` | is present and not `false`, `""`, `0`, or `null`. |
+| `falsy` | is absent, or one of `false`, `""`, `0`, or `null`. |
 | `defined` | is present. |
 | `undefined` | is absent. |
 | `pattern` | matches (`match`) and/or does not match (`notMatch`) a regular expression. |
