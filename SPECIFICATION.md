@@ -278,14 +278,14 @@ Inside `rules`, a value that is not an object adjusts a rule inherited through
 
 - a **severity name** (`error`, `warn`, `info`, `hint`, `off`) re-severities the rule;
 - `false` disables the rule;
-- `true` enables it at its declared severity.
+- `true` switches it to its default (declared) severity.
 
 ```yaml
 extends: spectral:oas
 rules:
   operation-tags: error       # raise it
   info-contact: false         # switch it off
-  oas3-schema: true           # switch it back on
+  oas3-schema: true           # switch it to its default severity
 ```
 
 Note that the numeric severities are **not** accepted in this position; only the names are.
