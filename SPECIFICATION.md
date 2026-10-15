@@ -32,6 +32,7 @@ document says is a bug report: please [open an issue](https://github.com/openlin
 - [Custom functions](#custom-functions)
 - [Extension properties](#extension-properties)
 - [Conformance notes](#conformance-notes)
+- [Runtime behavior (to be specified)](#runtime-behavior-to-be-specified)
 - [Versioning](#versioning)
 - [Provenance and license](#provenance-and-license)
 
@@ -206,7 +207,10 @@ The reference implementation, [openlint/openlint](https://github.com/openlint/op
 | `schema` | conforms to a supplied JSON Schema. |
 | `xor` | has exactly one of a set of `properties`. |
 | `or` | has at least one of a set of `properties`. |
-| `unreferencedReusableObject` | (as a reusable-object container) has no unreferenced members. |
+| `unreferencedReusableObject` | (as a reusable-object container) has no members that are unreferenced within the documents being linted. Members referenced only by documents outside the lint run are reported as unreferenced. |
+
+`truthy` and `falsy` follow ECMAScript truthiness: empty arrays and empty objects are
+**truthy**. This is stated explicitly because implementations in other languages may differ.
 
 ```yaml
 then:
@@ -277,15 +281,19 @@ Inside `rules`, a value that is not an object adjusts a rule inherited through
 [`extends`](#extends) rather than defining a new one:
 
 - a **severity name** (`error`, `warn`, `info`, `hint`, `off`) re-severities the rule;
-- `false` disables the rule;
-- `true` switches it to its default (declared) severity.
+- `false` disables the rule without changing its severity;
+- `true` enables the rule without changing its severity, so it keeps whatever severity it
+  currently has, including one raised by an earlier ruleset.
+
+A rule therefore has an **enabled** state that is separate from its **severity**. Adjusting a
+rule that the ruleset neither defines nor inherits is an error.
 
 ```yaml
 extends: spectral:oas
 rules:
   operation-tags: error       # raise it
   info-contact: false         # switch it off
-  oas3-schema: true           # switch it to its default severity
+  oas3-schema: true           # switch it back on, at its current severity
 ```
 
 Note that the numeric severities are **not** accepted in this position; only the names are.
@@ -369,6 +377,13 @@ Each target requires both `formats` and `given`, and `given` in a target is alwa
 
 Aliases may be declared at the root of the ruleset or within an [override](#overrides).
 
+An alias that refers to itself, directly or through other aliases, is an error. So is a `#`
+reference to an alias that isn't defined.
+
+A file-scoped override's aliases are merged with the ruleset's aliases **by name**: an
+override's alias replaces the same-named alias entirely rather than adding to it.
+Pointer-scoped overrides cannot declare aliases.
+
 ---
 
 ## `overrides`
@@ -376,6 +391,10 @@ Aliases may be declared at the root of the ruleset or within an [override](#over
 Overrides apply adjustments to a subset of the documents being linted, matched by glob. They
 are an ordered array — later matching entries win over earlier ones, and every override wins
 over the base ruleset. The array must not be empty.
+
+`files` entries are glob patterns, matched as the reference implementation's glob library
+([minimatch](https://github.com/isaacs/minimatch)) matches them. A precise glob syntax is future
+work.
 
 There are two forms, distinguished by whether the `files` globs carry a JSON Pointer fragment.
 
@@ -497,16 +516,30 @@ schema deliberately matches the implementation rather than tightening it:
    [Using the schema](#using-the-schema). A format specified from the start would have
    reserved that key.
 
-Two further limits on scope:
+Further limits on scope:
 
 - The schema describes the **serialized (JSON/YAML)** form. Rulesets authored in JavaScript
   can inline function implementations and whole ruleset objects, which have no JSON
   representation and are therefore out of scope.
+- **Format detection is implementation-defined.** This document lists the format identifiers but
+  not the rules an implementation uses to decide that a document matches one. Specifying
+  detection for each format is future work.
 - `given` values are checked for **shape** — that they are JSONPath expressions or alias
   references — not parsed as JSONPath. A syntactically invalid JSONPath will pass the schema
   and fail at lint time.
 
 ---
+
+## Runtime behavior (to be specified)
+
+The following are currently **implementation-defined**, and will be specified:
+
+- **Resolution.** How `extends` entries and custom functions are found and loaded: file paths,
+  npm module specifiers and URLs, and what each is resolved relative to.
+- **Inheritance and merge order.** Which definition wins when several `extends` entries and the
+  declaring ruleset define or adjust the same rule, and how the `recommended`, `all` and `off`
+  modes interact with rules adjusted by name afterwards.
+- **Cycles.** Whether a ruleset that extends itself, directly or indirectly, is an error.
 
 ## Versioning
 
