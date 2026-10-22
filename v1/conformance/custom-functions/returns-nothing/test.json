@@ -1,0 +1,22 @@
+{
+  "for": [
+    "/req/custom-functions/no-problems"
+  ],
+  "purpose": "A function that returns nothing reports no problems, while one that returns a problem does.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "functions/nothing.js",
+    "functions/one.js"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "loud",
+        "path": [
+          "info"
+        ]
+      }
+    ]
+  }
+}

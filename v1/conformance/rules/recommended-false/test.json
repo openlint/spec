@@ -1,0 +1,16 @@
+{
+  "for": [
+    "/req/rules/recommended",
+    "/req/severity/off"
+  ],
+  "purpose": "A rule the ruleset defines with `recommended: false` does not run, while its other rules do.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "ctl"
+      }
+    ]
+  }
+}

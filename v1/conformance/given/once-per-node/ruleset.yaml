@@ -1,0 +1,9 @@
+rules:
+  r:
+    given:
+      - $.info
+      - $..info
+      - "$['info']"
+    then:
+      field: title
+      function: truthy

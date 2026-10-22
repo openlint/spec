@@ -1,0 +1,13 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "A ruleset whose `extends` is an object is invalid.",
+  "ruleset": "ruleset.yaml",
+  "files": [
+    "base.yaml"
+  ],
+  "expect": {
+    "ruleset": "invalid"
+  }
+}

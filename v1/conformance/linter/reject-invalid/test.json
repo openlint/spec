@@ -1,0 +1,11 @@
+{
+  "for": [
+    "/req/linter/reject-invalid"
+  ],
+  "purpose": "Given an invalid ruleset, the linter rejects it and produces no results.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "rejected": true
+  }
+}

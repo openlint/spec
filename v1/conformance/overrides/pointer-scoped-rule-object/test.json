@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "A pointer-scoped override that defines a rule object is invalid.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "invalid"
+  }
+}

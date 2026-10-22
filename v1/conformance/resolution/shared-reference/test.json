@@ -1,0 +1,21 @@
+{
+  "for": [
+    "/req/result/reference-target"
+  ],
+  "purpose": "A schema referenced from two operations fails a rule once, at the place where the schema is written.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "no-object",
+        "path": [
+          "components",
+          "schemas",
+          "Bad",
+          "type"
+        ]
+      }
+    ]
+  }
+}

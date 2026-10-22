@@ -1,0 +1,11 @@
+{
+  "name": "@openlint/spec",
+  "private": true,
+  "description": "Checks the ruleset fixtures of the OpenLint ruleset specification against its JSON Schema.",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "2.1.1",
+    "yaml": "1.10.3"
+  }
+}

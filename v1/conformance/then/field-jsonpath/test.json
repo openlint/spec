@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/then/field"
+  ],
+  "purpose": "A `field` that is a JSONPath expression applies the function to every value it selects.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r"
+      },
+      {
+        "code": "r"
+      }
+    ]
+  }
+}

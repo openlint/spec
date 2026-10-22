@@ -1,0 +1,10 @@
+aliases:
+  Info:
+    - $..info
+  InfoDescription:
+    - "#Info.description"
+rules:
+  info-description:
+    given: "#InfoDescription"
+    then:
+      function: truthy

@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "Both parser options with severity values are valid.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "valid"
+  }
+}

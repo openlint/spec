@@ -1,0 +1,8 @@
+rules:
+  base-rule:
+    given: $.nothing
+    then:
+      function: truthy
+overrides:
+  - files: ["**/*.yaml"]
+    extends: ./extra.yaml

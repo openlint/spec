@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "acme-operation-summary": {
+      "given": "$.paths[*][*]",
+      "then": {
+        "field": "summary",
+        "function": "truthy"
+      }
+    }
+  }
+}

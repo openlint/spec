@@ -1,0 +1,8 @@
+rules:
+  acme-operation-summary:
+    description: Every operation needs a summary.
+    severity: hint
+    given: $.paths[*]['get','put','post','delete','options','head','patch','trace']
+    then:
+      field: summary
+      function: truthy

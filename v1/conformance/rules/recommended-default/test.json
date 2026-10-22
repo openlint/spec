@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/rules/recommended"
+  ],
+  "purpose": "A rule the ruleset defines runs whether `recommended` is `true` or absent.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r"
+      },
+      {
+        "code": "ctl"
+      }
+    ]
+  }
+}

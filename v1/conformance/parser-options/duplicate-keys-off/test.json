@@ -1,0 +1,11 @@
+{
+  "for": [
+    "/req/parser-options/duplicate-keys"
+  ],
+  "purpose": "With `duplicateKeys: off`, a duplicate key is not reported.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": []
+  }
+}

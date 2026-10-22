@@ -1,0 +1,23 @@
+{
+  "for": [
+    "/req/custom-functions/invoke"
+  ],
+  "purpose": "The function receives the value and the options, and each problem it returns becomes a result with its message.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "functions/forbiddenWords.js"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "no-forbidden-words",
+        "message": "Contains \"evil\"."
+      },
+      {
+        "code": "no-forbidden-words",
+        "message": "Contains \"bad\"."
+      }
+    ]
+  }
+}

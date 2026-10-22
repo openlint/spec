@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/aliases/scoped"
+  ],
+  "purpose": "A scoped alias with no target for the document's formats matches nothing; only the format warning is reported.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "unrecognized-format"
+      }
+    ]
+  }
+}

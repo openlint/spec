@@ -1,0 +1,10 @@
+functions: [nothing, one]
+rules:
+  quiet:
+    given: $.info
+    then:
+      function: nothing
+  loud:
+    given: $.info
+    then:
+      function: one

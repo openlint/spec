@@ -1,0 +1,6 @@
+components:
+  schemas:
+    Pet:
+      properties:
+        id:
+          $ref: "./schemas.yaml#/Id"

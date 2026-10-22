@@ -1,0 +1,9 @@
+rules:
+  r:
+    given: $
+    then:
+      function: falsy
+overrides:
+  - files: ["legacy/**"]
+    rules:
+      nope: error

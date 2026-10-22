@@ -1,0 +1,18 @@
+formats: [oas3]
+aliases:
+  Params:
+    targets:
+      - formats: [oas3]
+        given:
+          - $.components.parameters[*]
+rules:
+  r:
+    formats: [oas3_1]
+    given: "#Params"
+    then:
+      function: truthy
+overrides:
+  - files: ["legacy/**"]
+    formats: [oas3_0]
+    rules:
+      r: warn

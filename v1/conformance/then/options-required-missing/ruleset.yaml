@@ -1,0 +1,6 @@
+rules:
+  r:
+    given: $.name
+    then:
+      function: length
+      functionOptions: {}

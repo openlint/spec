@@ -1,0 +1,13 @@
+{
+  "for": [
+    "/req/given/alias-defined"
+  ],
+  "purpose": "A rule that redefines an inherited rule with an alias only the extending ruleset declares is invalid.",
+  "ruleset": "ruleset.yaml",
+  "files": [
+    "base.yaml"
+  ],
+  "expect": {
+    "ruleset": "invalid"
+  }
+}

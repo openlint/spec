@@ -1,0 +1,1656 @@
+<pre class='metadata'>
+Title: OpenLint Ruleset Specification
+Shortname: openlint-ruleset
+Level: none
+Status: LD
+ED: https://spec.openlint.org/v1/draft/
+!All versions: <a href="https://spec.openlint.org/">https://spec.openlint.org/</a>
+Editor: OpenLint maintainers, https://github.com/openlint/community/blob/main/MAINTAINERS.md
+Repository: openlint/spec
+Abstract: A ruleset is a set of rules for checking JSON and YAML documents. Each rule selects values in a document and checks each selected value with a function. This specification defines the ruleset format, how a linter applies a ruleset to a document, and the results it reports, so that a ruleset means the same thing in every conforming linter.
+Markup Shorthands: markdown yes, biblio yes
+Text Macro: VERSIONLABEL Working Draft 1.x
+Local Boilerplate: header yes, copyright yes
+Boilerplate: conformance no
+Warning: custom
+Custom Warning Title: Working draft
+Custom Warning Text: This is the working draft of 1.x. It changes without notice as the OpenLint community works on it. Nothing in it is released. Releases are immutable and listed at <a href="https://spec.openlint.org/">spec.openlint.org</a>.
+Logo: ../../assets/openlint-icon.svg
+Favicon: ../../assets/openlint-icon.svg
+Default Highlight: yaml
+Complain About: accidental-2119 no, missing-example-ids no
+Max ToC Depth: 3
+</pre>
+
+<pre class=biblio>
+{
+  "yaml-1.2.2": {
+    "title": "YAML Ain't Markup Language (YAML) Version 1.2, Revision 1.2.2",
+    "href": "https://yaml.org/spec/1.2.2/",
+    "authors": ["Oren Ben-Kiki", "Clark Evans", "Ingy döt Net", "Tina Müller", "Pantelis Antoniou", "Eemeli Aro", "Thomas Smith"],
+    "publisher": "YAML Language Development Team",
+    "date": "1 October 2021"
+  },
+  "json-schema-core-2020-12": {
+    "title": "JSON Schema: A Media Type for Describing JSON Documents, draft-bhutton-json-schema-01 (2020-12)",
+    "href": "https://json-schema.org/draft/2020-12/json-schema-core",
+    "authors": ["Austin Wright", "Henry Andrews", "Ben Hutton", "Greg Dennis"],
+    "publisher": "IETF",
+    "date": "16 June 2022"
+  },
+  "json-schema-validation-2020-12": {
+    "title": "JSON Schema Validation: A Vocabulary for Structural Validation of JSON, draft-bhutton-json-schema-validation-01 (2020-12)",
+    "href": "https://json-schema.org/draft/2020-12/json-schema-validation",
+    "authors": ["Austin Wright", "Henry Andrews", "Ben Hutton"],
+    "publisher": "IETF",
+    "date": "16 June 2022"
+  },
+  "json-schema-draft-04": {
+    "title": "JSON Schema: core definitions and terminology, draft-zyp-json-schema-04",
+    "href": "https://json-schema.org/draft-04/draft-zyp-json-schema-04",
+    "authors": ["Francis Galiegue", "Kris Zyp", "Gary Court"]
+  },
+  "json-schema-draft-06": {
+    "title": "JSON Schema: A Media Type for Describing JSON Documents, draft-wright-json-schema-01 (draft 6)",
+    "href": "https://json-schema.org/draft-06/draft-wright-json-schema-01",
+    "authors": ["Austin Wright"]
+  },
+  "json-schema-draft-2019-09": {
+    "title": "JSON Schema: A Media Type for Describing JSON Documents, draft-handrews-json-schema-02 (2019-09)",
+    "href": "https://json-schema.org/draft/2019-09/draft-handrews-json-schema-02",
+    "authors": ["Austin Wright", "Henry Andrews", "Ben Hutton", "Greg Dennis"]
+  },
+  "json-schema-draft-07": {
+    "title": "JSON Schema: A Media Type for Describing JSON Documents, draft-handrews-json-schema-01 (draft 7)",
+    "href": "https://json-schema.org/draft-07/draft-handrews-json-schema-01",
+    "authors": ["Austin Wright", "Henry Andrews"],
+    "publisher": "IETF",
+    "date": "19 March 2018"
+  },
+  "ecma-262-2025": {
+    "title": "ECMAScript 2025 Language Specification, 16th edition (ECMA-262)",
+    "href": "https://262.ecma-international.org/16.0/",
+    "publisher": "Ecma International",
+    "date": "June 2025"
+  },
+  "spectral": {
+    "title": "Spectral: a flexible JSON/YAML linter",
+    "href": "https://github.com/stoplightio/spectral",
+    "publisher": "Stoplight"
+  },
+  "semver": {
+    "title": "Semantic Versioning 2.0.0",
+    "href": "https://semver.org/spec/v2.0.0.html",
+    "authors": ["Tom Preston-Werner"]
+  },
+  "ecma-402": {
+    "title": "ECMAScript 2025 Internationalization API Specification, 12th edition (ECMA-402)",
+    "href": "https://262.ecma-international.org/",
+    "publisher": "Ecma International"
+  },
+  "jsonpath-plus": {
+    "title": "JSONPath-Plus 10.4.0",
+    "href": "https://github.com/JSONPath-Plus/JSONPath/tree/v10.4.0",
+    "publisher": "JSONPath-Plus contributors"
+  },
+  "minimatch": {
+    "title": "minimatch 3.1.5",
+    "href": "https://github.com/isaacs/minimatch/tree/v3.1.5",
+    "publisher": "Isaac Z. Schlueter"
+  }
+}
+</pre>
+
+# Introduction # {#intro}
+
+A [=ruleset=] is a set of [=rules=] for checking JSON and YAML documents. Each rule selects nodes in a [=document=] and checks each selected node with a [=function=]. A ruleset records the conventions a group of documents has to follow, so that the documents are checked the same way wherever they are written or reviewed. Nothing in the format depends on what the documents describe.
+
+This specification defines the format apart from any one [=linter=], so that several [=linters=] can implement it and agree on what a ruleset means.
+
+## How to read this document ## {#reading}
+
+The normative content of this document is its [=requirements=], together with the definitions in [[#terminology]], the conformance classes in [[#classes]], the tables that requirements refer to, and the ruleset schema that <a href="#/req/ruleset/schema">/req/ruleset/schema</a> refers to. Everything else, including this introduction, examples, notes, and issues, is informative.
+
+A requirement looks like this:
+
+<div class=req id="/req/example/identified" data-status=example>
+A [=requirement=] MUST be written so that a reader can tell, from the requirement alone, what conforms and what does not.
+</div>
+
+Each requirement carries:
+
+- a <dfn>requirement identifier</dfn>, such as `/req/given/no-match`. It is permanent (see [[#identifiers]]), and `#/req/given/no-match` links to it in every version of this document that contains it;
+- the [=conformance class=] it belongs to, which fixes whether it applies to a ruleset or to a linter;
+- the version it first appeared in;
+- the [=conformance tests=] that check it, listed below it.
+
+A sentence without a keyword inside a requirement defines a term the keyword sentence uses, and binds with it.
+
+The example above only shows the shape. Its status, `example`, marks that it is not a requirement of this specification. Recommendations (`/rec/`, written with should) and permissions (`/per/`, written with may) look the same and belong to a class too.
+
+Every requirement is listed by class in [[#requirements-index]], and every test with its fixtures in [[#conformance-tests]]. Open questions appear as issue blocks where they arise, and the [[#issues-index]] at the end of the document collects them. A release carries no issues.
+
+## Versions of this document ## {#versions}
+
+Releases are numbered as Semantic Versioning 2.0.0 [[SEMVER]] prescribes. A patch release corrects the text or the tests without changing what conforms, a minor release adds requirements that every ruleset conforming to the previous release still satisfies, which can include new requirements for linters, and a major release is anything else. Each release has its own URL and never changes once published.
+
+Issue: What counts as a change that breaks conformance, and what is promised to whom, is discussed in <a href="https://github.com/orgs/openlint/discussions/12">discussion #12</a>.
+
+<table class="data">
+<thead><tr><th>URL</th><th>Serves</th></tr></thead>
+<tbody>
+<tr><td>`https://spec.openlint.org/<version>/`</td><td>A release, such as `1.0.0`.</td></tr>
+<tr><td>`https://spec.openlint.org/v<major>/draft/`</td><td>The working draft of a major version, such as `v1` for 1.x. It changes without notice.</td></tr>
+<tr><td>`https://spec.openlint.org/v<major>/`</td><td>The latest release of a major version. Until the major version has a release, only the working draft's `ruleset.schema.json` is served there.</td></tr>
+<tr><td>`https://spec.openlint.org/`</td><td>An index of every version.</td></tr>
+</tbody>
+</table>
+
+Each version publishes its own copy of the ruleset schema next to the document, as `ruleset.schema.json`. That copy is the one <a href="#/req/ruleset/schema">/req/ruleset/schema</a> refers to, and its `$id` is its own URL. Editors and validators that follow the newest release can use `https://spec.openlint.org/v<major>/ruleset.schema.json`.
+
+# Conformance # {#conformance}
+
+## Requirement keywords ## {#keywords}
+
+<div class=bcp14>
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 [[!RFC2119]] [[!RFC8174]] when, and only when, they appear in all capitals, as shown here.
+</div>
+
+These keywords appear only inside identified [=requirements=]. Text outside a requirement carries no normative force, whatever words it uses.
+
+## Conformance classes ## {#classes}
+
+A <dfn>conformance target</dfn> is the kind of thing a requirement applies to, either a ruleset or a linter.
+
+: <span class="req-target req-target-ruleset">ruleset</span>                                                                                                                                    
+:: A [=ruleset=] document. A ruleset conforms when it satisfies every requirement whose target is `ruleset`.                                                                                    
+: <span class="req-target req-target-linter">linter</span>                                                                                                                                      
+:: A [=linter=]. A linter conforms when it satisfies every requirement whose target is `linter`.  
+
+A <dfn lt="conformance class|conformance classes">conformance class</dfn> is a set of requirements for one conformance target. An implementation claims conformance to a class as a whole. Each class below names the classes it depends on. When it depends on a class of the same target, conforming to it includes conforming to that class.
+
+A conformance claim names a release of this specification and the classes claimed, as `https://spec.openlint.org/<version>/#/conf/<name>`. A later release can add requirements to a class, so a claim holds for the release it names.
+
+<div class=class id="/conf/ruleset-core" data-target=ruleset>
+The ruleset format: what a [=ruleset=] document has to look like to be loaded by any conforming linter. Most of it is one requirement, validity against the ruleset schema. The other requirements are constraints a schema cannot express.
+</div>
+
+<div class=class id="/conf/linter-core" data-target=linter data-depends="ruleset-core">
+Everything a [=linter=] does with a ruleset and a document: loading, parsing and resolution, rule state, selecting documents and nodes, applying functions, and the results and messages it reports. It depends on `ruleset-core` because a linter rejects a ruleset that does not conform to that class. [[#loading]] says how.
+</div>
+
+<div class=class id="/conf/linter-custom-functions" data-target=linter data-depends="linter-core">
+The contract of [=custom function|custom functions=], in any language: how a [=linter=] resolves a [=function=] a [=ruleset=] names, calls it, and reports what it returns. A linter claims it together with a binding.
+</div>
+
+<div class=class id="/conf/linter-custom-functions-javascript" data-target=linter data-depends="linter-custom-functions">
+The JavaScript binding of [=custom function|custom functions=]: how a [=custom function=] is written as a JavaScript module, and where a [=linter=] finds it.
+</div>
+
+## Requirement identifiers ## {#identifiers}
+
+A [=requirement identifier=] has the form `/req/<topic>/<name>`. The topic is what the requirement is about, such as a ruleset key (`given`, `overrides`) or a step of linting (`resolution`, `result`), not a section of this document, so a requirement keeps its identifier when the document is reorganized. The name describes the requirement. Both are lowercase words joined by hyphens.
+
+Identifiers are permanent:
+
+- An identifier is never reused for a different requirement.
+- When a requirement's text changes in a way that changes what conforms, it gets a new identifier and the old one is marked removed.
+- A removed requirement stays listed in [[#requirements-index]] as removed, with the version in which it was removed.
+
+Issue: Whether path-style identifiers work for everyone is an open question in <a href="https://github.com/orgs/openlint/discussions/13">discussion #13</a>. Alternatives such as numeric identifiers (`REQ-042`) or dotted names (`given.no-match`) have not been raised there yet.
+
+## Conformance tests ## {#tests-intro}
+
+Every requirement has at least one <dfn lt="conformance test|conformance tests">conformance test</dfn>, identified as `/conf/<topic>/<name>` in the same way. A test is data: a ruleset fixture, for linter tests a document fixture, and the expected outcome. [[#conformance-tests]] renders every test from that data, and a linter is checked against the same data. A test covers one or more requirements of one class.
+
+A test for a ruleset requirement expects a linter to load or to reject the fixture. A test for a linter requirement expects the results of linting the document fixture with the ruleset fixture, compared on the fields it names.
+
+The tests follow these rules:
+
+- A ruleset requirement has an invalid test, whose fixture violates it and is rejected, and a valid test, whose fixture uses the same property and is loaded. The second shows that a linter does not reject more than the requirement says.
+- A linter requirement has a test that expects results, because a linter that does nothing passes a test that expects none.
+- A permission has a test in which what is permitted is accepted.
+- An invalid fixture violates one requirement only, so that its rejection proves that requirement and not another.
+- A recommendation has no test, because ignoring it still conforms.
+
+Issue: Whether these tests become a published conformance suite, where its runner would live, and how a linter would publish its results against it, is not decided.
+
+# Terminology # {#terminology}
+
+: <dfn>document</dfn>
+:: A JSON [[!RFC8259]] or YAML [[!YAML-1.2.2]] document that a [=linter=] lints. After parsing, both are the same tree of objects, arrays, strings, numbers, booleans, and null.
+: <dfn>ruleset</dfn>
+:: A JSON or YAML document in the format defined by this specification: a set of [=rules=], the [=rulesets=] it extends, and adjustments to both.
+: <dfn>rule</dfn>
+:: A named unit of a [=ruleset=] that selects nodes in a [=document=] with `given` and asserts something about each of them with `then`.
+: <dfn>rule name</dfn>
+:: The key under which a [=rule=] appears in `rules`. The name identifies the rule. It appears in [=results=], and an extending ruleset uses it to adjust the rule.
+: <dfn>path expression</dfn>
+:: A string in `given` that selects nodes: a JSONPath expression beginning with `$`, or an [=alias reference=] beginning with `#`.
+: <dfn>alias</dfn>
+:: A named, reusable set of [=path expressions=], declared under `aliases`.
+: <dfn>alias reference</dfn>
+:: A [=path expression=] of the form `#<name>` followed by an optional JSONPath remainder, such as `#Info.description`.
+: <dfn lt="match|matches|matched|matched node|matched nodes">matched node</dfn>
+:: A node of the [=document=] selected by one of a rule's [=path expressions=].
+: <dfn>function</dfn>
+:: A named assertion applied to a [=matched node=] by `then`. A function is either one of the core functions or a [=custom function=].
+: <dfn>custom function</dfn>
+:: A [=function=] whose implementation a [=ruleset=] supplies as code, named under `functions`.
+: <dfn>result</dfn>
+:: What a [=linter=] reports about a [=document=]: a problem a [=function=] found in a [=matched node=], or a problem the linter found itself, such as a syntax error. A result has a code, a message, a [=severity=], and a location in the document. See [[#results]].
+: <dfn id="dfn-severity">severity</dfn>
+:: How a rule's [=results=] are reported: `error`, `warn`, `info`, or `hint`. The severity `off` disables the rule.
+: <dfn>effective severity</dfn>
+:: The [=severity=] a [=rule=] has after every [=ruleset=] in the chain of `extends` and every [=override=] has adjusted it.
+: <dfn lt="enable|enabled|enables">enabled</dfn>
+:: The state of a [=rule=] that a [=linter=] evaluates. A rule is either enabled or not, independently of its [=severity=]. A rule with [=effective severity=] `off` is not enabled.
+: <dfn>format</dfn>
+:: A named kind of [=document=], such as `oas3_1` for an OpenAPI 3.1 description. A rule scoped to formats runs only against documents of those kinds.
+: <dfn>override</dfn>
+:: An entry of `overrides`: adjustments that apply to the subset of documents matched by its `files` globs.
+: <dfn>resolved document</dfn>
+:: The [=document=] after every `$ref` has been replaced by the value it points to, including references into other files. See [[#resolution]].
+: <dfn>extension property</dfn>
+:: A property whose name begins with `x-`, carried by the format for the author's own tooling and ignored by a [=linter=].
+: <dfn>linter</dfn>
+:: Software that takes a [=ruleset=] and one or more [=documents=] and produces [=results=].
+: <dfn>shorthand</dfn>
+:: A value in `rules` that is not a Rule Object: a severity name or a boolean, which adjusts a rule the [=ruleset=] inherits instead of defining one.
+: <dfn>mode</dfn>
+:: The second element of an `extends` entry, `recommended`, `all`, or `off`, which decides which of the inherited rules start out [=enabled=].
+: <dfn lt="file-scoped override|file-scoped">file-scoped override</dfn>
+:: An [=override=] whose `files` globs do not all carry a JSON Pointer fragment. It can change anything a ruleset declares, for the documents it matches.
+: <dfn lt="pointer-scoped override|pointer-scoped">pointer-scoped override</dfn>
+:: An [=override=] whose `files` globs all carry a JSON Pointer fragment. It can only change severities, at the locations the pointers name.
+: <dfn lt="core function|core functions">core function</dfn>
+:: A [=function=] this specification defines, which every conforming [=linter=] provides under its name.
+: <dfn lt="function invocation|function invocations">function invocation</dfn>
+:: One entry of a rule's `then`: the [=function=] to apply, the `field` to apply it to, and its `functionOptions`.
+: <dfn lt="problem|problems">problem</dfn>
+:: What a [=function=] returns for a value that fails: a message, and optionally the path of the offending value. A [=linter=] reports each problem as a [=result=].
+: <dfn>requirement</dfn>
+:: An identified statement of this specification that one [=conformance target=] has to satisfy to conform. Recommendations and permissions are identified the same way but are not requirements.
+
+# The ruleset format # {#ruleset-format}
+
+This part defines what a [=ruleset=] document looks like, in the order of the document itself: the document, the Ruleset Object at its root and each of its properties, the Rule Object and each of its properties.
+
+## The ruleset document ## {#ruleset-document}
+
+A ruleset is one file, written in JSON or YAML.
+
+<div class=req id="/req/ruleset/document" data-class=ruleset-core>
+A [=ruleset=] MUST be a JSON [[!RFC8259]] or YAML [[!YAML-1.2.2]] document.
+</div>
+
+<div class=req id="/req/ruleset/single-document" data-class=ruleset-core data-status=proposed>
+A [=ruleset=] written in YAML MUST contain exactly one YAML document.
+</div>
+
+Issue: <a href="#/req/ruleset/single-document">/req/ruleset/single-document</a> is proposed, because it changes current behavior. Spectral and OpenLint accept a YAML file with several documents separated by `---`, read the first, and drop the others without reporting them; neither documents this. A ruleset split by a stray `---` therefore loses rules silently, and rejecting the file catches that. Until both linters change, <a href="#/conf/ruleset/document-two-yaml-documents">/conf/ruleset/document-two-yaml-documents</a> fails against them. Whether this counts as a breaking change for 1.x is part of <a href="https://github.com/orgs/openlint/discussions/12">discussion #12</a>.
+
+The ruleset schema is written in JSON Schema 2020-12 and published with each version of this specification, next to this document as <a href="ruleset.schema.json">ruleset.schema.json</a>. It validates the value at the root of the document.
+
+<div class=req id="/req/ruleset/schema" data-class=ruleset-core>
+The root value of a [=ruleset=] MUST be valid against the <a href="ruleset.schema.json">ruleset schema</a> of this version of this specification, as JSON Schema 2020-12 [[!JSON-SCHEMA-CORE-2020-12]] [[!JSON-SCHEMA-VALIDATION-2020-12]] defines validity.
+</div>
+
+Issue: `documentationUrl` takes only an absolute `http`, `https`, or `ftp` URL with a public host, which is how the `url` format of OpenLint's validator reads a URL. The schema spells that out as a pattern. It rejects `mailto:` and `urn:` URIs, `localhost`, single-label intranet hosts such as `http://wiki/docs`, private and loopback addresses, and punycode host names; see <a href="#/conf/ruleset/documentation-url-intranet">/conf/ruleset/documentation-url-intranet</a>. Accepting any absolute URI [[RFC3986]] would let a ruleset link to internal documentation.
+
+## The Ruleset Object ## {#ruleset-object}
+
+The Ruleset Object is the root of a ruleset. It holds the rules the ruleset defines, the rulesets it extends, and the adjustments it makes to them, and it can have a `description` and a `documentationUrl`.
+
+<div class=schema-table data-def="#"></div>
+
+<div class=example>
+```yaml
+description: Acme API style guide
+documentationUrl: https://engineering.acme.com/api/governance
+extends: [[spectral:oas, recommended]]
+formats: [oas3]
+rules:
+  acme-operation-summary:
+    description: Every operation needs a summary.
+    severity: error
+    given: "$.paths[*]['get','put','post','delete','options','head','patch','trace']"
+    then:
+      field: summary
+      function: truthy
+```
+</div>
+
+### `extends` ### {#extends}
+
+`extends` inherits from one or more other rulesets. Its value is a string that identifies a ruleset, or an array. Each element of the array is such a string, or an array of the string and a mode. Elements after the mode are ignored.
+
+Issue: Elements after the mode are accepted and ignored, so `[./base.yaml, all, extra]` reads as `[./base.yaml, all]`. OpenLint accepts them although its own validation schema forbids them for this array. Rejecting them would catch a misplaced bracket.
+
+The string identifies a ruleset as a built-in identifier (`spectral:oas`, `spectral:asyncapi`, `spectral:arazzo`), a file path, an npm module specifier, or a URL. The [=mode=] decides which of the inherited rules start out [=enabled=]:
+
+<table class="data">
+<thead><tr><th>Mode</th><th>Enables</th></tr></thead>
+<tbody>
+<tr><td>`recommended`</td><td>Only rules with `recommended: true`, which is the default for a rule. The default mode when a bare string is used.</td></tr>
+<tr><td>`all`</td><td>Every rule in the ruleset.</td></tr>
+<tr><td>`off`</td><td>No rules. Inherit the definitions without turning any of them on, then enable the ones you want by name.</td></tr>
+</tbody>
+</table>
+
+<div class=example>
+```yaml
+extends:
+  - [spectral:oas, all]
+  - [./team-baseline.yaml, "off"]
+  - https://example.com/rulesets/security.yaml
+```
+</div>
+
+With `off`, a ruleset can extend a large ruleset and enable only the rules it names. [[#loading]] defines loading, and [[#rule-state]] the effect of the modes.
+
+### `rules` ### {#rules}
+
+`rules` maps a [=rule name=] to either a [[#rule-object|Rule Object]], which defines a rule or redefines an inherited one, or a shorthand, which adjusts a rule inherited through [[#extends]]. Other rulesets refer to a rule by its name to disable it or change its severity, so renaming a rule breaks them.
+
+A linter also reports problems of its own, such as a syntax error in the document, under fixed codes listed in [[#results]]. A rule with one of those names is accepted, but its results cannot be told apart from the linter's own by their code.
+
+<div class=rec id="/rec/rules/reserved-names" data-class=ruleset-core>
+A [=rule name=] SHOULD NOT be one of the codes a [=linter=] uses for the results it produces itself: `parser`, `unrecognized-format`, and `invalid-ref`.
+</div>
+
+#### Shorthands #### {#shorthands}
+
+A value in `rules` that is not an object is a [=shorthand=]: one of the severity names `error`, `warn`, `info`, `hint`, `off`, or one of the booleans `true` and `false`. It adjusts a rule instead of defining one.
+
+<div class=req id="/req/shorthands/inherited-only" data-class=ruleset-core>
+A shorthand in the root `rules` MUST name a [=rule=] the [=ruleset=] inherits through `extends`.
+</div>
+
+A shorthand in the `rules` of a file-scoped [=override=] names a rule the ruleset defines or inherits. That is checked when the override applies to a document; see <a href="#/req/overrides/checked-when-applied">/req/overrides/checked-when-applied</a>.
+
+Note: Severities are not written the same way everywhere. A rule's `severity` takes a name or a number. A shorthand, in the root `rules` or in a file-scoped override, takes a name or a boolean but not a number. The `rules` of a pointer-scoped override take a name or a number but not a boolean.
+
+Issue: A numeric shorthand such as `r: 0` is rejected only by OpenLint's validation schema. Its type definitions and its merge code accept a number and would apply it as the severity. Accepting numbers in shorthands would remove the difference with `severity` without making any ruleset invalid.
+
+<div class=example>
+```yaml
+extends: spectral:oas
+rules:
+  operation-tags: error       # raise it
+  info-contact: false         # switch it off
+  oas3-schema: true           # switch it back on, at its current severity
+```
+</div>
+
+What each shorthand does is defined in [[#rule-state]].
+
+### `aliases` ### {#aliases}
+
+An alias names a list of path expressions, so that several rules can share it. A rule references an alias from `given` with a leading `#`. Aliases are also under discussion in <a href="https://github.com/orgs/openlint/discussions/2">discussion #2</a>.
+
+An alias name starts with a letter, followed by letters, digits, `_`, and `-`. A simple alias is a non-empty array of [=path expressions=].
+
+<div class=req id="/req/aliases/no-cycle" data-class=ruleset-core>
+An [=alias=] MUST NOT refer to itself, directly or through other aliases.
+</div>
+
+<div class=example>
+```yaml
+aliases:
+  Info:
+    - $..info
+  InfoDescription:
+    - "#Info.description"
+  PathItemObject:
+    - $.paths[*]
+  OperationObject:
+    - "#PathItemObject['get','put','post','delete','options','head','patch','trace']"
+```
+</div>
+
+A scoped alias resolves to different expressions depending on the format of the document being linted. One rule can then select, for example, the parameters of both OpenAPI 2 and OpenAPI 3 documents. A scoped alias is an object:
+
+<div class=schema-table data-def="ScopedAlias"></div>
+
+Each of its targets is an object:
+
+<div class=schema-table data-def="AliasTarget"></div>
+
+<div class=example>
+```yaml
+aliases:
+  ParameterObject:
+    description: Every Parameter Object, wherever this spec version keeps them.
+    targets:
+      - formats: [oas2]
+        given:
+          - $.parameters[*]
+      - formats: [oas3]
+        given:
+          - $.components.parameters[*]
+```
+</div>
+
+Aliases are declared at the root of the ruleset or within a file-scoped [=override=]. How they expand is defined in [[#node-selection]], and which rules an override's aliases reach in [[#applying-overrides]].
+
+### `overrides` ### {#overrides}
+
+Overrides apply adjustments to a subset of the documents being linted, matched by glob. `overrides` is a non-empty array of objects, each with a non-empty array `files` of glob patterns.
+
+`files` entries are glob patterns, matched as minimatch 3.1.5 [[!MINIMATCH]] matches them, against the path of the document relative to the directory of the ruleset file, with `/` as the separator. minimatch has no specification of its own, so the glob dialect is what that version accepts.
+
+Issue: A glob dialect with a specification of its own, or a written subset of minimatch's, would let a linter in another language match `files` without reproducing minimatch.
+
+There are two forms, distinguished by whether every glob in `files` carries a JSON Pointer [[!RFC6901]] fragment. An override that mixes the two kinds of glob is file-scoped.
+
+An override whose `files` do not all carry a `#` fragment is a [=file-scoped override=]. It has at least one of `extends` and `rules`, and it can also have `formats`, `parserOptions`, and `aliases`.
+
+Note: The schema accepts other properties on a file-scoped override. When the override applies to a document, a property the Ruleset Object does not have makes a linter reject the ruleset, while one it does have, such as `description`, is accepted; see <a href="#/req/overrides/checked-when-applied">/req/overrides/checked-when-applied</a>.
+
+<div class=example>
+```yaml
+overrides:
+  - files: ["legacy/**/*.yaml"]
+    rules:
+      acme-operation-summary: warn
+  - files: ["v3/**/*.yaml"]
+    formats: [oas3_1]
+    extends: [[./strict.yaml, all]]
+```
+</div>
+
+An override whose `files` all carry a `#` fragment is a [=pointer-scoped override=]. It has `rules`, whose every value is a severity name or number, and no other property than `files`.
+
+<div class=example>
+```yaml
+overrides:
+  - files: ["api.yaml#/paths/~1legacy~1users"]
+    rules:
+      acme-operation-summary: "off"
+```
+</div>
+
+A pointer-scoped override can change a rule's severity at one location in one file, or switch the rule off there. It cannot change what the rule checks. [[#applying-overrides]] defines how overrides are applied.
+
+### `parserOptions` ### {#parser-options}
+
+Severities for problems found while parsing the document, before any rule runs; see [[#parsing]].
+
+<div class=schema-table data-def="ParserOptions"></div>
+
+### `functions` and `functionsDir` ### {#functions-declaration}
+
+A serialized ruleset names the [=custom function|custom functions=] it uses in `functions`, and can name the directory they load from in `functionsDir`; see [[#custom-functions]].
+
+<div class=example>
+```yaml
+functions:
+  - dictionary
+functionsDir: ./my-functions   # optional; defaults to "functions"
+rules:
+  no-evil-words:
+    message: "{{error}}"
+    given:
+      - $.info.title
+      - $.info.description
+    then:
+      function: dictionary
+```
+</div>
+
+<div class=rec id="/rec/custom-functions/prefer-core" data-class=ruleset-core>
+A [=ruleset=] SHOULD use the core functions where they express the assertion, and name a [=custom function=] only for an assertion they cannot express.
+</div>
+
+Issue: OpenLint runs [=custom function|custom functions=] without isolation. Whether a conforming linter has to sandbox them, or refuse functions that come from a remote ruleset, is open.
+
+## The Rule Object ## {#rule-object}
+
+A rule selects nodes in a document with `given` and checks each selected node with `then`.
+
+<div class=schema-table data-def="Rule"></div>
+
+What `message` and `description` contribute to a result is defined in [[#results]], how `recommended` combines with `extends` in [[#rule-state]], and what `resolved` changes in [[#node-selection]].
+
+Note: `tags`, `type`, and `extensions` carry no behavior in this specification. They exist for tooling built around rulesets.
+
+### `given` ### {#rule-given}
+
+`given` says where in the document a rule looks. It is a JSONPath expression, such as `$.paths[*]['get','put','post','delete','options','head','patch','trace']` for every operation of an OpenAPI description, or a reference to an [=alias=] that names one, such as `#Operation`. JSONPath-Plus has no grammar document, so the dialect is what that implementation accepts; [[#node-selection]] pins it. `then` checks each node the expression selects on its own. [[#node-selection]] defines how the expression is evaluated.
+
+The value of `given` is a [=path expression=] or a non-empty array of them. A path expression that begins with `$` is a JSONPath expression, and one that begins with `#` is an [=alias reference=].
+
+<div class=req id="/req/given/alias-defined" data-class=ruleset-core>
+An [=alias reference=] in a [=rule=] MUST name an [=alias=] declared under `aliases` in the [=ruleset=] whose `rules` contain the rule or, for a rule in a file-scoped [=override=], in that override or that ruleset. When the rule redefines a rule inherited through `extends`, the ruleset that defines the inherited rule MUST declare that alias too.
+</div>
+
+Issue: A redefined rule keeps resolving its alias references against the ruleset that first defined it, so redefining an inherited rule with an alias reference works only when both rulesets declare the alias, and then uses the inherited ruleset's. Resolving against the redefining ruleset's aliases would let an extending ruleset retarget a rule with aliases of its own.
+
+A bare property name such as `paths` is not a path expression. It begins with neither `$` nor `#`, so the ruleset schema rejects it, and so does a conforming linter.
+
+<div class=example>
+```yaml
+given:
+  - $.info
+  - "#OperationObject"
+```
+</div>
+
+### `then` ### {#rule-then}
+
+`then` is one [=function invocation=], or an array of them. A linter applies each of them to every node `given` matched, as [[#applying-functions]] defines. A function invocation is an object:
+
+<div class=schema-table data-def="FunctionInvocation"></div>
+
+Issue: `then: []` is accepted, and the rule then asserts nothing and never reports a result. Rejecting an empty array would catch a rule left unfinished.
+
+<div class=req id="/req/then/function-known" data-class=ruleset-core>
+`function` MUST name a [[#core-functions|core function]] or a [=custom function=] declared in `functions`.
+</div>
+
+<div class=req id="/req/then/function-options-valid" data-class=ruleset-core>
+When `function` names a core function, `functionOptions` MUST satisfy that function's options in [[#core-functions]]: only the options its table lists, with the types listed, every required option present, and no `functionOptions` at all for a function that takes no options.
+</div>
+
+Issue: An unknown property inside an invocation, such as `functionOption` without the s, is ignored. When the function has no required option it runs with its defaults; when it has one, the ruleset is rejected for the missing `functionOptions` with a message that does not point at the misspelling. Rejecting the unknown property would catch the misspelling in both cases.
+
+<div class=example>
+```yaml
+then:
+  - field: summary
+    function: truthy
+  - field: summary
+    function: length
+    functionOptions:
+      max: 120
+```
+</div>
+
+### `severity` ### {#rule-severity}
+
+`severity` says how serious a result from this rule is, and whether the rule runs at all. A ruleset can write either; results carry the numbers.
+
+<table class="data">
+<thead><tr><th>Name</th><th>Number</th></tr></thead>
+<tbody>
+<tr><td>`error`</td><td>`0`</td></tr>
+<tr><td>`warn`</td><td>`1`</td></tr>
+<tr><td>`info`</td><td>`2`</td></tr>
+<tr><td>`hint`</td><td>`3`</td></tr>
+<tr><td>`off`</td><td>`-1`</td></tr>
+</tbody>
+</table>
+
+A rule's `severity` is one of the names or one of the numbers.
+
+What a severity means for a rule, and how it combines with `extends`, shorthands, and overrides, is defined in [[#rule-state]].
+
+### `formats` ### {#rule-formats}
+
+`formats` limits a rule to documents of certain kinds, so that a rule about OpenAPI paths does not run on an AsyncAPI document linted with the same ruleset.
+
+`formats` is an array of format identifiers. It can appear on a ruleset, a rule, a file-scoped override, and an alias target.
+
+The identifiers are listed in [[#formats]]; which rules run against which documents is defined in [[#document-selection]].
+
+## Extension properties ## {#extension-properties}
+
+<div class=per id="/per/extension-properties/anywhere" data-class=ruleset-core>
+A [=ruleset=] MAY have [=extension properties=] at its root and on any [=rule=], with any value.
+</div>
+
+Use them to carry ownership, tickets, review dates, or anything else your own tooling needs. Rules also have an `extensions` object for the same purpose. A linter ignores both. Elsewhere they are not part of the format. The ruleset schema rejects them in `parserOptions` and in a pointer-scoped override. A file-scoped override, a scoped alias, and an invocation under `then` accept them, and a linter ignores them there too.
+
+<div class=example>
+```yaml
+x-owner: platform-team
+rules:
+  acme-operation-summary:
+    x-jira: GOV-142
+    given: $.paths[*]['get','put','post','delete','options','head','patch','trace']
+    then:
+      field: summary
+      function: truthy
+```
+</div>
+
+# Documents # {#documents}
+
+A [=linter=] lints [=documents=] with the rulesets of [[#ruleset-format]]. This section says what a document is to a linter, what happens to it before any rule runs, and how its formats are found.
+
+## The document model ## {#document-model}
+
+A [=document=] is written in JSON [[!RFC8259]] or YAML [[!YAML-1.2.2]]. After parsing, both are the same tree of objects, arrays, strings, numbers, booleans, and null, and that tree is what [=path expressions=] select from and what [=functions=] see. A linter keeps the mapping from every node back to its position in the source text, because a [=result=] reports that position.
+
+Note: Rulesets authored in JavaScript can inline function implementations and whole ruleset objects, which have no JSON representation and are out of scope. Only serialized documents and rulesets are specified.
+
+The root of a document can be any value, including an array, a scalar, or null, which is what an empty file parses to. `$` selects it whatever it is.
+
+<div class=req id="/req/document/any-root" data-class=linter-core>
+A [=linter=] MUST lint a [=document=] whose root value is not an object, and `$` MUST select that root value.
+</div>
+
+<div class=req id="/req/document/encoding" data-class=linter-core>
+A [=linter=] MUST read a [=document=] and a [=ruleset=] as UTF-8.
+</div>
+
+Issue: A UTF-8 byte order mark is accepted, but OpenLint then reports `range` columns on every line after the first one too far to the left. A UTF-16 document is not rejected; it parses as garbage and produces `parser` results. Ignoring a byte order mark and rejecting other encodings would make both deterministic.
+
+## Parsing ## {#parsing}
+
+Problems in a document's syntax are reported as [=results=] with the code `parser`. A problem that leaves the document with a JSON reading, such as a key that appears twice, still lets the document be linted; [[#parser-options|`parserOptions`]] sets its severity.
+
+<div class=req id="/req/parsing/syntax-error" data-class=linter-core>
+When a [=document=] has a syntax error, a [=linter=] MUST produce a [=result=] with the code `parser` and the severity `error`.
+</div>
+
+<div class=req id="/req/parsing/several-documents" data-class=linter-core>
+When a YAML [=document=] contains several documents, a [=linter=] MUST produce a [=result=] with the code `parser` and the severity `error`, and MUST lint the first document.
+</div>
+
+Issue: Whether rules run against the part of a document before a syntax error is not stated. OpenLint runs them against whatever tree its parser recovers, which for an unterminated flow collection can be nothing.
+
+<div class=req id="/req/parser-options/duplicate-keys" data-class=linter-core>
+When a [=document=] has a duplicate key, a [=linter=] MUST produce a [=result=] with the code `parser` and the severity of `duplicateKeys`, `error` when it is not set, and MUST NOT produce one when it is `off`.
+</div>
+
+<div class=req id="/req/parser-options/incompatible-values" data-class=linter-core>
+When a YAML [=document=] has a mapping key that is not a string scalar, such as `1`, `true`, or `null`, a [=linter=] MUST produce a [=result=] with the code `parser` and the severity of `incompatibleValues`, `error` when it is not set, and MUST NOT produce one when it is `off`.
+</div>
+
+Issue: Non-string scalar keys are the one construct OpenLint reports under `incompatibleValues`. A mapping key that is itself a sequence or a mapping is reported as a warning by the YAML parser, with no option controlling it, and a `!!binary` or `!!set` tag ends the run with an error before any result. Whether those constructs belong under `incompatibleValues`, and whether a tag the linter cannot represent is a parser result, is open.
+
+## Reference resolution ## {#resolution}
+
+The [=resolved document=] is the document after every `$ref` has been replaced by the value it points to, including references into other files. By default a rule sees the resolved document; a rule that sets `resolved: false` sees the document as written.
+
+A reference is an object with a `$ref` property whose value is a URI reference [[!RFC3986]]: a fragment that is a JSON Pointer [[!RFC6901]] into the same document, or a relative or absolute reference to another document, with an optional fragment into it.
+
+<div class=req id="/req/resolution/local" data-class=linter-core>
+A [=linter=] MUST replace a reference whose `$ref` is a fragment with the value the JSON Pointer names in the same [=document=].
+</div>
+
+<div class=req id="/req/resolution/external" data-class=linter-core>
+A [=linter=] MUST replace a reference whose `$ref` names another document with the value its fragment names in that document, after resolving the `$ref` against the location of the referencing document.
+</div>
+
+<div class=req id="/req/resolution/cycle" data-class=linter-core>
+A [=linter=] MUST resolve a [=document=] whose references form a cycle without failing, and MUST evaluate rules against it.
+</div>
+
+<div class=req id="/req/resolution/unresolvable" data-class=linter-core>
+When a `$ref` cannot be resolved, a [=linter=] MUST produce a [=result=] with the code `invalid-ref` and the severity `error`, and MUST leave the reference object in place for the rules.
+</div>
+
+Issue: What a rule sees at the position of a reference in a cycle, and whether resolution follows `$ref` in every position or only where the document's format expects one, is not stated.
+
+## Formats ## {#formats}
+
+A [=format=] names a kind of document, and a linter decides from the document whether it is of that kind, by the condition the table gives. A condition reads the document's root object; a document whose root is not an object has no format. The string form of a value is the value as JSON writes it, without quotes for a string, so an unquoted `3.0` in YAML is the number `3`. A rule scoped to a format runs only against documents of that format, so one ruleset can hold rules for OpenAPI 3.1 and for AsyncAPI 2.6 without either set running on the other kind of document. The table lists the identifiers a ruleset can use, which are the ones the ruleset schema accepts, and how each is detected.
+
+<pre class=include>
+path: formats-table.include
+</pre>
+
+Any other identifier, such as the typo `oas31`, makes the ruleset invalid, wherever `formats` appears. How a rule names formats is defined in [[#rule-formats]]; how a linter detects them and which rules run is defined in [[#document-selection]].
+
+Issue: The set of identifiers is closed, because OpenLint rejects an identifier it does not register. The previous document and schema accepted any string, so that formats added later, or registered by a host application, would stay valid. Which of the two this specification wants is open.
+
+# Linting # {#linting}
+
+This part defines what a [=linter=] does with a [=ruleset=] and a [=document=], in the order it happens:
+
+1. [[#loading|Load the ruleset]]: check it and load what it extends.
+2. [[#documents|Read the document]]: parse it, resolve its references, and detect its formats.
+3. [[#applying-overrides|Apply the overrides]] whose globs match the document.
+4. [[#rule-state|Work out the rule state]]: which rules are enabled, and at what severity.
+5. [[#document-selection|Select documents]]: decide, by format, which rules apply to the document.
+6. [[#node-selection|Select nodes]]: evaluate each rule's `given`.
+7. [[#applying-functions|Apply functions]]: run each rule's `then` on every node it matched.
+8. [[#results|Report]] the results.
+
+## A running example ## {#walkthrough}
+
+The sections of this part follow one scenario through the pipeline. A team keeps its shared rules in a base ruleset:
+
+<div class=example data-fixture="conformance/linter/walkthrough/acme-base.yaml">
+```yaml
+rules:
+  operation-summary:
+    description: Every operation needs a summary.
+    severity: warn
+    given: $.paths[*]['get','put','post','delete','options','head','patch','trace']
+    then:
+      field: summary
+      function: truthy
+  operation-id-camel-case:
+    description: operationId is written in camelCase.
+    recommended: false
+    given: $.paths[*]['get','put','post','delete','options','head','patch','trace'].operationId
+    then:
+      function: casing
+      functionOptions:
+        type: camel
+```
+</div>
+
+A project extends it. It switches on the rule the base leaves off, adds a rule of its own through an alias, scopes its own rules to OpenAPI 3, and raises one severity for the documents under `legacy/`:
+
+<div class=example data-fixture="conformance/linter/walkthrough/ruleset.yaml">
+```yaml
+extends: ./acme-base.yaml
+formats: [oas3]
+aliases:
+  Operation:
+    - "$.paths[*]['get','put','post','delete']"
+rules:
+  operation-id-camel-case: true
+  operation-has-tags:
+    description: Every operation is tagged.
+    severity: hint
+    given: "#Operation"
+    then:
+      field: tags
+      function: defined
+overrides:
+  - files: ["legacy/**"]
+    rules:
+      operation-summary: error
+```
+</div>
+
+The document being linted is `legacy/petstore.yaml`. Its `get` operation has no summary, no tags, and a snake_case `operationId`; its `post` operation has all three:
+
+<div class=example data-fixture="conformance/linter/walkthrough/legacy/petstore.yaml">
+```yaml
+openapi: 3.1.0
+info:
+  title: Petstore
+  version: 1.0.0
+paths:
+  /pets:
+    get:
+      operationId: list_pets
+      responses:
+        "200":
+          description: OK
+    post:
+      summary: Add a pet
+      operationId: addPet
+      tags: [pets]
+      responses:
+        "201":
+          description: Created
+```
+</div>
+
+The scenario is also the conformance test <a href="#/conf/linter/walkthrough">/conf/linter/walkthrough</a>, which checks the outcome this part describes.
+
+## Loading a ruleset ## {#loading}
+
+Loading turns the ruleset file into the set of rules that will run. A linter first checks the ruleset against [[#ruleset-format]]. It then loads the rulesets it extends, recursively, so that their rules are available under their names. Overrides are applied next, per document; see [[#applying-overrides]].
+
+
+<div class=example>
+In the [[#walkthrough|running example]], the linter loads `acme-base.yaml` and makes `operation-summary` and `operation-id-camel-case` available to the project ruleset, which adds `operation-has-tags`. The document's path, `legacy/petstore.yaml`, matches the glob `legacy/**`, so the override applies to this document and sets `operation-summary` to `error`. For a document outside `legacy/` the override would be ignored.
+</div>
+
+<div class=req id="/req/linter/reject-invalid" data-class=linter-core>
+A [=linter=] MUST reject a [=ruleset=] that violates any requirement whose [=conformance target=] is `ruleset`, or that extends, directly or through another ruleset's `extends`, a ruleset that violates one, and MUST NOT produce [=results=] from it.
+</div>
+
+<div class=req id="/req/linter/accept-valid" data-class=linter-core>
+A [=linter=] MUST load a [=ruleset=] that satisfies every requirement whose [=conformance target=] is `ruleset`, when every ruleset it extends and every [=custom function=] it names can be loaded, unless <a href="#/req/overrides/checked-when-applied">/req/overrides/checked-when-applied</a> has it rejected for the document being linted.
+</div>
+
+<div class=req id="/req/extends/load" data-class=linter-core>
+A [=linter=] MUST load every [=ruleset=] identified in `extends` and make each of its [=rules=] available to the extending ruleset under its [=rule name=].
+</div>
+
+<div class=req id="/req/extends/unresolvable" data-class=linter-core>
+A [=linter=] MUST reject a [=ruleset=] whose `extends` identifies a ruleset it cannot load.
+</div>
+
+Issue: How a linter resolves file paths, npm module specifiers, and URLs, and what each is relative to, is implementation-defined and has to be specified. So is whether every conforming linter has to recognize the built-in identifiers, which name rulesets shipped with OpenLint; <a href="https://github.com/orgs/openlint/discussions/6">discussion #6</a> uses `openlint:openapi` as the name of a new core OpenAPI ruleset. Resolving an npm module specifier also ties `linter-core` to the JavaScript package ecosystem, so it could move to a class of its own, as custom functions have.
+
+Issue: In OpenLint, a cycle through `extends` between ruleset files is neither detected nor reported: the loader follows it until the process runs out of memory, so the ruleset never loads. Its core skips a definition it is already loading, but only for definitions held in memory. A conforming linter has to reject cycles, or the ruleset has to be invalid; which is open.
+
+<div class=req id="/req/extension-properties/ignored" data-class=linter-core>
+A [=linter=] MUST NOT let an [=extension property=] change which [=results=] it produces.
+</div>
+
+## Applying overrides ## {#applying-overrides}
+
+An [=override=] changes the ruleset for the documents its `files` globs match, so a linter applies overrides per document, after loading and before working out the rule state. A [=file-scoped override=] can add rulesets, rules, aliases, and formats; a [=pointer-scoped override=] only changes severities at the locations its pointers name.
+
+<div class=req id="/req/overrides/scope" data-class=linter-core>
+A [=linter=] MUST apply an [=override=] to a [=document=] only when the document's path, relative to the directory of the ruleset file and with `/` as the separator, matches one of the override's `files` globs.
+</div>
+
+<div class=req id="/req/overrides/order" data-class=linter-core>
+When several [=overrides=] match a [=document=], a [=linter=] MUST apply them in array order, each on top of the previous, and all of them on top of the ruleset itself.
+</div>
+
+<div class=req id="/req/overrides/extends" data-class=linter-core>
+For a [=document=] a file-scoped [=override=] applies to, a [=linter=] MUST load the rulesets the override's `extends` identifies and make their rules available in addition to those of the rulesets the ruleset extends, or, when the override has no `rules`, in place of them.
+</div>
+
+Issue: An override with `extends` and no `rules` drops, for the documents it matches, every rule the ruleset inherits through its own `extends`, while its own `rules` stay. With `rules`, it adds to them. Adding in both cases would make the two forms consistent.
+
+<div class=req id="/req/overrides/aliases" data-class=linter-core>
+For a [=document=] a file-scoped [=override=] applies to, a [=linter=] MUST resolve the [=alias references=] of each rule the override defines and the ruleset does not against the override's `aliases` and the ruleset's, the override's alias taking precedence for a name both declare, and MUST resolve the alias references of every other rule as if the override declared no aliases.
+</div>
+
+Issue: An alias declared in an override does not reach the rules the ruleset defines, so overriding an alias by name changes nothing for them. The previous document said an override's aliases merge by name with the ruleset's. Applying them to every rule, for the documents the override matches, would make that true.
+
+<div class=req id="/req/overrides/reject-foreign-property" data-class=linter-core>
+For a [=document=] a [=file-scoped override=] applies to, a [=linter=] MUST reject the [=ruleset=] when the override has a property the Ruleset Object does not have.
+</div>
+
+<div class=req id="/req/overrides/reject-unknown-shorthand" data-class=linter-core>
+For a [=document=] a [=file-scoped override=] applies to, a [=linter=] MUST reject the [=ruleset=] when a [=shorthand=] in the override's `rules` names a rule the ruleset neither defines nor inherits.
+</div>
+
+<div class=req id="/req/overrides/reject-undeclared-alias" data-class=linter-core>
+For a [=document=] a [=file-scoped override=] applies to, a [=linter=] MUST reject the [=ruleset=] when a rule the override redefines has an [=alias reference=] to an alias that the ruleset defining the rule does not declare.
+</div>
+
+<div class=req id="/req/overrides/checked-when-applied" data-class=linter-core>
+A [=linter=] MUST NOT reject a [=ruleset=] for the reasons in the three requirements above when the override applies to no [=document=] being linted.
+</div>
+
+Issue: These three checks run only when the override applies to a document, as they do in OpenLint. Whether a Rule Object in an override's `rules` merges with the rule it redefines, as <a href="#/req/rules/redefinition-merge">/req/rules/redefinition-merge</a> says for `extends`, or replaces it, is not tested. A ruleset with such an error loads without error until the first document the override matches. Everything else in an override is checked when the ruleset loads. Checking these three at load time too would report the error before any document matches.
+
+<div class=req id="/req/overrides/pointer-scope" data-class=linter-core>
+For a pointer-scoped [=override=], a [=linter=] MUST apply the severities only to [=results=] whose path is at or below the location the pointer names.
+</div>
+
+## Rule state: enabled and severity ## {#rule-state}
+
+Every [=rule=] in the loaded ruleset ends up with two things: whether it is [=enabled=], and its [=effective severity=]. Four mechanisms set them, in this order: the rule's own definition, the mode its ruleset was extended with, the shorthands of each ruleset in the chain, and the overrides that match the document.
+
+<div class=example>
+For the [[#walkthrough|running example]] and the legacy document, each rule ends up as follows. The project extends the base with a bare string, so the mode is `recommended`.
+
+<table class="data">
+<thead><tr><th>Rule</th><th>Defined as</th><th>After the mode</th><th>After the shorthand</th><th>After the override</th><th>Enabled</th><th>Effective severity</th></tr></thead>
+<tbody>
+<tr><td>`operation-summary`</td><td>`warn`, recommended</td><td>enabled</td><td></td><td>`error`</td><td>yes</td><td>`error`</td></tr>
+<tr><td>`operation-id-camel-case`</td><td>`warn` by default, not recommended</td><td>not enabled</td><td>`true`: enabled, severity kept</td><td></td><td>yes</td><td>`warn`</td></tr>
+<tr><td>`operation-has-tags`</td><td>`hint`, own rule</td><td></td><td></td><td></td><td>yes</td><td>`hint`</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class=req id="/req/severity/numeric-equivalence" data-class=linter-core>
+A [=linter=] MUST treat each numeric severity as equivalent to the name it is paired with in the table in [[#rule-severity]].
+</div>
+
+<div class=req id="/req/severity/default" data-class=linter-core>
+When neither a [=rule=] nor any definition it redefines has a `severity`, a [=linter=] MUST use `warn`.
+</div>
+
+<div class=req id="/req/rules/recommended" data-class=linter-core>
+A [=linter=] MUST [=enable=] every [=rule=] a [=ruleset=] defines in its own `rules` whose `recommended` is `true` or absent, and MUST NOT enable one whose `recommended` is `false` unless a [=shorthand=] in an extending ruleset enables it.
+</div>
+
+<div class=req id="/req/extends/mode-recommended" data-class=linter-core>
+When a [=ruleset=] is extended with the mode `recommended`, or without a mode, a [=linter=] MUST [=enable=] exactly those [=rules=] inherited from it whose `recommended` is `true` or absent.
+</div>
+
+<div class=req id="/req/extends/mode-all" data-class=linter-core>
+When a [=ruleset=] is extended with the mode `all`, a [=linter=] MUST [=enable=] every [=rule=] inherited from it.
+</div>
+
+<div class=req id="/req/extends/mode-off" data-class=linter-core>
+When a [=ruleset=] is extended with the mode `off`, a [=linter=] MUST make every [=rule=] inherited from it available and MUST NOT [=enable=] any of them.
+</div>
+
+<div class=req id="/req/extends/order" data-class=linter-core>
+A [=linter=] MUST apply definitions and adjustments of a [=rule=] in this order: the rulesets identified by `extends`, in array order, then the extending [=ruleset=]'s own `rules`.
+</div>
+
+<div class=req id="/req/rules/redefinition-merge" data-class=linter-core>
+When a Rule Object redefines a [=rule=] defined earlier in that order, a [=linter=] MUST replace each property the Rule Object has and MUST keep every property it does not have.
+</div>
+
+Issue: A redefinition keeps every property it does not set, so the base's `message` or `severity` survives a redefinition that changes `given` and `then`, and can stop matching what the rule now checks. Replacing the whole rule would make a redefinition independent of the rule it replaces.
+
+<div class=req id="/req/shorthands/severity" data-class=linter-core>
+For a shorthand that is a severity name, a [=linter=] MUST set the rule's [=effective severity=] to it and MUST [=enable=] the rule, or not enable it when the name is `off`.
+</div>
+
+<div class=req id="/req/shorthands/false" data-class=linter-core>
+For a shorthand that is `false`, a [=linter=] MUST NOT [=enable=] the rule and MUST leave its [=effective severity=] unchanged.
+</div>
+
+<div class=req id="/req/shorthands/true" data-class=linter-core>
+For a shorthand that is `true`, a [=linter=] MUST [=enable=] the rule unless its [=effective severity=] is `off`, and MUST leave the effective severity unchanged, including a severity set by an earlier ruleset in the chain.
+</div>
+
+<div class=req id="/req/severity/off" data-class=linter-core>
+A [=linter=] MUST NOT evaluate a [=rule=] that is not [=enabled=], whether its [=effective severity=] is `off`, a [=shorthand=] is `false`, or its `recommended` is `false` and nothing enables it, and MUST NOT produce [=results=] for it.
+</div>
+
+## Selecting documents ## {#document-selection}
+
+Not every rule applies to every document. A linter detects the formats of the document and keeps the rules that have no `formats` or whose `formats` include one of them, so that one ruleset can hold rules for several kinds of document. [[#formats]] says what a format is and which identifiers exist.
+
+<div class=example>
+The [[#walkthrough|example document]] starts with `openapi: 3.1.0`, so it is an OpenAPI 3.1 description. The only identifier the rulesets name is `oas3`, which the project ruleset sets with `formats: [oas3]` and its own rule `operation-has-tags` inherits, so the document's formats are `oas3`. The base rules have no formats. All three rules apply. Linting an AsyncAPI document with the same ruleset produces one `unrecognized-format` warning, skips `operation-has-tags`, and still runs the two base rules.
+</div>
+
+<div class=req id="/req/formats/identifiers" data-class=linter-core>
+A [=linter=] MUST detect a [=format=] for a [=document=] when the document's root is an object and the condition the table in [[#formats]] gives for the identifier holds, and MUST NOT detect it otherwise, among the identifiers <a href="#/req/formats/detection-scope">/req/formats/detection-scope</a> lets it detect.
+</div>
+
+<div class=req id="/req/formats/detection-scope" data-class=linter-core>
+A [=linter=] MUST detect a [=document=]'s formats only among the identifiers named in the `formats` of the [=ruleset=], of its [=rules=], and of the rulesets it extends and their rules. An identifier named only by a target of a scoped [=alias=] is never detected.
+</div>
+
+Issue: Because detection is limited to the identifiers a ruleset names, a scoped alias whose target names a format no rule names never uses that target, even for a document of that format. Detecting every identifier in the table would make scoped aliases independent of the rules that use them.
+
+Issue: The conditions in the table are the ones OpenLint applies. They read the string form of a version value, so `openapi: 3.0` written as a YAML number is OpenAPI 3 but not 3.0, and they accept `openapi: 3abc`. Conditions on the typed value would be stricter. Which document types the format supports is discussed in <a href="https://github.com/orgs/openlint/discussions/5">discussion #5</a>.
+
+<div class=req id="/req/formats/rule-scope" data-class=linter-core>
+A [=linter=] MUST evaluate a [=rule=] that has `formats` only against [=documents=] that have at least one of those formats.
+</div>
+
+<div class=req id="/req/formats/ruleset-default" data-class=linter-core>
+A [=linter=] MUST treat a [=rule=] without `formats`, defined in a [=ruleset=] with `formats`, as having the formats of the ruleset that defines it, also when another ruleset extends it.
+</div>
+
+<div class=req id="/req/formats/rule-overrides-ruleset" data-class=linter-core>
+When both a [=rule=] and its [=ruleset=] have `formats`, a [=linter=] MUST use the rule's and ignore the ruleset's for that rule.
+</div>
+
+<div class=req id="/req/formats/unscoped-runs-everywhere" data-class=linter-core>
+A [=linter=] MUST evaluate a [=rule=] that has no `formats`, in a [=ruleset=] that has none, against every [=document=], whatever its formats.
+</div>
+
+<div class=req id="/req/formats/unrecognized-document" data-class=linter-core>
+When a [=ruleset=] has `formats`, directly or through its rules, and a [=document=] has none of them, a [=linter=] MUST produce one [=result=] with the code `unrecognized-format` and the severity `warn`, and MUST still run every rule that has no formats of its own and inherits none from the ruleset.
+</div>
+
+## Selecting nodes ## {#node-selection}
+
+For each rule that applies, the linter evaluates every path expression in `given` against the document and collects the nodes they select, the [=matched nodes=]. An alias reference is expanded first. A rule looks through `$ref` as if the referenced content were inline, unless it sets `resolved: false`.
+
+<div class=example>
+In the [[#walkthrough|running example]], `operation-has-tags` has `given: "#Operation"`. The alias expands to `$.paths[*]['get','put','post','delete']`, which matches two nodes in the document: the `get` and the `post` operation under `/pets`. `operation-summary` matches the same two nodes through `$.paths[*]['get','put','post','delete','options','head','patch','trace']`, and `operation-id-camel-case` matches the two `operationId` strings.
+</div>
+
+<div class=req id="/req/given/evaluate" data-class=linter-core>
+For every [=rule=] that is [=enabled=] for a [=document=], a [=linter=] MUST evaluate each [=path expression=] in `given` against the document and apply the rule's `then` to every [=matched node=].
+</div>
+
+<div class=req id="/req/given/no-match" data-class=linter-core>
+A [=linter=] MUST NOT produce a [=result=] for a [=rule=] whose `given` matches no node in the [=document=].
+</div>
+
+<div class=req id="/req/given/resolved" data-class=linter-core>
+A [=linter=] MUST evaluate `given` against the [=resolved document=], unless the rule sets `resolved` to `false`, in which case it MUST evaluate `given` against the document as written.
+</div>
+
+<div class=req id="/req/given/jsonpath" data-class=linter-core>
+A [=linter=] MUST evaluate a JSONPath expression as JSONPath-Plus 10.4.0 [[!JSONPATH-PLUS]] evaluates it, including its filter expressions in parentheses, such as `$..parameters[?(@.in === "header")]`.
+</div>
+
+Issue: JSONPath-Plus has no specification of its own, and its filter expressions are JavaScript. OpenLint evaluates most expressions with Nimma and falls back to JSONPath-Plus for the rest; a filter in the syntax of JSONPath [[RFC9535]], `?@.in == 'header'`, matches nothing in it. Making RFC 9535 normative would give the dialect a specification, at the cost of the rulesets that use JavaScript filters.
+
+<div class=req id="/req/given/once-per-node" data-class=linter-core>
+A [=linter=] MUST apply a rule's `then` to a node once, even when several of the rule's [=path expressions=] match it.
+</div>
+
+<div class=req id="/req/given/alias-expansion" data-class=linter-core>
+A [=linter=] MUST evaluate an [=alias reference=] as the set of the named [=alias=]'s [=path expressions=], each with the remainder of the reference after the alias name appended to it.
+</div>
+
+<div class=example>
+With `aliases: { Info: ["$..info"] }`, the alias reference `#Info.description` is evaluated as `$..info.description`.
+</div>
+
+<div class=req id="/req/aliases/compose" data-class=linter-core>
+When an [=alias=]'s [=path expressions=] contain [=alias references=], a [=linter=] MUST expand those references in turn, until no reference remains.
+</div>
+
+<div class=req id="/req/aliases/scoped" data-class=linter-core>
+For a scoped [=alias=], a [=linter=] MUST use the `given` of the last target whose `formats` include a format of the [=document=], and MUST match no node with it when no target does.
+</div>
+
+Note: Aliases are resolved against the ruleset that defines the rule, not the ruleset that extends it. A rule inherited through `extends` keeps the aliases of the ruleset it came from.
+
+Issue: Only the last matching target counts, so a document with two formats, such as `oas3` and `oas3_1`, uses one target even when two match. Using every matching target, or the first, would read more naturally as a list.
+
+## Applying functions ## {#applying-functions}
+
+A [=function=] is applied to one value: the [=matched node=], or each value `field` selects in it, or each of its keys for `@key`. It receives that value and the invocation's `functionOptions`, and it returns the [=problems=] it found, each with a message. Every problem becomes a [=result=] of the rule. A function that returns no problems passes. [[#core-functions]] specifies each core function by what it asserts. A [=custom function=] has only this contract; see [[#custom-functions]].
+
+<div class=example>
+For the `get` operation of the [[#walkthrough|running example]], `operation-summary` applies `truthy` to the `summary` property, which is absent, so the function returns one problem. `operation-has-tags` applies `defined` to `tags`, which is also absent, and gets one problem. `operation-id-camel-case` applies `casing` with `type: camel` to `list_pets`, which is not in camel case, and gets one problem. For the `post` operation all three functions pass. The three problems become three results.
+</div>
+
+<div class=req id="/req/then/apply-each" data-class=linter-core>
+For each [=matched node=], a [=linter=] MUST apply every function invocation in `then`, and MUST report each problem a function returns as a [=result=].
+</div>
+
+<div class=req id="/req/then/field" data-class=linter-core>
+When an invocation has `field`, a [=linter=] MUST apply the function to each value `field` selects in the [=matched node=]: the property it names, the value at the path of property names and indices it names, or every value its JSONPath expression selects when it starts with `$`. When `field` selects nothing, the linter MUST apply the function once, to no value, and a [=result=] MUST have the path and range of the [=matched node=]. A [=result=] for a selected value MUST have the path of that value.
+</div>
+
+<div class=req id="/req/then/field-key" data-class=linter-core>
+When `field` is `@key`, a [=linter=] MUST apply the function once to each property key of the [=matched node=], and a [=result=] for a key MUST have the path of that property.
+</div>
+
+Note: `@key` goes with a `given` that selects the parent. With `given: $.paths` and `field: "@key"`, the function checks every path. With `given: $.paths[*]`, it would check the keys inside each path item.
+
+<div class=req id="/req/then/function-options" data-class=linter-core>
+A [=linter=] MUST pass the invocation's `functionOptions` to the [=function=].
+</div>
+
+## Results ## {#results}
+
+A [=linter=] reports what it found as [=results=]. This section defines the result model that <a href="https://github.com/orgs/openlint/discussions/13">discussion #13</a> asked for.
+
+<table class="data">
+<thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>`code`</td><td>string</td><td>The [=rule name=], or one of the linter's own codes below.</td></tr>
+<tr><td>`path`</td><td>array of strings</td><td>The keys and indices from the document root to the value the result is about. An index is written as a string, such as `"0"`. An empty array stands for the document as a whole, as for `unrecognized-format`.</td></tr>
+<tr><td>`severity`</td><td>integer</td><td>The numeric [=effective severity=]: `0` to `3`.</td></tr>
+<tr><td>`message`</td><td>string</td><td>The message, after placeholder substitution.</td></tr>
+<tr><td>`range`</td><td>object</td><td>`start` and `end`, each with a zero-based `line` and `character`, locating the value in the source text. Characters are counted in UTF-16 code units, and `end` is just after the value.</td></tr>
+<tr><td>`source`</td><td>string</td><td>The location of the document, when it has one: a file path or URL.</td></tr>
+<tr><td>`documentationUrl`</td><td>string</td><td>Where to read about the rule; see <a href="#/rec/result/documentation-url">/rec/result/documentation-url</a>.</td></tr>
+</tbody>
+</table>
+
+<div class=req id="/req/result/fields" data-class=linter-core>
+Every [=result=] a [=linter=] produces MUST have `code`, `path`, `severity`, `message`, and `range`.
+</div>
+
+<div class=req id="/req/result/code" data-class=linter-core>
+The `code` of a [=result=] a [=rule=] produces MUST be its [=rule name=]. The `code` of a result the linter produces itself MUST be one of those in the table below.
+</div>
+
+<table class="data">
+<thead><tr><th>Code</th><th>Reported for</th></tr></thead>
+<tbody>
+<tr><td>`parser`</td><td>A problem in the document's syntax; see [[#parsing]].</td></tr>
+<tr><td>`unrecognized-format`</td><td>A document that has none of the ruleset's formats; see [[#document-selection]].</td></tr>
+<tr><td>`invalid-ref`</td><td>A `$ref` that cannot be resolved; see [[#resolution]].</td></tr>
+</tbody>
+</table>
+
+<div class=req id="/req/result/severity" data-class=linter-core>
+The `severity` of a [=result=] MUST be the numeric form of the rule's [=effective severity=].
+</div>
+
+<div class=req id="/req/result/range" data-class=linter-core>
+The `range` of a [=result=] MUST locate the value the result is about in the source text of the [=document=]: `start` at its first character and `end` just after its last, each with a zero-based `line` and a zero-based `character` counted in UTF-16 code units.
+</div>
+
+<div class=req id="/req/result/source" data-class=linter-core>
+When the [=document=] was read from a file path or URL, every [=result=] for it MUST carry that location in `source`, as an absolute path or the URL.
+</div>
+
+<div class=req id="/req/result/order" data-class=linter-core>
+A [=linter=] MUST list [=results=] in the order of the documents they belong to, as the documents were given, and within a document by the `line` and then the `character` of `range.start`, and then by `code`.
+</div>
+
+<div class=req id="/req/result/reference-target" data-class=linter-core>
+When a [=rule=] ran against the [=resolved document=] and the value a [=result=] is about was reached through a reference, the result MUST carry the `path`, `range`, and `source` of the value where it is written, and a value reached through several references MUST produce one result.
+</div>
+
+<div class=rec id="/rec/result/documentation-url" data-class=linter-core>
+When the [=rule=] that produced a [=result=] has a `documentationUrl`, a [=linter=] SHOULD carry it in the result's `documentationUrl`, and when the rule has none but the [=ruleset=] that defines it has one, that URL followed by `#` and the [=rule name=].
+</div>
+
+Issue: Indices in `path` are strings, `["names", "1"]`, as OpenLint reports them. Numbers would tell an index apart from a key that happens to be numeric.
+
+### The message ### {#message}
+
+`message` takes five placeholders:
+
+<table class="data">
+<thead><tr><th>Placeholder</th><th>Resolves to</th></tr></thead>
+<tbody>
+<tr><td>`{{error}}`</td><td>The message the function produced.</td></tr>
+<tr><td>`{{description}}`</td><td>The rule's `description`.</td></tr>
+<tr><td>`{{path}}`</td><td>The full path to the offending value.</td></tr>
+<tr><td>`{{property}}`</td><td>The key or index of the offending value.</td></tr>
+<tr><td>`{{value}}`</td><td>The offending value itself.</td></tr>
+</tbody>
+</table>
+
+<div class=req id="/req/message/override" data-class=linter-core>
+When a [=rule=] has `message`, the `message` of every [=result=] it produces MUST be the rule's `message` with each placeholder substituted.
+</div>
+
+<div class=req id="/req/message/placeholders" data-class=linter-core>
+A [=linter=] MUST substitute `{{error}}` with the message the [=function=] produced, `{{description}}` with the rule's `description`, `{{path}}` with the path to the offending value as a JSON Pointer [[!RFC6901]] with a leading `#`, `{{property}}` with the last key or index of that path, and `{{value}}` with the offending value.
+</div>
+
+Issue: `{{value}}` substitutes a string as it is and an object as `[object Object]`, which no ruleset wants. A JSON serialization of the value would be useful, and is a change in output.
+
+<div class=req id="/req/message/default" data-class=linter-core>
+When a [=rule=] has no `message`, the `message` of every [=result=] it produces MUST be the rule's `description`, or the message the [=function=] produced when the rule has no `description`.
+</div>
+
+<div class=example>
+```yaml
+message: "{{description}}: `{{property}}` was {{value}}"
+```
+</div>
+
+<div class=example>
+The results of the [[#walkthrough|running example]] in JSON, with `source` shortened. Severities are the effective ones from [[#rule-state]], and every result points into the `get` operation.
+
+```json
+[
+  {
+    "code": "operation-has-tags",
+    "path": ["paths", "/pets", "get"],
+    "message": "Every operation is tagged.",
+    "severity": 3,
+    "range": {
+      "start": { "line": 6, "character": 8 },
+      "end": { "line": 10, "character": 25 }
+    },
+    "source": "legacy/petstore.yaml"
+  },
+  {
+    "code": "operation-summary",
+    "path": ["paths", "/pets", "get"],
+    "message": "Every operation needs a summary.",
+    "severity": 0,
+    "range": {
+      "start": { "line": 6, "character": 8 },
+      "end": { "line": 10, "character": 25 }
+    },
+    "source": "legacy/petstore.yaml"
+  },
+  {
+    "code": "operation-id-camel-case",
+    "path": ["paths", "/pets", "get", "operationId"],
+    "message": "operationId is written in camelCase.",
+    "severity": 1,
+    "range": {
+      "start": { "line": 7, "character": 19 },
+      "end": { "line": 7, "character": 28 }
+    },
+    "source": "legacy/petstore.yaml"
+  }
+]
+```
+
+</div>
+
+# Functions # {#functions}
+
+A rule names a function in `then`. It is either a [=core function=], which every conforming [=linter=] provides, or a [=custom function=], which a ruleset supplies as code. [[#applying-functions]] defines how a function is applied.
+
+## Core functions ## {#core-functions}
+
+A conforming [=linter=] provides these functions under these names. Each function has a purpose, the values it applies to, its options, and one requirement that states what it asserts. The options tables are normative through <a href="#/req/then/function-options-valid">/req/then/function-options-valid</a>.
+
+<div class=req id="/req/functions/input-types" data-class=linter-core>
+A core function MUST pass when the value it is applied to is absent or of a type the function does not apply to, unless its requirement below says otherwise.
+</div>
+
+### `truthy` ### {#fn-truthy}
+
+The value is present and is not `false`, `""`, `0`, or `null`. Use it for required fields such as a summary or a contact.
+
+It applies to any value, and to an absent one.
+
+This function takes no options.
+
+<div class=req id="/req/functions/truthy" data-class=linter-core>
+`truthy` MUST fail when the value is absent, `false`, `""`, `0`, or `null`, and MUST pass otherwise, including for an empty array and an empty object.
+</div>
+
+<div class=example>
+```yaml
+operation-summary:
+  given: $.paths[*]['get','put','post','delete','options','head','patch','trace']
+  then:
+    field: summary
+    function: truthy
+```
+</div>
+
+### `falsy` ### {#fn-falsy}
+
+The value is absent, `false`, `""`, `0`, or `null`, so `falsy` passes where `truthy` fails. Use it to forbid a field, or to require that a flag is off.
+
+It applies to any value, and to an absent one.
+
+This function takes no options.
+
+<div class=req id="/req/functions/falsy" data-class=linter-core>
+`falsy` MUST fail when the value is present and not one of `false`, `""`, `0`, or `null`, and MUST pass otherwise.
+</div>
+
+Note: `truthy` and `falsy` follow ECMAScript truthiness [[ECMA-262-2025]]. Their requirements list the values in full because languages differ on whether an empty array or object is truthy.
+
+<div class=example>
+```yaml
+no-deprecated-operations:
+  given: $.paths[*]['get','put','post','delete','options','head','patch','trace']
+  then:
+    field: deprecated
+    function: falsy
+```
+</div>
+
+### `defined` ### {#fn-defined}
+
+The value is present, whatever it is. Unlike `truthy`, an empty string or `false` passes.
+
+It applies to any value, and to an absent one.
+
+This function takes no options.
+
+<div class=req id="/req/functions/defined" data-class=linter-core>
+`defined` MUST fail when the value is absent and MUST pass when it is present, whatever it is.
+</div>
+
+<div class=example>
+```yaml
+servers-declared:
+  given: $
+  then:
+    field: servers
+    function: defined
+```
+</div>
+
+### `undefined` ### {#fn-undefined}
+
+The value is absent. Use it to forbid a property.
+
+It applies to any value, and to an absent one.
+
+This function takes no options.
+
+<div class=req id="/req/functions/undefined" data-class=linter-core>
+`undefined` MUST fail when the value is present and MUST pass when it is absent.
+</div>
+
+<div class=example>
+```yaml
+no-host:
+  given: $
+  then:
+    field: host
+    function: undefined
+```
+</div>
+
+### `pattern` ### {#fn-pattern}
+
+The value is a string that matches, or does not match, a regular expression.
+
+It applies to strings.
+
+<table class="data"><thead><tr><th>Option</th><th>Type</th><th>Required</th><th>Default</th><th>Meaning</th></tr></thead><tbody><tr><td>`match`</td><td>string</td><td>one of the two</td><td></td><td>A regular expression the value has to match.</td></tr><tr><td>`notMatch`</td><td>string</td><td>one of the two</td><td></td><td>A regular expression; the value fails when it matches it.</td></tr></tbody></table>
+
+A regular expression is written bare, `^[a-z-]+$`, or between slashes with flags, `/^[a-z-]+$/i`, with the flags of ECMAScript.
+
+<div class=req id="/req/functions/pattern" data-class=linter-core>
+`pattern` MUST fail when the option `match` is given and the value does not match it, or when the option `notMatch` is given and the value matches it. Both options are regular expressions as defined by ECMAScript [[!ECMA-262-2025]].
+</div>
+
+Issue: `pattern` takes the regular expressions and flags of ECMAScript, so a linter written in another language has to reproduce ECMAScript's semantics. I-Regexp [[RFC9485]] is a dialect meant to behave the same in every language, but it has no lookaround or backreferences, so rulesets that use them would break. Which dialect a later version adopts is open.
+
+<div class=example>
+```yaml
+paths-kebab-case:
+  given: $.paths
+  then:
+    field: "@key"
+    function: pattern
+    functionOptions:
+      match: "^/[a-z-]+(/[a-z-{}]+)*$"
+```
+</div>
+
+### `casing` ### {#fn-casing}
+
+The value is a string written in a named case convention.
+
+It applies to non-empty strings.
+
+<table class="data"><thead><tr><th>Option</th><th>Type</th><th>Required</th><th>Default</th><th>Meaning</th></tr></thead><tbody><tr><td>`type`</td><td>string</td><td>yes</td><td></td><td>One of `flat`, `camel`, `pascal`, `kebab`, `cobol`, `snake`, `macro`.</td></tr><tr><td>`disallowDigits`</td><td>boolean</td><td></td><td>`false`</td><td>When `true`, digits are not allowed anywhere in the value.</td></tr><tr><td>`separator`</td><td>object</td><td></td><td></td><td>`char`, a single character that separates groups of words and is required in the object, and `allowLeading`, whether the value can start with it.</td></tr></tbody></table>
+
+<div class=req id="/req/functions/casing" data-class=linter-core>
+`casing` MUST fail when the value is a non-empty string that is not written in the case named by the option `type`: one of `flat`, `camel`, `pascal`, `kebab`, `cobol`, `snake`, and `macro`, where only ASCII letters and digits count as written in a case.
+</div>
+
+Issue: The exact character classes of each case have to be stated before this requirement is complete.
+
+<div class=example>
+```yaml
+operation-id-camel-case:
+  given: $.paths[*]['get','put','post','delete','options','head','patch','trace'].operationId
+  then:
+    function: casing
+    functionOptions:
+      type: camel
+```
+</div>
+
+### `length` ### {#fn-length}
+
+The size of the value is within bounds: the number of characters of a string, of elements of an array, of properties of an object, or the value of a number.
+
+It applies to strings, arrays, objects, and numbers.
+
+<table class="data"><thead><tr><th>Option</th><th>Type</th><th>Required</th><th>Default</th><th>Meaning</th></tr></thead><tbody><tr><td>`min`</td><td>number</td><td>one of the two</td><td></td><td>The smallest length that passes.</td></tr><tr><td>`max`</td><td>number</td><td>one of the two</td><td></td><td>The largest length that passes.</td></tr></tbody></table>
+
+<div class=req id="/req/functions/length" data-class=linter-core>
+`length` MUST fail when the length of the value is below the option `min` or above the option `max`, where the length of a string is its number of UTF-16 code units, of an array its number of elements, of an object its number of properties, and of a number the number itself.
+</div>
+
+<div class=example>
+```yaml
+short-summary:
+  given: $.paths[*]['get','put','post','delete','options','head','patch','trace'].summary
+  then:
+    function: length
+    functionOptions:
+      max: 120
+```
+</div>
+
+### `alphabetical` ### {#fn-alphabetical}
+
+The elements of an array, or the keys of an object, are in ascending order.
+
+It applies to arrays and objects.
+
+<table class="data"><thead><tr><th>Option</th><th>Type</th><th>Required</th><th>Default</th><th>Meaning</th></tr></thead><tbody><tr><td>`keyedBy`</td><td>string</td><td></td><td></td><td>For an array of objects, the property to compare the elements by.</td></tr></tbody></table>
+
+<div class=req id="/req/functions/alphabetical" data-class=linter-core>
+`alphabetical` MUST fail when the elements of an array, or the keys of an object, are not in ascending order, where numbers are compared by value, strings as `localeCompare` of ECMAScript [[!ECMA-402]] compares them with no locale given, and two values of different types count as in order. With the option `keyedBy`, the elements of an array of objects are compared by that property.
+</div>
+
+Issue: `localeCompare` without a locale uses the locale of the environment, so the order of strings such as `ä` and `z` can differ between machines. A fixed collation, such as code point order, would make the function portable at the cost of changing the order of mixed-case names.
+
+<div class=example>
+```yaml
+tags-alphabetical:
+  given: $.tags
+  then:
+    function: alphabetical
+    functionOptions:
+      keyedBy: name
+```
+</div>
+
+### `enumeration` ### {#fn-enumeration}
+
+The value is one of a fixed set.
+
+It applies to strings, numbers, booleans, and null.
+
+<table class="data"><thead><tr><th>Option</th><th>Type</th><th>Required</th><th>Default</th><th>Meaning</th></tr></thead><tbody><tr><td>`values`</td><td>array of string, number, boolean, or null</td><td>yes</td><td></td><td>The values that pass.</td></tr></tbody></table>
+
+<div class=req id="/req/functions/enumeration" data-class=linter-core>
+`enumeration` MUST fail when the value is not one of the elements of the option `values`, compared by JSON type and value, so that `"1"` is not `1` while `1.0` is.
+</div>
+
+<div class=example>
+```yaml
+audience-known:
+  given: $.info.x-audience
+  then:
+    function: enumeration
+    functionOptions:
+      values: [internal, partner, public]
+```
+</div>
+
+### `schema` ### {#fn-schema}
+
+The value validates against a JSON Schema. Use it when the shape to assert is more than one property deep.
+
+It applies to any present value, and fails on an absent one.
+
+<table class="data"><thead><tr><th>Option</th><th>Type</th><th>Required</th><th>Default</th><th>Meaning</th></tr></thead><tbody><tr><td>`schema`</td><td>object</td><td>yes</td><td></td><td>The JSON Schema to validate against.</td></tr><tr><td>`dialect`</td><td>string</td><td></td><td>`auto`</td><td>The draft to read the schema in: one of `draft4`, `draft6`, `draft7`, `draft2019-09`, `draft2020-12`, or `auto`, which takes it from `$schema` and falls back to `draft7`.</td></tr><tr><td>`allErrors`</td><td>boolean</td><td></td><td>`false`</td><td>Report every validation error as a problem, not only the first.</td></tr></tbody></table>
+
+The drafts `dialect` accepts, and the specification of each:
+
+<table class="data"><thead><tr><th>Dialect</th><th>Specification</th></tr></thead><tbody><tr><td>`draft4`</td><td>[[!JSON-SCHEMA-DRAFT-04]]</td></tr><tr><td>`draft6`</td><td>[[!JSON-SCHEMA-DRAFT-06]]</td></tr><tr><td>`draft7`</td><td>[[!JSON-SCHEMA-DRAFT-07]]</td></tr><tr><td>`draft2019-09`</td><td>[[!JSON-SCHEMA-DRAFT-2019-09]]</td></tr><tr><td>`draft2020-12`</td><td>[[!JSON-SCHEMA-CORE-2020-12]] and [[!JSON-SCHEMA-VALIDATION-2020-12]]</td></tr></tbody></table>
+
+<div class=req id="/req/functions/schema" data-class=linter-core>
+`schema` MUST fail when the value is absent, or when it does not validate against the JSON Schema given as the option `schema`, asserting the `format` keyword and resolving a `$ref` within the option against the option itself, with one problem for the first failed keyword, or one per failed keyword when the option `allErrors` is `true`. The schema is read in the draft the option `dialect` names, as the table above defines each draft; with `dialect` absent or `auto`, in the draft its `$schema` names, and in draft 7 when it names none.
+</div>
+
+<div class=example>
+```yaml
+contact-shape:
+  given: $.info.contact
+  then:
+    function: schema
+    functionOptions:
+      schema:
+        type: object
+        required: [name, email]
+        properties:
+          email:
+            type: string
+            format: email
+```
+</div>
+
+### `xor` ### {#fn-xor}
+
+Exactly one of a set of properties is present.
+
+It applies to objects.
+
+<table class="data"><thead><tr><th>Option</th><th>Type</th><th>Required</th><th>Default</th><th>Meaning</th></tr></thead><tbody><tr><td>`properties`</td><td>array of at least two strings</td><td>yes</td><td></td><td>The property names, of which exactly one has to be present.</td></tr></tbody></table>
+
+<div class=req id="/req/functions/xor" data-class=linter-core>
+`xor` MUST fail unless exactly one of the properties named by the option `properties` is present on the value, where a property is present when the object has the key, whatever its value.
+</div>
+
+<div class=example>
+```yaml
+example-or-examples:
+  given: $.paths[*]['get','put','post','delete','options','head','patch','trace'].responses[*].content[*]
+  then:
+    function: xor
+    functionOptions:
+      properties: [example, examples]
+```
+</div>
+
+### `or` ### {#fn-or}
+
+At least one of a set of properties is present.
+
+It applies to objects.
+
+<table class="data"><thead><tr><th>Option</th><th>Type</th><th>Required</th><th>Default</th><th>Meaning</th></tr></thead><tbody><tr><td>`properties`</td><td>array of at least two strings</td><td>yes</td><td></td><td>The property names, of which at least one has to be present.</td></tr></tbody></table>
+
+<div class=req id="/req/functions/or" data-class=linter-core>
+`or` MUST fail unless at least one of the properties named by the option `properties` is present on the value, where a property is present when the object has the key, whatever its value.
+</div>
+
+<div class=example>
+```yaml
+operation-documented:
+  given: $.paths[*]['get','put','post','delete','options','head','patch','trace']
+  then:
+    function: or
+    functionOptions:
+      properties: [summary, description]
+```
+</div>
+
+### `unreferencedReusableObject` ### {#fn-unreferencedreusableobject}
+
+Every member of a container of reusable definitions is referenced somewhere. Use it to find unused schemas, parameters, or responses.
+
+It applies to objects.
+
+<table class="data"><thead><tr><th>Option</th><th>Type</th><th>Required</th><th>Default</th><th>Meaning</th></tr></thead><tbody><tr><td>`reusableObjectsLocation`</td><td>string</td><td>yes</td><td></td><td>A JSON Pointer fragment to the container, such as `#/components/schemas` or `#/definitions`.</td></tr></tbody></table>
+
+<div class=req id="/req/functions/unreferenced-reusable-object" data-class=linter-core>
+`unreferencedReusableObject`, applied to an object of reusable definitions, MUST fail once for each member that no `$ref` in the documents being linted points to, where the option `reusableObjectsLocation` is the JSON Pointer [[!RFC6901]] of that object in the document.
+</div>
+
+Note: The function counts references, which no longer exist in the [=resolved document=], so the rule in the example sets `resolved: false`. Members referenced only by documents outside the lint run count as unreferenced.
+
+<div class=example>
+```yaml
+no-unused-schemas:
+  resolved: false
+  given: $.components.schemas
+  then:
+    function: unreferencedReusableObject
+    functionOptions:
+      reusableObjectsLocation: "#/components/schemas"
+```
+</div>
+
+## Custom functions ## {#custom-functions}
+
+A ruleset declares the [=custom function|custom functions=] it uses as described in [[#functions-declaration]].
+
+Custom functions are specified in two parts. The contract, the class `/conf/linter-custom-functions`, says how a [=linter=] resolves a function a ruleset names, calls it, and reports what it returns, whatever language the function is written in. A binding says how a function is written and found in one language. This version defines one binding, for JavaScript, the class `/conf/linter-custom-functions-javascript`. A linter claims the contract together with a binding, and can decline both.
+
+Issue: A [=linter=] written in Go needs a Go binding, and this version defines none. <a href="https://quobix.com/vacuum/api/custom-functions/">vacuum</a>, a linter written in Go, loads custom functions as Go plugins from a directory named on its command line, registered under the name each function reports, and does not read `functions` or `functionsDir`. A Go binding would have to say where a linter finds a function, which symbol it loads, and the function's signature in types this specification owns. Go plugins also load only into a binary built with the same Go version and package versions, so a plugin built for one linter does not load into another.
+
+Issue: A binding ties a function to one language, so a ruleset whose functions are written in that language runs only on linters that bind it. A binding to WebAssembly, or to a function that runs as a separate process, would let any linter run functions written in any language that targets it. Whether a later version defines such a binding is open.
+
+### The contract ### {#custom-functions-contract}
+
+<div class=req id="/req/custom-functions/missing" data-class=linter-custom-functions>
+A [=linter=] MUST reject a [=ruleset=] that names a function it cannot load.
+</div>
+
+<div class=req id="/req/custom-functions/invoke" data-class=linter-custom-functions>
+A [=linter=] MUST call a [=custom function=] with the value the invocation targets and the invocation's `functionOptions`, and MUST report each problem the function returns as a [=result=] whose message is the problem's message.
+</div>
+
+<div class=req id="/req/custom-functions/problem-path" data-class=linter-custom-functions>
+A [=linter=] MUST report a [=problem=] that carries a `path` at that path in the [=document=], a problem without one at the [=matched node=], and a problem whose path is not in the document at the document's root.
+</div>
+
+<div class=req id="/req/custom-functions/no-problems" data-class=linter-custom-functions>
+A [=linter=] MUST treat a [=custom function=] that returns nothing as returning no [=problems=].
+</div>
+
+Issue: A function that throws, or returns something that is not a list of problems, ends the run with no results and an error. Reporting it as a result for the rule, with the error as its message, would keep the results of the other rules.
+
+Note: The contract is tested through the JavaScript binding, the only binding this version defines, so the fixtures of its tests are JavaScript functions.
+
+### JavaScript binding ### {#custom-functions-javascript}
+
+<div class=req id="/req/custom-functions/javascript-load" data-class=linter-custom-functions-javascript>
+A [=linter=] MUST load each name in `functions` from `<functionsDir>/<name>.js`, resolved relative to the ruleset file, with `functions` as the directory when `functionsDir` is absent.
+</div>
+
+<div class=req id="/req/custom-functions/javascript-promise" data-class=linter-custom-functions-javascript>
+When a JavaScript [=custom function=] returns a promise, a [=linter=] MUST wait for it and use the [=problems=] it resolves to.
+</div>
+
+A [=custom function=] is a JavaScript module whose export is the function. It receives the value and the options, and returns an array of problems, each an object with a `message`; an empty array means the value passes.
+
+<div class=example>
+```js
+// functions/forbiddenWords.js
+module.exports = (value, options) => {
+  const problems = [];
+  for (const word of options.forbidden) {
+    if (String(value).includes(word)) {
+      problems.push({ message: `Contains "${word}".` });
+    }
+  }
+  return problems;
+};
+```
+</div>
+
+Issue: A function module in CommonJS and one in ES module syntax both load in OpenLint, and the function receives a third argument with the document, the rule, and the path. Neither is stated normatively.
+
+# Security and privacy considerations # {#security}
+
+A [=ruleset=] is configuration, but loading one can read files, fetch URLs, and run code. Anyone who lints with a ruleset they did not write, or extends one, trusts its author with all of that. This section collects what a linter and its users have to be aware of. It states no requirements.
+
+<strong>Custom functions run code.</strong> A ruleset that names [=custom function|custom functions=] depends on code, and its document alone does not say what those rules check. This specification does not require a linter to isolate that code, so extending an untrusted ruleset that has custom functions runs that code with the linter's privileges, and `functionsDir` resolved relative to a remote ruleset loads code from that remote location.
+
+<strong>`extends` fetches rulesets.</strong> An `extends` entry that is a URL makes the linter fetch it, and an npm module specifier makes it load a package. Nothing in the format pins what is fetched, so a ruleset fetched twice can differ, and a compromised host or package changes what every document is checked against. A ruleset that is extended by file path is read from wherever the path leads.
+
+<strong>Path expressions and regular expressions evaluate input.</strong> A JSONPath-Plus filter expression in `given` is JavaScript evaluated by the linter, and a `pattern` option is an ECMAScript regular expression, which can take exponential time on crafted input. Both come from the ruleset, so a ruleset is as trusted as code even without custom functions.
+
+<strong>References read other documents.</strong> Resolving a `$ref` to an external file or URL reads it, so linting an untrusted document can make the linter read any file it has access to and fetch from any host it can reach. The `schema` function's option can carry `$ref` too.
+
+<strong>Results carry locations.</strong> `source` is the location of the document, which can be an absolute path or a URL, and results are often written to logs and CI output that others can read.
+
+<h2 class="appendix" id="requirements-index">Appendix A: Requirements index</h2>
+
+<pre class=include>
+path: requirements-index.include
+</pre>
+
+<h2 class="appendix" id="conformance-tests">Appendix B: Conformance tests</h2>
+
+Tests are grouped under the requirement they cover. Open a test to see its fixtures and expected outcome.
+
+<pre class=include>
+path: conformance-tests.include
+</pre>
+
+<h2 class="appendix" id="changes">Appendix C: Changes</h2>
+
+There is no release yet. From the first release on, this appendix lists what changed since the latest one.
+
+<h2 class="appendix" id="schema">Appendix D: Using the schema</h2>
+
+This appendix shows how to use the ruleset schema while writing rulesets. The examples use `https://spec.openlint.org/v1/ruleset.schema.json`, which follows the newest 1.x release; see [[#versions]]. The format reserves no `$schema` key and rejects unknown root properties, so bind the schema from outside the document.
+
+For a YAML ruleset, add a modeline comment:
+
+```yaml
+# yaml-language-server: $schema=https://spec.openlint.org/v1/ruleset.schema.json
+extends: spectral:oas
+```
+
+For a JSON ruleset in VS Code, map the schema to your ruleset's file name in `.vscode/settings.json`:
+
+```json
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["ruleset.json"],
+      "url": "https://spec.openlint.org/v1/ruleset.schema.json"
+    }
+  ]
+}
+```
+
+In CI, any JSON Schema 2020-12 validator works:
+
+```bash
+npx ajv-cli validate --spec=draft2020 --strict=false \
+  -s ruleset.schema.json \
+  -d ruleset.yaml
+```
+
+Validating a ruleset against the schema catches misspelled keywords and invalid overrides before any document is linted. It does not catch everything. A JSON Schema validates the shape of one parsed value, so it cannot check that the file parses, that a name refers to something declared elsewhere, or that function options match the named function. The schema accepts rulesets that violate these requirements, and a linter rejects them:
+
+<pre class=include>
+path: schema-gaps.include
+</pre>
+
+A linter also rejects, for the documents an override applies to, what <a href="#/req/overrides/checked-when-applied">/req/overrides/checked-when-applied</a> lists. The schema checks that a `given` value begins with `$` or `#`, but does not parse it as JSONPath. A syntactically invalid JSONPath expression passes the schema and fails at lint time.
+
+<h2 class="appendix" id="provenance">Appendix E: Provenance</h2>
+
+The format described here originates in Spectral [[SPECTRAL]] by Stoplight, licensed Apache-2.0. OpenLint, the reference implementation, is <a href="https://github.com/openlint/openlint">openlint/openlint</a>, forked from Spectral; the issues in the working draft describe its behavior by name. The specification and schema were first derived from Spectral's validation meta-schemas and guides. The OpenLint community drafted them in api-commons before the project had its name, and then moved them to <a href="https://github.com/openlint/spec">openlint/spec</a>. Its conformance classes follow the model of the <a href="https://docs.ogc.org/is/17-069r4/17-069r4.html">OGC API standards</a>.

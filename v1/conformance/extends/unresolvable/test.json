@@ -1,0 +1,11 @@
+{
+  "for": [
+    "/req/extends/unresolvable"
+  ],
+  "purpose": "A ruleset extending a file that does not exist is rejected.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "rejected": true
+  }
+}

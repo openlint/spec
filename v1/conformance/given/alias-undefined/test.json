@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/req/given/alias-defined"
+  ],
+  "purpose": "A rule referencing an alias the ruleset does not declare is invalid.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "invalid"
+  }
+}

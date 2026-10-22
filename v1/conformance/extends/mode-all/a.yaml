@@ -1,0 +1,12 @@
+rules:
+  r1:
+    description: Not on by default.
+    recommended: false
+    given: $
+    then:
+      function: falsy
+  r2:
+    description: On by default.
+    given: $
+    then:
+      function: falsy

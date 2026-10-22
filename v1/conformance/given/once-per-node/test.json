@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/given/once-per-node"
+  ],
+  "purpose": "A node matched by three path expressions of one rule is checked once.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "path": [
+          "info"
+        ]
+      }
+    ]
+  }
+}

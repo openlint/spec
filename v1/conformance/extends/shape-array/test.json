@@ -1,0 +1,14 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "A ruleset whose `extends` is an array mixing a string and a tuple is valid.",
+  "ruleset": "ruleset.yaml",
+  "files": [
+    "base.yaml",
+    "other.yaml"
+  ],
+  "expect": {
+    "ruleset": "valid"
+  }
+}

@@ -1,0 +1,6 @@
+rules:
+  info-description:
+    given: $.info
+    then:
+      field: description
+      function: defined

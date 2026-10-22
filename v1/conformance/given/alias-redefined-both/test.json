@@ -1,0 +1,13 @@
+{
+  "for": [
+    "/req/given/alias-defined"
+  ],
+  "purpose": "A rule that redefines an inherited rule with an alias both rulesets declare is valid.",
+  "ruleset": "ruleset.yaml",
+  "files": [
+    "base.yaml"
+  ],
+  "expect": {
+    "ruleset": "valid"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "for": [
+    "/req/parser-options/duplicate-keys"
+  ],
+  "purpose": "A duplicate key is reported as an error by default.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "parser",
+        "severity": 0
+      }
+    ]
+  }
+}

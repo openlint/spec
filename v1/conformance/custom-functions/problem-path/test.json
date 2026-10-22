@@ -1,0 +1,27 @@
+{
+  "for": [
+    "/req/custom-functions/problem-path"
+  ],
+  "purpose": "A problem with a `path` is reported there; one whose path is not in the document is reported at the root.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "functions/pathed.js",
+    "functions/elsewhere.js"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "pathed",
+        "path": [
+          "info",
+          "title"
+        ]
+      },
+      {
+        "code": "elsewhere",
+        "path": []
+      }
+    ]
+  }
+}

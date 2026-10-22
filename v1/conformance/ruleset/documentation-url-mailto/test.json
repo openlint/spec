@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "A ruleset whose `documentationUrl` is a `mailto:` URI is invalid: only http, https, and ftp URLs are accepted.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "invalid"
+  }
+}

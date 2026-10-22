@@ -1,0 +1,7 @@
+rules:
+  r:
+    given: $.name
+    then:
+      function: truthy
+      functionOptions:
+        strict: true

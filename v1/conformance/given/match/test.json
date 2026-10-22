@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/given/no-match"
+  ],
+  "purpose": "The same rule on a document where `given` matches produces results.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "no-paths"
+      }
+    ]
+  }
+}

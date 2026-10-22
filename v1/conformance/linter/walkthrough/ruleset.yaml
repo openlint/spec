@@ -1,0 +1,18 @@
+extends: ./acme-base.yaml
+formats: [oas3]
+aliases:
+  Operation:
+    - "$.paths[*]['get','put','post','delete']"
+rules:
+  operation-id-camel-case: true
+  operation-has-tags:
+    description: Every operation is tagged.
+    severity: hint
+    given: "#Operation"
+    then:
+      field: tags
+      function: defined
+overrides:
+  - files: ["legacy/**"]
+    rules:
+      operation-summary: error

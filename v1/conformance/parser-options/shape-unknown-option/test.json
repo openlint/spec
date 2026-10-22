@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "An unknown parser option is invalid.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "invalid"
+  }
+}

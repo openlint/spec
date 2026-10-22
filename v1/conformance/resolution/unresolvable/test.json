@@ -1,0 +1,16 @@
+{
+  "for": [
+    "/req/resolution/unresolvable"
+  ],
+  "purpose": "A `$ref` to a file that does not exist is reported as `invalid-ref` at severity `error`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "invalid-ref",
+        "severity": 0
+      }
+    ]
+  }
+}

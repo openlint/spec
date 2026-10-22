@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/overrides/order"
+  ],
+  "purpose": "Of two overrides that both match, the later one wins.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "severity": 3
+      },
+      {
+        "severity": 3
+      }
+    ]
+  }
+}

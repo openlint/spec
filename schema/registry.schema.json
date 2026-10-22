@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpenLint specification registry",
+  "description": "The requirements, conformance classes, and conformance tests of one version of the OpenLint Ruleset Specification, as published next to it as requirements.json.",
+  "type": "object",
+  "required": ["specification", "version", "line", "label", "generated", "classes", "requirements", "tests"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "specification": { "type": "string" },
+    "version": { "type": "string", "description": "`draft` or a semantic version." },
+    "line": { "type": "integer", "description": "The major version the document belongs to. A draft is the working draft of this line." },
+    "label": { "type": "string" },
+    "generated": { "type": "string", "description": "ISO date. For a release, the release date." },
+    "classes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "target", "depends", "members", "tests", "text"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^/conf/[a-z0-9-]+$" },
+          "name": { "type": "string" },
+          "target": { "enum": ["ruleset", "linter"] },
+          "depends": { "type": "array", "items": { "type": "string" } },
+          "members": { "type": "array", "items": { "type": "string" } },
+          "tests": { "type": "array", "items": { "type": "string" } },
+          "text": { "type": "string" }
+        }
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "class", "target", "status", "since", "section", "tests", "text"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^/(req|rec|per)(/[a-z0-9-]+){2,}$" },
+          "kind": { "enum": ["requirement", "recommendation", "permission"] },
+          "class": { "type": "string" },
+          "target": { "enum": ["ruleset", "linter"] },
+          "status": { "enum": ["current", "proposed", "removed"] },
+          "since": { "type": "string" },
+          "removed": { "type": "string", "description": "The version that removed it; present when status is removed." },
+          "section": { "type": "string" },
+          "tests": { "type": "array", "items": { "type": "string" } },
+          "text": { "type": "string" }
+        }
+      }
+    },
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "for", "class", "target", "purpose", "dir", "ruleset", "document", "files", "expect"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^/conf(/[a-z0-9-]+){2}$" },
+          "for": { "type": "array", "items": { "type": "string" } },
+          "class": { "type": "string" },
+          "target": { "enum": ["ruleset", "linter"] },
+          "purpose": { "type": "string" },
+          "dir": { "type": "string" },
+          "ruleset": { "type": "string" },
+          "document": { "type": ["string", "null"] },
+          "files": { "type": "array", "items": { "type": "string" } },
+          "expect": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "ruleset": { "enum": ["valid", "invalid"] },
+              "rejected": { "const": true },
+              "results": { "type": "array", "items": { "type": "object" } },
+              "ordered": { "const": true, "description": "The results have to come in the listed order." }
+            }
+          }
+        }
+      }
+    }
+  }
+}

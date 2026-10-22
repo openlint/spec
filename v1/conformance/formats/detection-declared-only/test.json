@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/formats/detection-scope"
+  ],
+  "purpose": "`oas3_1` is not detected when no rule names it, so for an OpenAPI 3.1 document the alias uses its `oas3` target, though an `oas3_1` target comes last.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "path": [
+          "info"
+        ]
+      }
+    ]
+  }
+}

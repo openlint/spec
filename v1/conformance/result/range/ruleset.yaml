@@ -1,0 +1,5 @@
+rules:
+  root-falsy:
+    given: $
+    then:
+      function: falsy

@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/resolution/external"
+  ],
+  "purpose": "A `$ref` to another file, relative to the document, is replaced by the referenced schema.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "schemas.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "id-is-string"
+      }
+    ]
+  }
+}

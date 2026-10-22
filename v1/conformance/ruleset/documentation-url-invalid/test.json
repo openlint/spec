@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "A ruleset whose `documentationUrl` is not a URI is invalid.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "invalid"
+  }
+}

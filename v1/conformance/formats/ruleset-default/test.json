@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/formats/ruleset-default"
+  ],
+  "purpose": "A rule without `formats` takes the ruleset's, so it does not run on a document of another format, while a rule scoped to that format does.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "s"
+      }
+    ]
+  }
+}

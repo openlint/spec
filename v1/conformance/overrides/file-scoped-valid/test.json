@@ -1,0 +1,13 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "A file-scoped override with `rules`, `extends`, `formats`, `parserOptions`, and `aliases` is valid.",
+  "ruleset": "ruleset.yaml",
+  "files": [
+    "base.yaml"
+  ],
+  "expect": {
+    "ruleset": "valid"
+  }
+}

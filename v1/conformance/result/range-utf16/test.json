@@ -1,0 +1,25 @@
+{
+  "for": [
+    "/req/result/range"
+  ],
+  "purpose": "A character before the value that needs two UTF-16 code units counts as two, and the end is just after the value.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.json",
+  "expect": {
+    "results": [
+      {
+        "code": "b",
+        "range": {
+          "start": {
+            "line": 0,
+            "character": 17
+          },
+          "end": {
+            "line": 0,
+            "character": 19
+          }
+        }
+      }
+    ]
+  }
+}

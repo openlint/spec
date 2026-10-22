@@ -1,0 +1,9 @@
+functions:
+  - forbiddenWords
+rules:
+  no-forbidden-words:
+    given: $.info.title
+    then:
+      function: forbiddenWords
+      functionOptions:
+        forbidden: [evil, bad]

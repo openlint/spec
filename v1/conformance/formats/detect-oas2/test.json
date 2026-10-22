@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/formats/identifiers"
+  ],
+  "purpose": "A document with `swagger: \"2.0\"` is `oas2` and not `oas3`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "is-oas2"
+      }
+    ]
+  }
+}

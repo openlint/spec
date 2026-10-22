@@ -1,0 +1,18 @@
+rules:
+  acme-operation-summary:
+    description: Every operation needs a summary.
+    given: $.paths[*]['get','put','post','delete','options','head','patch','trace']
+    then:
+      field: summary
+      function: truthy
+overrides:
+  - files: ["legacy/**"]
+    extends: ./base.yaml
+    formats: [oas3]
+    parserOptions:
+      duplicateKeys: warn
+    aliases:
+      Info:
+        - $.info
+    rules:
+      acme-operation-summary: warn

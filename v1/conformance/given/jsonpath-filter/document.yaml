@@ -1,0 +1,5 @@
+parameters:
+  - in: query
+    name: ""
+  - in: header
+    name: ""

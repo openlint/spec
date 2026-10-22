@@ -1,0 +1,19 @@
+{
+  "for": [
+    "/req/overrides/pointer-scope"
+  ],
+  "purpose": "A pointer-scoped override silences the rule under its pointer only.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "path": [
+          "paths",
+          "/pets",
+          "get"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "for": [
+    "/req/overrides/aliases"
+  ],
+  "purpose": "Outside the override's globs its aliases have no effect, and the rule keeps its default severity.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "info-description",
+        "severity": 1
+      }
+    ]
+  }
+}

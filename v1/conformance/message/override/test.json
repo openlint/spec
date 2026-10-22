@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/message/override"
+  ],
+  "purpose": "A rule's `message` replaces the reported message.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "message": "Summary missing here"
+      },
+      {
+        "message": "Summary missing here"
+      }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/formats/unscoped-runs-everywhere"
+  ],
+  "purpose": "Without `formats` anywhere, a rule runs on a document of no known format.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r"
+      }
+    ]
+  }
+}

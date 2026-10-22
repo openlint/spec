@@ -1,0 +1,19 @@
+{
+  "for": [
+    "/req/then/field"
+  ],
+  "purpose": "With `field`, the function sees the named property of the matched node.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "info-title",
+        "path": [
+          "info",
+          "title"
+        ]
+      }
+    ]
+  }
+}

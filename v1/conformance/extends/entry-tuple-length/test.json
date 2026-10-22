@@ -1,0 +1,13 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "An extends tuple with a third element is valid; elements after the mode are ignored.",
+  "ruleset": "ruleset.yaml",
+  "files": [
+    "base.yaml"
+  ],
+  "expect": {
+    "ruleset": "valid"
+  }
+}

@@ -1,0 +1,9 @@
+aliases:
+  Info:
+    - $.info
+    - $.externalDocs
+rules:
+  r:
+    given: "#Info"
+    then:
+      function: truthy

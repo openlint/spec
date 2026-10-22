@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/resolution/cycle"
+  ],
+  "purpose": "A schema that references itself resolves without error, and a rule sees its `type`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "node-is-string"
+      }
+    ]
+  }
+}

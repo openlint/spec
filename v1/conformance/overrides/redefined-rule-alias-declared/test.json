@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/overrides/reject-undeclared-alias"
+  ],
+  "purpose": "An override that redefines a rule with an alias the ruleset declares is loaded, and the redefined rule runs.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "path": [
+          "info"
+        ]
+      }
+    ]
+  }
+}

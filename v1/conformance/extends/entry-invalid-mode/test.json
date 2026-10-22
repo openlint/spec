@@ -1,0 +1,13 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "An extends tuple with the mode `strict` is invalid.",
+  "ruleset": "ruleset.yaml",
+  "files": [
+    "base.yaml"
+  ],
+  "expect": {
+    "ruleset": "invalid"
+  }
+}

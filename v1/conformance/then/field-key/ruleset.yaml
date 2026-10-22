@@ -1,0 +1,8 @@
+rules:
+  path-kebab:
+    given: $.paths
+    then:
+      field: "@key"
+      function: pattern
+      functionOptions:
+        match: "^/[a-z-]+$"

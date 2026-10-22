@@ -1,0 +1,10 @@
+extends: ./base.yaml
+aliases:
+  Y:
+    - $.info
+rules:
+  base-rule:
+    given: "#Y"
+    then:
+      field: title
+      function: truthy

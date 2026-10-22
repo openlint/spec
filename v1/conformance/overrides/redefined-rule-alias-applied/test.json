@@ -1,0 +1,11 @@
+{
+  "for": [
+    "/req/overrides/reject-undeclared-alias"
+  ],
+  "purpose": "An override that redefines a rule with an alias only the override declares makes a linter reject the ruleset for a document it applies to.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "rejected": true
+  }
+}

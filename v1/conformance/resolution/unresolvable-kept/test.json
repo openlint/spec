@@ -1,0 +1,25 @@
+{
+  "for": [
+    "/req/resolution/unresolvable"
+  ],
+  "purpose": "After a `$ref` fails to resolve, a rule still sees the reference object.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "invalid-ref",
+        "severity": 0
+      },
+      {
+        "code": "ref-kept",
+        "path": [
+          "components",
+          "schemas",
+          "Pet",
+          "$ref"
+        ]
+      }
+    ]
+  }
+}

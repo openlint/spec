@@ -1,0 +1,17 @@
+{
+  "for": [
+    "/req/overrides/reject-foreign-property",
+    "/req/overrides/checked-when-applied"
+  ],
+  "purpose": "The same override, applying to no document being linted, does not stop the ruleset from loading.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "severity": 1
+      }
+    ]
+  }
+}

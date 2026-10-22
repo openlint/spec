@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/per/extension-properties/anywhere"
+  ],
+  "purpose": "A ruleset with extension properties of several types at the root and on a rule is accepted.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "valid"
+  }
+}

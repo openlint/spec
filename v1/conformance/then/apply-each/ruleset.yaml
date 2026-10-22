@@ -1,0 +1,8 @@
+rules:
+  title-checks:
+    given: $.info.title
+    then:
+      - function: truthy
+      - function: length
+        functionOptions:
+          min: 1

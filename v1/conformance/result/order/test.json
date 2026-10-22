@@ -1,0 +1,43 @@
+{
+  "for": [
+    "/req/result/order"
+  ],
+  "purpose": "Results come in order of position, and by code at the same position, whatever the order of the rules.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "ordered": true,
+    "results": [
+      {
+        "code": "aaa",
+        "path": [
+          "a"
+        ]
+      },
+      {
+        "code": "mmm",
+        "path": [
+          "a"
+        ]
+      },
+      {
+        "code": "zzz",
+        "path": [
+          "b"
+        ]
+      },
+      {
+        "code": "aaa",
+        "path": [
+          "c"
+        ]
+      },
+      {
+        "code": "zzz",
+        "path": [
+          "d"
+        ]
+      }
+    ]
+  }
+}

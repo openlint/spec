@@ -1,0 +1,10 @@
+rules:
+  r:
+    given: $
+    then:
+      function: falsy
+overrides:
+  - files: ["**/*.yaml"]
+    foo: bar
+    rules:
+      r: error

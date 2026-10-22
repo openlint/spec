@@ -1,0 +1,16 @@
+{
+  "for": [
+    "/req/parser-options/duplicate-keys"
+  ],
+  "purpose": "With `duplicateKeys: warn`, a duplicate key is reported as a warning.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "parser",
+        "severity": 1
+      }
+    ]
+  }
+}

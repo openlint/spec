@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/overrides/extends"
+  ],
+  "purpose": "An override's `extends` adds rules for the documents it matches.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "extra.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "extra-rule"
+      }
+    ]
+  }
+}

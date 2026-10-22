@@ -1,0 +1,16 @@
+{
+  "for": [
+    "/req/parsing/syntax-error"
+  ],
+  "purpose": "A YAML document with an unclosed flow sequence is reported as a `parser` error.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "parser",
+        "severity": 0
+      }
+    ]
+  }
+}

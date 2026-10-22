@@ -1,0 +1,19 @@
+{
+  "for": [
+    "/req/custom-functions/javascript-load"
+  ],
+  "purpose": "With `functionsDir`, the function is loaded from that directory.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "checks/isEmptyTitle.js"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "title-filled",
+        "message": "Title is empty."
+      }
+    ]
+  }
+}

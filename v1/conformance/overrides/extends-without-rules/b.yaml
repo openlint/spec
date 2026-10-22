@@ -1,0 +1,6 @@
+rules:
+  b:
+    given: $.info
+    then:
+      field: title
+      function: truthy

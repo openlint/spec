@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/req/then/function-options-valid"
+  ],
+  "purpose": "`length` with empty options is invalid, because it needs `min` or `max`.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "invalid"
+  }
+}

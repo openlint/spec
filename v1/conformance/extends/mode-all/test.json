@@ -1,0 +1,21 @@
+{
+  "for": [
+    "/req/extends/mode-all"
+  ],
+  "purpose": "With mode `all`, both rules run.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "a.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "r1"
+      },
+      {
+        "code": "r2"
+      }
+    ]
+  }
+}

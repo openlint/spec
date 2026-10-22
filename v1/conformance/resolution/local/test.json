@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/resolution/local"
+  ],
+  "purpose": "A `$ref` to a pointer in the same document is replaced by the referenced schema, whose `type` the rule then sees.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "id-is-string"
+      }
+    ]
+  }
+}

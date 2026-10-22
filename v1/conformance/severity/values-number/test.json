@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "A rule with `severity: 3` is valid.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "valid"
+  }
+}

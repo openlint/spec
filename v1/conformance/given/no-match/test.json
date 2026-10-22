@@ -1,0 +1,11 @@
+{
+  "for": [
+    "/req/given/no-match"
+  ],
+  "purpose": "A rule whose `given` matches nothing produces no results, even though its function would fail on any node.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": []
+  }
+}

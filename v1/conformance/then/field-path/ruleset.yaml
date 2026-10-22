@@ -1,0 +1,6 @@
+rules:
+  r:
+    given: $
+    then:
+      field: info.contact.email
+      function: truthy

@@ -1,0 +1,6 @@
+rules:
+  r:
+    severity: error
+    given: $
+    then:
+      function: falsy

@@ -1,0 +1,35 @@
+{
+  "OpenAPI": {
+    "oas2": "`swagger` is present and its string form starts with `2` followed by a non-digit or the end.",
+    "oas3": "`openapi` is present and its string form starts with `3` followed by a non-digit or the end.",
+    "oas3_0": "`oas3`, and the string form of `openapi` matches `^3\\.0(\\.[0-9]*)?$`.",
+    "oas3_1": "`oas3`, and the string form of `openapi` matches `^3\\.1(\\.[0-9]*)?$`.",
+    "oas3_2": "`oas3`, and the string form of `openapi` matches `^3\\.2(\\.[0-9]*)?$`."
+  },
+  "AsyncAPI": {
+    "asyncapi2": "The same as `aas2`.",
+    "aas2": "`asyncapi` is present and its string form matches `^2\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$`.",
+    "aas2_0": "`aas2`, and the string form of `asyncapi` matches `^2\\.0(\\.[0-9]*)?$`.",
+    "aas2_1": "`aas2`, and the string form of `asyncapi` matches `^2\\.1(\\.[0-9]*)?$`.",
+    "aas2_2": "`aas2`, and the string form of `asyncapi` matches `^2\\.2(\\.[0-9]*)?$`.",
+    "aas2_3": "`aas2`, and the string form of `asyncapi` matches `^2\\.3(\\.[0-9]*)?$`.",
+    "aas2_4": "`aas2`, and the string form of `asyncapi` matches `^2\\.4(\\.[0-9]*)?$`.",
+    "aas2_5": "`aas2`, and the string form of `asyncapi` matches `^2\\.5(\\.[0-9]*)?$`.",
+    "aas2_6": "`aas2`, and the string form of `asyncapi` matches `^2\\.6(\\.[0-9]*)?$`.",
+    "aas3": "`asyncapi` is present and its string form matches `^3\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$`.",
+    "aas3_0": "`aas3`, and the string form of `asyncapi` matches `^3\\.0(\\.[0-9]*)?$`.",
+    "aas3_1": "`aas3`, and the string form of `asyncapi` matches `^3\\.1(\\.[0-9]*)?$`."
+  },
+  "Arazzo": {
+    "arazzo1_0": "`arazzo` is present and its string form matches `^1\\.0(\\.[0-9]*)?$`."
+  },
+  "JSON Schema": {
+    "jsonSchema": "`$schema` is a string that contains `//json-schema.org/`.",
+    "jsonSchemaLoose": "`jsonSchema`, or `type` is a JSON Schema type name or an array of them, or `enum` is an array, or one of `allOf`, `anyOf`, `oneOf`, `not`, and `if` is an object or an array.",
+    "jsonSchemaDraft4": "`$schema` matches `^https?://json-schema.org/draft-04/(hyper-)?schema#?$`.",
+    "jsonSchemaDraft6": "`$schema` matches `^https?://json-schema.org/draft-06/(hyper-)?schema#?$`.",
+    "jsonSchemaDraft7": "`$schema` matches `^https?://json-schema.org/draft-07/(hyper-)?schema#?$`.",
+    "jsonSchemaDraft2019_09": "`$schema` matches `^https?://json-schema.org/draft/2019-09/(hyper-)?schema#?$`.",
+    "jsonSchemaDraft2020_12": "`$schema` matches `^https?://json-schema.org/draft/2020-12/(hyper-)?schema#?$`."
+  }
+}

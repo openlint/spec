@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/req/then/function-options-valid"
+  ],
+  "purpose": "`casing` with `type: lower`, which is not a case the function knows, is invalid.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "invalid"
+  }
+}

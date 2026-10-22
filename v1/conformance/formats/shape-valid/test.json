@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "`formats` as an array of strings on the ruleset, a rule, an override, and an alias target is valid.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "valid"
+  }
+}

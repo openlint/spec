@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/then/apply-each"
+  ],
+  "purpose": "Two invocations that both fail on the same node produce two results.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "title-checks"
+      },
+      {
+        "code": "title-checks"
+      }
+    ]
+  }
+}

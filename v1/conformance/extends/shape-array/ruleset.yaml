@@ -1,0 +1,3 @@
+extends:
+  - ./base.yaml
+  - [./other.yaml, all]

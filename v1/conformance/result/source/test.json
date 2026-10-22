@@ -1,0 +1,20 @@
+{
+  "for": [
+    "/req/result/source"
+  ],
+  "purpose": "A result for a document read from a file carries that file's path in `source`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "acme-operation-summary",
+        "source": "${document}"
+      },
+      {
+        "code": "acme-operation-summary",
+        "source": "${document}"
+      }
+    ]
+  }
+}

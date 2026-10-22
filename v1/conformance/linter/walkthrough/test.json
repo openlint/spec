@@ -1,0 +1,48 @@
+{
+  "for": [
+    "/req/extends/load",
+    "/req/overrides/scope",
+    "/req/shorthands/true",
+    "/req/formats/ruleset-default",
+    "/req/given/alias-expansion",
+    "/req/result/severity"
+  ],
+  "purpose": "The running example of the Linting chapter: a ruleset that extends a base, enables a rule by shorthand, declares an alias, and overrides a severity for legacy documents, linting one legacy document.",
+  "ruleset": "ruleset.yaml",
+  "document": "legacy/petstore.yaml",
+  "files": [
+    "acme-base.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "operation-summary",
+        "path": [
+          "paths",
+          "/pets",
+          "get"
+        ],
+        "severity": 0
+      },
+      {
+        "code": "operation-has-tags",
+        "path": [
+          "paths",
+          "/pets",
+          "get"
+        ],
+        "severity": 3
+      },
+      {
+        "code": "operation-id-camel-case",
+        "path": [
+          "paths",
+          "/pets",
+          "get",
+          "operationId"
+        ],
+        "severity": 1
+      }
+    ]
+  }
+}

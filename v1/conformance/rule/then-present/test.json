@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "A rule with `then` and `given` is valid.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "valid"
+  }
+}

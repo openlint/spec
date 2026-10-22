@@ -1,0 +1,10 @@
+rules:
+  r:
+    given: $
+    then:
+      function: falsy
+    recommended: false
+  ctl:
+    given: $
+    then:
+      function: falsy

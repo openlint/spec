@@ -1,0 +1,6 @@
+formats: [oas3]
+rules:
+  r:
+    given: $
+    then:
+      function: falsy

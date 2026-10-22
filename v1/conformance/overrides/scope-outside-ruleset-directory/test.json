@@ -1,0 +1,16 @@
+{
+  "for": [
+    "/req/overrides/scope"
+  ],
+  "purpose": "The same glob does not match a document in a `legacy/` directory that is not next to the ruleset, whatever the working directory.",
+  "ruleset": "rules/ruleset.yaml",
+  "document": "legacy/a.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "severity": 1
+      }
+    ]
+  }
+}

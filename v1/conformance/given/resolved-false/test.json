@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/given/resolved"
+  ],
+  "purpose": "With `resolved: false`, `given` sees the `$ref` object, which has no `type`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "id-has-type"
+      }
+    ]
+  }
+}

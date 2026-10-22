@@ -1,0 +1,10 @@
+rules:
+  r:
+    given: $.o
+    then:
+      function: schema
+      functionOptions:
+        allErrors: true
+        schema:
+          type: object
+          required: [a, b]

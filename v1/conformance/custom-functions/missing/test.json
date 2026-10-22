@@ -1,0 +1,11 @@
+{
+  "for": [
+    "/req/custom-functions/missing"
+  ],
+  "purpose": "A ruleset naming a function whose file does not exist is rejected.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "rejected": true
+  }
+}

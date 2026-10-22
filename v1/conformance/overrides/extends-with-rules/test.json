@@ -1,0 +1,26 @@
+{
+  "for": [
+    "/req/overrides/extends"
+  ],
+  "purpose": "An applying override with `extends` and `rules` adds to the rulesets the ruleset extends: `a`, `b`, and `r` all run.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "a.yaml",
+    "b.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "a"
+      },
+      {
+        "code": "b"
+      },
+      {
+        "code": "r",
+        "severity": 0
+      }
+    ]
+  }
+}

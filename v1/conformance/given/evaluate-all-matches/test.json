@@ -1,0 +1,28 @@
+{
+  "for": [
+    "/req/given/evaluate"
+  ],
+  "purpose": "Two operations without `summary` produce one result each.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "acme-operation-summary",
+        "path": [
+          "paths",
+          "/pets",
+          "get"
+        ]
+      },
+      {
+        "code": "acme-operation-summary",
+        "path": [
+          "paths",
+          "/pets",
+          "post"
+        ]
+      }
+    ]
+  }
+}

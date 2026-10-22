@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/req/shorthands/inherited-only"
+  ],
+  "purpose": "A shorthand for a rule the ruleset does not inherit is invalid.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "invalid"
+  }
+}

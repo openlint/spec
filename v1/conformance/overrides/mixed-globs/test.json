@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "An override whose `files` mix a pointer glob and a plain glob is file-scoped, so it can define `rules` with shorthands and is valid.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "valid"
+  }
+}

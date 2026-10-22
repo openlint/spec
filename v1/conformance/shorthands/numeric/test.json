@@ -1,0 +1,13 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "A numeric severity in the shorthand position is invalid.",
+  "ruleset": "ruleset.yaml",
+  "files": [
+    "a.yaml"
+  ],
+  "expect": {
+    "ruleset": "invalid"
+  }
+}

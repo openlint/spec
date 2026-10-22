@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/extends/mode-off"
+  ],
+  "purpose": "With mode `off`, no inherited rule runs until it is enabled by name.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "a.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "r1"
+      }
+    ]
+  }
+}

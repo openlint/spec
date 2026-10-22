@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/then/apply-each"
+  ],
+  "purpose": "One invocation whose function returns two problems produces two results.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r"
+      },
+      {
+        "code": "r"
+      }
+    ]
+  }
+}

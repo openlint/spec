@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/req/ruleset/document"
+  ],
+  "purpose": "A JSON text whose root is an object is valid.",
+  "ruleset": "ruleset.json",
+  "expect": {
+    "ruleset": "valid"
+  }
+}

@@ -1,0 +1,11 @@
+rules:
+  is-aas2:
+    formats: [aas2]
+    given: $
+    then:
+      function: falsy
+  is-aas3:
+    formats: [aas3]
+    given: $
+    then:
+      function: falsy

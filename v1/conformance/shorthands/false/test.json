@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/shorthands/false",
+    "/req/severity/off"
+  ],
+  "purpose": "`false` disables an enabled rule.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "a.yaml"
+  ],
+  "expect": {
+    "results": []
+  }
+}

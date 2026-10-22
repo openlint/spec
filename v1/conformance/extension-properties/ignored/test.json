@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/extension-properties/ignored"
+  ],
+  "purpose": "Extension properties at the root and on a rule change nothing about the results.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "acme-operation-summary"
+      },
+      {
+        "code": "acme-operation-summary"
+      }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+rules:
+  info-filled:
+    given:
+      - $.info.title
+      - $.info.description
+    then:
+      function: truthy

@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/formats/rule-scope"
+  ],
+  "purpose": "Of two rules scoped to different formats, only the one whose format the document has runs.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "only-oas2"
+      }
+    ]
+  }
+}

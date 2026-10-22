@@ -1,0 +1,4 @@
+rules:
+  r:
+    given: $
+    then: truthy

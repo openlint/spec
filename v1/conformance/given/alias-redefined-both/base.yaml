@@ -1,0 +1,8 @@
+aliases:
+  X:
+    - $.info
+rules:
+  base-rule:
+    given: $.info
+    then:
+      function: truthy

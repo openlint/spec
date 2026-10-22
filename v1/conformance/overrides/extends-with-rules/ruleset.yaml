@@ -1,0 +1,12 @@
+extends: ./a.yaml
+rules:
+  r:
+    given: $.info
+    then:
+      field: title
+      function: truthy
+overrides:
+  - files: ["**/*.yaml"]
+    extends: ./b.yaml
+    rules:
+      r: error

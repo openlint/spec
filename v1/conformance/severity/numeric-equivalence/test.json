@@ -1,0 +1,20 @@
+{
+  "for": [
+    "/req/severity/numeric-equivalence"
+  ],
+  "purpose": "A rule with `severity: 0` reports with the severity of `error`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "acme-operation-summary",
+        "severity": 0
+      },
+      {
+        "code": "acme-operation-summary",
+        "severity": 0
+      }
+    ]
+  }
+}

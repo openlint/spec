@@ -1,0 +1,7 @@
+rules:
+  r:
+    given: $
+    then:
+      function: truthy
+parserOptions:
+  x-note: not permitted here

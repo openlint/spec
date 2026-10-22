@@ -1,0 +1,10 @@
+functions: [pathed, elsewhere]
+rules:
+  pathed:
+    given: $.info
+    then:
+      function: pathed
+  elsewhere:
+    given: $.info
+    then:
+      function: elsewhere

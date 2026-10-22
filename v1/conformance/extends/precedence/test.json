@@ -1,0 +1,20 @@
+{
+  "for": [
+    "/req/extends/order"
+  ],
+  "purpose": "The extending ruleset's definition of `r` wins over both extended rulesets.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "a.yaml",
+    "b.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "message": "from C"
+      }
+    ]
+  }
+}

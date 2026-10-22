@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/formats/rule-overrides-ruleset"
+  ],
+  "purpose": "A rule's own `formats` replaces the ruleset's.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r"
+      }
+    ]
+  }
+}

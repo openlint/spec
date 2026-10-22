@@ -1,0 +1,6 @@
+rules:
+  r:
+    given:
+      path: $.info
+    then:
+      function: truthy

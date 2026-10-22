@@ -1,0 +1,7 @@
+rules:
+  r:
+    description: from A
+    message: "{{description}}"
+    given: $
+    then:
+      function: falsy

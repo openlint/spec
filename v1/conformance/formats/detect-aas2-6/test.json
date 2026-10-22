@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/formats/identifiers"
+  ],
+  "purpose": "A document with `asyncapi: 2.6.0` is `aas2_6` and not `aas2_5`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "is-aas2_6"
+      }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/message/placeholders"
+  ],
+  "purpose": "`{{property}}` resolves to the key of the offending value.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "message": "title"
+      }
+    ]
+  }
+}

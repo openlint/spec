@@ -1,0 +1,20 @@
+{
+  "for": [
+    "/req/aliases/scoped"
+  ],
+  "purpose": "On an OpenAPI 2 document, the scoped alias uses the `oas2` target.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "parameter-name",
+        "path": [
+          "parameters",
+          "limit",
+          "name"
+        ]
+      }
+    ]
+  }
+}

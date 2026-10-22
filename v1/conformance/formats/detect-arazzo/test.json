@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/formats/identifiers"
+  ],
+  "purpose": "A document with `arazzo: 1.0.1` is `arazzo1_0`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "is-arazzo1_0"
+      }
+    ]
+  }
+}

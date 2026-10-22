@@ -1,0 +1,5 @@
+rules:
+  param-name:
+    given: '$.parameters[?(@.in === "header")].name'
+    then:
+      function: truthy

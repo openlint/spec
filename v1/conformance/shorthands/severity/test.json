@@ -1,0 +1,19 @@
+{
+  "for": [
+    "/req/shorthands/severity"
+  ],
+  "purpose": "A severity name enables the rule and sets its severity.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "a.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "severity": 0
+      }
+    ]
+  }
+}

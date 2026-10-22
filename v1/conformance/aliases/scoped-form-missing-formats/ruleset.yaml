@@ -1,0 +1,10 @@
+aliases:
+  Info:
+    targets:
+      - given:
+          - $.info
+rules:
+  r:
+    given: "#Info"
+    then:
+      function: truthy

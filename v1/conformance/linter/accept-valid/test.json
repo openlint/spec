@@ -1,0 +1,19 @@
+{
+  "for": [
+    "/req/linter/reject-invalid",
+    "/req/linter/accept-valid"
+  ],
+  "purpose": "A valid ruleset is loaded and linting produces its results.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "acme-operation-summary"
+      },
+      {
+        "code": "acme-operation-summary"
+      }
+    ]
+  }
+}

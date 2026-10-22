@@ -1,0 +1,11 @@
+formats: [oas3]
+rules:
+  r:
+    given: $
+    then:
+      function: falsy
+  s:
+    formats: [oas2]
+    given: $
+    then:
+      function: falsy

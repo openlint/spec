@@ -1,0 +1,16 @@
+aliases:
+  ParameterObject:
+    targets:
+      - formats: [oas2]
+        given:
+          - $.parameters[*]
+      - formats: [oas3]
+        given:
+          - $.components.parameters[*]
+rules:
+  parameter-name:
+    formats: [oas2, oas3]
+    given: "#ParameterObject"
+    then:
+      field: name
+      function: truthy

@@ -1,0 +1,20 @@
+{
+  "for": [
+    "/req/parsing/several-documents"
+  ],
+  "purpose": "A YAML file with two documents gets a `parser` error, and the rules run on the first document.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "parser",
+        "severity": 0
+      },
+      {
+        "code": "r",
+        "path": []
+      }
+    ]
+  }
+}

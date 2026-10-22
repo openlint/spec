@@ -1,0 +1,6 @@
+rules:
+  r:
+    recommended: "yes"
+    given: $
+    then:
+      function: truthy

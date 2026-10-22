@@ -1,0 +1,11 @@
+{
+  "for": [
+    "/req/severity/off"
+  ],
+  "purpose": "A rule with `severity: off` produces no results although it would fail.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": []
+  }
+}

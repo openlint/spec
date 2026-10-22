@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/overrides/scope"
+  ],
+  "purpose": "A document inside the override's globs gets the override's severity.",
+  "ruleset": "ruleset.yaml",
+  "document": "legacy/document.yaml",
+  "expect": {
+    "results": [
+      {
+        "severity": 0
+      },
+      {
+        "severity": 0
+      }
+    ]
+  }
+}

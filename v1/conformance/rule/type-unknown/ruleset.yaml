@@ -1,0 +1,6 @@
+rules:
+  r:
+    type: lint
+    given: $
+    then:
+      function: truthy

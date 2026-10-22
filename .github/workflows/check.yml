@@ -1,0 +1,94 @@
+name: Check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and check the schema
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install Bikeshed and Ruff
+        run: pip install -r requirements.txt && bikeshed update
+      - run: npm ci
+      - name: Lint the tools
+        run: ruff check tools/
+      - name: Test the tools
+        run: python3 -m unittest discover -s tools/tests
+      - name: Build every version
+        run: tools/build.py
+      - name: Check every version's fixtures against its schema
+        run: |
+          shopt -s nullglob
+          for dir in v*/ releases/*/; do
+            node tools/schema-check.cjs "$(basename "$dir")"
+          done
+      - name: Keep the site for publishing
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v7
+        with:
+          name: site
+          path: site
+          retention-days: 1
+
+  openlint:
+    name: Conformance, OpenLint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Check out OpenLint at the commit the conformance tests were last run against
+        uses: actions/checkout@v7
+        with:
+          repository: openlint/openlint
+          ref: 344dc7ea11d52a40d97361aa1e931743596b29bc
+          path: .linter/openlint
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .linter/openlint/.nvmrc
+      - name: Build OpenLint
+        working-directory: .linter/openlint
+        run: |
+          npm install -g corepack --force
+          corepack enable
+          yarn install --immutable
+          yarn build
+      - name: Run the conformance tests of every draft
+        run: |
+          for dir in v*/; do
+            tools/conformance.py "${dir%/}" --linter "node $GITHUB_WORKSPACE/.linter/openlint/packages/cli/dist/index.js lint -r {ruleset} -f json {document}"
+          done
+
+  spectral:
+    name: Conformance, Spectral 6.17.0
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Install Spectral
+        run: npm install --prefix "$RUNNER_TEMP/spectral" @stoplight/spectral-cli@6.17.0
+      - name: Run the conformance tests of every draft
+        run: |
+          for dir in v*/; do
+            tools/conformance.py "${dir%/}" --linter "node $RUNNER_TEMP/spectral/node_modules/@stoplight/spectral-cli/dist/index.js lint -r {ruleset} -f json {document}"
+          done

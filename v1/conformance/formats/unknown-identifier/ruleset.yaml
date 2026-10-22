@@ -1,0 +1,7 @@
+rules:
+  r:
+    formats: [oas31]
+    given: $.info
+    then:
+      field: title
+      function: truthy
