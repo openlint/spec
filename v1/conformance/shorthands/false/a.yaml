@@ -1,0 +1,7 @@
+rules:
+  r:
+    recommended: true
+    severity: error
+    given: $
+    then:
+      function: falsy

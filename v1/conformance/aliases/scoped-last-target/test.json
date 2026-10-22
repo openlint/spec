@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/aliases/scoped"
+  ],
+  "purpose": "For an OpenAPI 3.1 document, which has both `oas3` and `oas3_1`, only the last matching target is used.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "path": [
+          "info"
+        ]
+      }
+    ]
+  }
+}

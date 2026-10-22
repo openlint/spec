@@ -1,0 +1,4 @@
+extends:
+  - [./a.yaml, "off"]
+rules:
+  r1: true

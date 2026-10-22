@@ -1,0 +1,7 @@
+functions:
+  - doesNotExist
+rules:
+  r:
+    given: $
+    then:
+      function: doesNotExist

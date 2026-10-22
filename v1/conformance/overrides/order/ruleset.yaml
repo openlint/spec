@@ -1,0 +1,15 @@
+rules:
+  acme-operation-summary:
+    description: Every operation needs a summary.
+    severity: warn
+    given: $.paths[*]['get','put','post','delete','options','head','patch','trace']
+    then:
+      field: summary
+      function: truthy
+overrides:
+  - files: ["**/*.yaml"]
+    rules:
+      acme-operation-summary: error
+  - files: ["**/*.yaml"]
+    rules:
+      acme-operation-summary: hint

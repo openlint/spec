@@ -1,0 +1,19 @@
+{
+  "for": [
+    "/req/shorthands/false",
+    "/req/severity/off"
+  ],
+  "purpose": "Without the `false` shorthand, the inherited rule runs.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "a.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "r"
+      }
+    ]
+  }
+}

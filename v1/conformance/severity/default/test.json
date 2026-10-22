@@ -1,0 +1,20 @@
+{
+  "for": [
+    "/req/severity/default"
+  ],
+  "purpose": "A rule without `severity` reports with the severity of `warn`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "acme-operation-summary",
+        "severity": 1
+      },
+      {
+        "code": "acme-operation-summary",
+        "severity": 1
+      }
+    ]
+  }
+}

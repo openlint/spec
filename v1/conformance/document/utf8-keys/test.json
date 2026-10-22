@@ -1,0 +1,24 @@
+{
+  "for": [
+    "/req/document/encoding"
+  ],
+  "purpose": "A document is read as UTF-8, so non-ASCII keys arrive intact in `path`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "path": [
+          "\u00e9"
+        ]
+      },
+      {
+        "code": "s",
+        "path": [
+          "\ud83d\ude00"
+        ]
+      }
+    ]
+  }
+}

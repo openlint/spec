@@ -1,0 +1,7 @@
+rules:
+  id-is-string:
+    given: $.components.schemas.Pet.properties.id.type
+    then:
+      function: enumeration
+      functionOptions:
+        values: [string]

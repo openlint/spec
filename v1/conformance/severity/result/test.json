@@ -1,0 +1,23 @@
+{
+  "for": [
+    "/req/result/severity"
+  ],
+  "purpose": "A rule inherited at `warn` and raised to `error` reports with the severity of `error`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "base.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "acme-operation-summary",
+        "severity": 0
+      },
+      {
+        "code": "acme-operation-summary",
+        "severity": 0
+      }
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+rules:
+  r:
+    severity: critical
+    given: $
+    then:
+      function: truthy

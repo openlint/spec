@@ -1,0 +1,10 @@
+rules:
+  r:
+    given: $
+    then:
+      function: truthy
+rule:
+  s:
+    given: $
+    then:
+      function: truthy

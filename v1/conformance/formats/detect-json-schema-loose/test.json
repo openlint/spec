@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/formats/identifiers"
+  ],
+  "purpose": "A document with `type: object` and no `$schema` is `jsonSchemaLoose` but not `jsonSchema`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "is-jsonSchemaLoose"
+      }
+    ]
+  }
+}

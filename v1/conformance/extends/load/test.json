@@ -1,0 +1,21 @@
+{
+  "for": [
+    "/req/extends/load"
+  ],
+  "purpose": "A rule defined only in the extended ruleset is available to the extending one by name.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "base.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "acme-operation-summary"
+      },
+      {
+        "code": "acme-operation-summary"
+      }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+rules:
+  quiet:
+    given: $.nothing
+    then:
+      function: truthy
+parserOptions:
+  trailingCommas: error

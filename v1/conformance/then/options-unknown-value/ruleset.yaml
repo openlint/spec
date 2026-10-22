@@ -1,0 +1,7 @@
+rules:
+  r:
+    given: $.name
+    then:
+      function: casing
+      functionOptions:
+        type: lower

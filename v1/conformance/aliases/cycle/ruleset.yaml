@@ -1,0 +1,10 @@
+aliases:
+  A:
+    - "#B"
+  B:
+    - "#A"
+rules:
+  r:
+    given: "#A"
+    then:
+      function: truthy

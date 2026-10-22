@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/formats/identifiers"
+  ],
+  "purpose": "An unquoted `openapi: 3.0` is the number 3, whose string form is `3`, so the document is `oas3` but not `oas3_0`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "is-oas3"
+      }
+    ]
+  }
+}

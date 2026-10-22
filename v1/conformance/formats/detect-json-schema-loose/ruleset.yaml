@@ -1,0 +1,11 @@
+rules:
+  is-jsonSchemaLoose:
+    formats: [jsonSchemaLoose]
+    given: $
+    then:
+      function: falsy
+  is-jsonSchema:
+    formats: [jsonSchema]
+    given: $
+    then:
+      function: falsy

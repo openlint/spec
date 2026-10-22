@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/message/default"
+  ],
+  "purpose": "Without `message`, the result carries the rule's description.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "message": "Every operation needs a summary."
+      },
+      {
+        "message": "Every operation needs a summary."
+      }
+    ]
+  }
+}

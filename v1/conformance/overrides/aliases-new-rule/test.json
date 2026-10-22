@@ -1,0 +1,19 @@
+{
+  "for": [
+    "/req/overrides/aliases"
+  ],
+  "purpose": "A rule an override defines resolves aliases against the override's, which take precedence over the ruleset's alias of the same name.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "override-rule",
+        "path": [
+          "info",
+          "description"
+        ]
+      }
+    ]
+  }
+}

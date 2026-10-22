@@ -1,0 +1,5 @@
+rules:
+  no-paths:
+    given: $.paths[*]
+    then:
+      function: falsy

@@ -1,0 +1,6 @@
+rules:
+  ref-kept:
+    given: $.components.schemas.Pet
+    then:
+      field: $ref
+      function: undefined

@@ -1,0 +1,5 @@
+rules:
+  b:
+    given: $.b
+    then:
+      function: truthy

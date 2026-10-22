@@ -1,0 +1,19 @@
+{
+  "for": [
+    "/req/then/function-options"
+  ],
+  "purpose": "The `max` option reaches the `length` function.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "short-title",
+        "path": [
+          "info",
+          "title"
+        ]
+      }
+    ]
+  }
+}

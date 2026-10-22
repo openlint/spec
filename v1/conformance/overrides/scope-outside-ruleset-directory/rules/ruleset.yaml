@@ -1,0 +1,10 @@
+rules:
+  r:
+    given: $.info
+    then:
+      field: title
+      function: truthy
+overrides:
+  - files: ['legacy/**']
+    rules:
+      r: error

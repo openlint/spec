@@ -1,0 +1,16 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "A string entry and tuples with each of the three modes are valid.",
+  "ruleset": "ruleset.yaml",
+  "files": [
+    "base.yaml",
+    "a.yaml",
+    "b.yaml",
+    "c.yaml"
+  ],
+  "expect": {
+    "ruleset": "valid"
+  }
+}

@@ -1,0 +1,6 @@
+rules:
+  id-has-type:
+    given: $.components.schemas.Pet.properties.id
+    then:
+      field: type
+      function: defined

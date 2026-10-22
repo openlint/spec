@@ -1,0 +1,8 @@
+components:
+  schemas:
+    Id:
+      type: integer
+    Pet:
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"

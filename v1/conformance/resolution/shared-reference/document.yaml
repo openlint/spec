@@ -1,0 +1,25 @@
+openapi: 3.1.0
+info:
+  title: Shared
+  version: 1.0.0
+paths:
+  /a:
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bad'
+  /b:
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bad'
+components:
+  schemas:
+    Bad:
+      type: object

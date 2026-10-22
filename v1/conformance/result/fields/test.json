@@ -1,0 +1,30 @@
+{
+  "for": [
+    "/req/result/fields"
+  ],
+  "purpose": "Every result has the five required fields.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "has": [
+          "code",
+          "path",
+          "severity",
+          "message",
+          "range"
+        ]
+      },
+      {
+        "has": [
+          "code",
+          "path",
+          "severity",
+          "message",
+          "range"
+        ]
+      }
+    ]
+  }
+}

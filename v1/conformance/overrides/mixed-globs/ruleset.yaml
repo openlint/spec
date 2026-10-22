@@ -1,0 +1,9 @@
+rules:
+  r:
+    given: $
+    then:
+      function: falsy
+overrides:
+  - files: ["api.yaml#/paths", "**/*.yaml"]
+    rules:
+      r: hint

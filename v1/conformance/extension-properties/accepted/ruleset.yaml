@@ -1,0 +1,12 @@
+x-owner: platform-team
+x-review:
+  last: 2026-10-01
+  ticket: GOV-142
+rules:
+  acme-operation-summary:
+    x-jira: GOV-142
+    x-rationale: Summaries feed the generated docs.
+    given: $.paths[*]['get','put','post','delete','options','head','patch','trace']
+    then:
+      field: summary
+      function: truthy

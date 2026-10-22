@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/custom-functions/missing"
+  ],
+  "purpose": "A ruleset naming a function whose file exists is loaded and the function runs.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "functions/isEmptyTitle.js"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "title-filled"
+      }
+    ]
+  }
+}

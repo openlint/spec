@@ -1,0 +1,11 @@
+rules:
+  r:
+    given: $
+    then:
+      field: "é"
+      function: truthy
+  s:
+    given: $
+    then:
+      field: "😀"
+      function: truthy

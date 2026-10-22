@@ -1,0 +1,5 @@
+rules:
+  extra-rule:
+    given: $
+    then:
+      function: falsy

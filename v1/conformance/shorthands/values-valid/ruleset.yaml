@@ -1,0 +1,4 @@
+extends: ./a.yaml
+rules:
+  r: hint
+  s: false

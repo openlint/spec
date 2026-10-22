@@ -1,0 +1,16 @@
+{
+  "for": [
+    "/req/document/any-root"
+  ],
+  "purpose": "A document whose root is an array is linted, and `$` selects the array.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "path": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "for": [
+    "/req/message/placeholders"
+  ],
+  "purpose": "`{{path}}` is the JSON Pointer to the offending value, with a leading `#`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "message": "#/info/title"
+      }
+    ]
+  }
+}

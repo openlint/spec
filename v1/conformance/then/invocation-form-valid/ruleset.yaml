@@ -1,0 +1,8 @@
+rules:
+  r:
+    given: $.info
+    then:
+      field: title
+      function: length
+      functionOptions:
+        max: 120

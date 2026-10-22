@@ -1,0 +1,13 @@
+{
+  "for": [
+    "/req/linter/reject-invalid"
+  ],
+  "purpose": "A ruleset that extends a ruleset with an invalid `given` is rejected.",
+  "ruleset": "ruleset.yaml",
+  "files": [
+    "base.yaml"
+  ],
+  "expect": {
+    "rejected": true
+  }
+}

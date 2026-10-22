@@ -1,0 +1,20 @@
+{
+  "for": [
+    "/req/shorthands/true"
+  ],
+  "purpose": "A rule disabled with `false` in one ruleset and re-enabled with `true` in the next keeps the severity it was defined with.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "a.yaml",
+    "b.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "severity": 0
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+extends:
+  - ./base.yaml
+  - [./a.yaml, recommended]
+  - [./b.yaml, all]
+  - [./c.yaml, "off"]

@@ -1,0 +1,6 @@
+functions: isEmptyTitle
+rules:
+  r:
+    given: $.info.title
+    then:
+      function: isEmptyTitle

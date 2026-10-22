@@ -1,0 +1,16 @@
+{
+  "for": [
+    "/req/overrides/aliases"
+  ],
+  "purpose": "An alias an override declares does not change a rule the ruleset defines: the rule keeps the ruleset's alias and only its severity changes.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "info-description",
+        "severity": 0
+      }
+    ]
+  }
+}

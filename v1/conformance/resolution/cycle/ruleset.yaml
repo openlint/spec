@@ -1,0 +1,7 @@
+rules:
+  node-is-string:
+    given: $.components.schemas.Node.type
+    then:
+      function: enumeration
+      functionOptions:
+        values: [string]

@@ -1,0 +1,10 @@
+rules:
+  r:
+    given: $.paths[*]['get','put','post','delete','options','head','patch','trace']
+    then:
+      field: summary
+      function: truthy
+overrides:
+  - files: ["document.yaml#/paths/~1a/get"]
+    rules:
+      r: "off"

@@ -1,0 +1,13 @@
+{
+  "for": [
+    "/req/shorthands/inherited-only"
+  ],
+  "purpose": "A shorthand for a rule inherited through `extends` is valid.",
+  "ruleset": "ruleset.yaml",
+  "files": [
+    "a.yaml"
+  ],
+  "expect": {
+    "ruleset": "valid"
+  }
+}

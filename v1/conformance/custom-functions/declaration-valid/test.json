@@ -1,0 +1,13 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "`functions` as an array of strings with a `functionsDir` string is valid.",
+  "ruleset": "ruleset.yaml",
+  "files": [
+    "checks/isEmptyTitle.js"
+  ],
+  "expect": {
+    "ruleset": "valid"
+  }
+}

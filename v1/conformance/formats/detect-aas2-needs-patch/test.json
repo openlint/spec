@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/formats/identifiers"
+  ],
+  "purpose": "`asyncapi: \"2.6\"` without a patch number is not `aas2`, while `2.6.0` is.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "is-aas2"
+      }
+    ]
+  }
+}

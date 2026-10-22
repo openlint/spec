@@ -1,0 +1,11 @@
+{
+  "for": [
+    "/req/overrides/reject-unknown-shorthand"
+  ],
+  "purpose": "A shorthand in an override for a rule the ruleset neither defines nor inherits makes a linter reject the ruleset for a document the override applies to.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "rejected": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/req/aliases/no-cycle"
+  ],
+  "purpose": "Two aliases that refer to each other are invalid.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "invalid"
+  }
+}

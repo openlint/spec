@@ -1,0 +1,19 @@
+{
+  "for": [
+    "/req/aliases/compose"
+  ],
+  "purpose": "An alias defined through another alias expands to the full path.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "info-description",
+        "path": [
+          "info",
+          "description"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+description: Acme API style guide
+documentationUrl: https://engineering.acme.com/api/governance
+formats: [oas3]
+extends: ./base.yaml
+aliases:
+  Info:
+    - $.info
+overrides:
+  - files: ["legacy/**"]
+    rules:
+      base-rule: warn
+parserOptions:
+  duplicateKeys: warn
+functions:
+  - isEmptyTitle
+functionsDir: ./checks
+rules:
+  title-filled:
+    given: $.info.title
+    then:
+      function: isEmptyTitle

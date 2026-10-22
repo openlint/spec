@@ -1,0 +1,7 @@
+extends: ./base.yaml
+rules:
+  r:
+    given: $.info
+    then:
+      field: title
+      function: truthy

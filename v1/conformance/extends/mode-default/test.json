@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/extends/mode-recommended"
+  ],
+  "purpose": "Without a mode, only the rule that is recommended runs.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "a.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "r2"
+      }
+    ]
+  }
+}

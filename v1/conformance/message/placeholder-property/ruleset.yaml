@@ -1,0 +1,7 @@
+rules:
+  info-title:
+    message: "{{property}}"
+    given: $.info
+    then:
+      field: title
+      function: truthy

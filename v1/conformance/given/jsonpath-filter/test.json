@@ -1,0 +1,20 @@
+{
+  "for": [
+    "/req/given/jsonpath"
+  ],
+  "purpose": "A filter expression in parentheses, `?(@.in === \"header\")`, selects the header parameter with an empty name; the index in its path is a string.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "param-name",
+        "path": [
+          "parameters",
+          "1",
+          "name"
+        ]
+      }
+    ]
+  }
+}

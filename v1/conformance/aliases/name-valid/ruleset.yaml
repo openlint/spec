@@ -1,0 +1,8 @@
+aliases:
+  Info_v2-x:
+    - $.info
+rules:
+  r:
+    given: "#Info_v2-x"
+    then:
+      function: truthy

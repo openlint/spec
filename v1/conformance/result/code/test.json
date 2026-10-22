@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/result/code"
+  ],
+  "purpose": "The `code` of a result is the rule name.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "acme-operation-summary"
+      },
+      {
+        "code": "acme-operation-summary"
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "for": [
+    "/req/overrides/reject-unknown-shorthand"
+  ],
+  "purpose": "A shorthand in an applying override for a rule the ruleset defines itself sets its severity.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "severity": 0
+      }
+    ]
+  },
+  "document": "document.yaml"
+}

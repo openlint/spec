@@ -1,0 +1,6 @@
+functions: [later]
+rules:
+  r:
+    given: $.info
+    then:
+      function: later

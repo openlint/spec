@@ -1,0 +1,6 @@
+rules:
+  r:
+    severity: 3
+    given: $
+    then:
+      function: truthy

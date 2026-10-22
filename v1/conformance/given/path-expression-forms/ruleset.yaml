@@ -1,0 +1,10 @@
+aliases:
+  Info:
+    - $.info
+rules:
+  r:
+    given:
+      - $.paths
+      - "#Info"
+    then:
+      function: truthy

@@ -1,0 +1,18 @@
+rules:
+  a:
+    given: $.name
+    then:
+      function: casing
+      functionOptions:
+        type: camel
+        disallowDigits: true
+  b:
+    given: $.tags
+    then:
+      function: alphabetical
+  c:
+    given: $.name
+    then:
+      function: length
+      functionOptions:
+        min: 1

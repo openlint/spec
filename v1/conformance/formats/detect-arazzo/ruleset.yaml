@@ -1,0 +1,11 @@
+rules:
+  is-arazzo1_0:
+    formats: [arazzo1_0]
+    given: $
+    then:
+      function: falsy
+  is-oas3:
+    formats: [oas3]
+    given: $
+    then:
+      function: falsy

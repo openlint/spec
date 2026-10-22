@@ -1,0 +1,4 @@
+rules:
+  r:
+    then:
+      function: truthy

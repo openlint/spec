@@ -1,0 +1,14 @@
+aliases:
+  I:
+    targets:
+      - formats: [oas3]
+        given: ["$.info"]
+      - formats: [oas3_1]
+        given: ["$.paths"]
+rules:
+  r:
+    formats: [oas3]
+    given: "#I"
+    then:
+      field: title
+      function: truthy

@@ -1,0 +1,19 @@
+{
+  "for": [
+    "/req/then/field-key"
+  ],
+  "purpose": "With `field: \"@key\"` on a matched object, the function sees each of its property keys; the key that does not match the pattern is reported.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "path-kebab",
+        "path": [
+          "paths",
+          "/Pets_old"
+        ]
+      }
+    ]
+  }
+}

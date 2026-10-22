@@ -1,0 +1,13 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "Every severity name and both booleans are valid in the shorthand position.",
+  "ruleset": "ruleset.yaml",
+  "files": [
+    "a.yaml"
+  ],
+  "expect": {
+    "ruleset": "valid"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "A `functions` value that is a string is invalid.",
+  "ruleset": "ruleset.yaml",
+  "files": [
+    "functions/isEmptyTitle.js"
+  ],
+  "expect": {
+    "ruleset": "invalid"
+  }
+}

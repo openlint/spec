@@ -1,0 +1,16 @@
+{
+  "for": [
+    "/req/overrides/scope"
+  ],
+  "purpose": "A glob is matched against the document's path relative to the ruleset file's directory, so `legacy/**` matches a document in `legacy/` next to the ruleset.",
+  "ruleset": "rules/ruleset.yaml",
+  "document": "rules/legacy/a.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "severity": 0
+      }
+    ]
+  }
+}

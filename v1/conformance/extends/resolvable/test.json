@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/extends/unresolvable"
+  ],
+  "purpose": "A ruleset extending a file that exists is loaded and the inherited rule runs.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "base.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "base-rule"
+      }
+    ]
+  }
+}

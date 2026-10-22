@@ -1,0 +1,13 @@
+rules:
+  zzz:
+    given: [$.b, $.d]
+    then:
+      function: falsy
+  aaa:
+    given: [$.a, $.c]
+    then:
+      function: falsy
+  mmm:
+    given: $.a
+    then:
+      function: falsy

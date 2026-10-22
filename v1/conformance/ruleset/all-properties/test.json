@@ -1,0 +1,14 @@
+{
+  "for": [
+    "/req/ruleset/schema"
+  ],
+  "purpose": "A ruleset using every root property with its documented type is valid.",
+  "ruleset": "ruleset.yaml",
+  "files": [
+    "base.yaml",
+    "checks/isEmptyTitle.js"
+  ],
+  "expect": {
+    "ruleset": "valid"
+  }
+}

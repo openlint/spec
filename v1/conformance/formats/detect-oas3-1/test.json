@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/formats/identifiers"
+  ],
+  "purpose": "An OpenAPI 3.1 document is detected as `oas3_1` and not as `oas3_0`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "is-oas3-1"
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "for": [
+    "/req/shorthands/true"
+  ],
+  "purpose": "`true` enables a rule that is off by default, at the severity it was defined with.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "a.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "severity": 0
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+aliases:
+  I:
+    targets:
+      - formats: [oas2]
+        given: ["$.info"]
+rules:
+  swagger-version:
+    formats: [oas2]
+    given: $.swagger
+    then:
+      function: truthy
+  r:
+    given: "#I"
+    then:
+      field: title
+      function: truthy

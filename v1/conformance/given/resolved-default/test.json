@@ -1,0 +1,11 @@
+{
+  "for": [
+    "/req/given/resolved"
+  ],
+  "purpose": "By default `given` sees the resolved document, where the `$ref` has been replaced by a schema with `type`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": []
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/req/then/function-options-valid"
+  ],
+  "purpose": "`truthy` with options is invalid, because it takes none.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "invalid"
+  }
+}

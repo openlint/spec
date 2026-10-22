@@ -1,0 +1,11 @@
+rules:
+  is-oas3:
+    formats: [oas3]
+    given: $
+    then:
+      function: falsy
+  is-oas3_0:
+    formats: [oas3_0]
+    given: $
+    then:
+      function: falsy

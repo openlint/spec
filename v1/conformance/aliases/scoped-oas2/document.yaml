@@ -1,0 +1,9 @@
+swagger: "2.0"
+info:
+  title: Petstore
+  version: 1.0.0
+paths: {}
+parameters:
+  limit:
+    name: ""
+    in: query

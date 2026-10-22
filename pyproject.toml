@@ -1,0 +1,7 @@
+[tool.ruff]
+line-length = 140
+target-version = "py310"
+
+[tool.ruff.lint]
+# E402: the tools import build.py after adjusting sys.path.
+ignore = ["E402"]

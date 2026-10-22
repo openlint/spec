@@ -1,0 +1,11 @@
+{
+  "for": [
+    "/req/ruleset/schema",
+    "/per/extension-properties/anywhere"
+  ],
+  "purpose": "An extension property inside `parserOptions` is invalid: the permission covers the root and rules only, and `parserOptions` admits no other properties.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "invalid"
+  }
+}

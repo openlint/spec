@@ -1,0 +1,19 @@
+{
+  "for": [
+    "/req/custom-functions/javascript-promise"
+  ],
+  "purpose": "A function that returns a promise is awaited, and the problems it resolves to are reported.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "functions/later.js"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "message": "from a promise"
+      }
+    ]
+  }
+}

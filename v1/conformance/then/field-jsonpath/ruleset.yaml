@@ -1,0 +1,6 @@
+rules:
+  r:
+    given: $
+    then:
+      field: "$.items[*].name"
+      function: truthy

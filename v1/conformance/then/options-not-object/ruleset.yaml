@@ -1,0 +1,6 @@
+rules:
+  r:
+    given: $
+    then:
+      function: pattern
+      functionOptions: "^a"

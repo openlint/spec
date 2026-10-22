@@ -1,0 +1,17 @@
+{
+  "for": [
+    "/req/overrides/reject-unknown-shorthand",
+    "/req/overrides/checked-when-applied"
+  ],
+  "purpose": "A shorthand for an unknown rule in an override that applies to no document being linted does not stop the ruleset from loading.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "severity": 1
+      }
+    ]
+  }
+}

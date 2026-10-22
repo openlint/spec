@@ -1,0 +1,9 @@
+x-owner: platform-team
+rules:
+  acme-operation-summary:
+    x-jira: GOV-142
+    description: Every operation needs a summary.
+    given: $.paths[*]['get','put','post','delete','options','head','patch','trace']
+    then:
+      field: summary
+      function: truthy

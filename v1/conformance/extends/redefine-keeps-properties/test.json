@@ -1,0 +1,21 @@
+{
+  "for": [
+    "/req/rules/redefinition-merge",
+    "/req/severity/default"
+  ],
+  "purpose": "A redefinition that sets only `given` and `then` keeps the inherited rule's `severity` and `message`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "base.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "severity": 0,
+        "message": "base message"
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+rules:
+  r:
+    given: "#Missing"
+    then:
+      function: truthy

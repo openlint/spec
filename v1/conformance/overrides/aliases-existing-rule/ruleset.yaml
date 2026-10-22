@@ -1,0 +1,15 @@
+aliases:
+  Info:
+    - $..info
+rules:
+  info-description:
+    given: "#Info.description"
+    then:
+      function: truthy
+overrides:
+  - files: ["**/*.yaml"]
+    aliases:
+      Info:
+        - $.nothing
+    rules:
+      info-description: error

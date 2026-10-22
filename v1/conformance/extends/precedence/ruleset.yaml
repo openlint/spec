@@ -1,0 +1,10 @@
+extends:
+  - ./a.yaml
+  - ./b.yaml
+rules:
+  r:
+    description: from C
+    message: "{{description}}"
+    given: $
+    then:
+      function: falsy

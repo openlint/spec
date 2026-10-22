@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/severity/off"
+  ],
+  "purpose": "The same rule at `warn` produces the results that `off` suppresses.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "acme-operation-summary"
+      },
+      {
+        "code": "acme-operation-summary"
+      }
+    ]
+  }
+}

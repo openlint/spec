@@ -1,0 +1,18 @@
+rules:
+  acme-operation-summary:
+    description: Every operation needs a summary.
+    message: "{{description}}"
+    severity: error
+    formats: [oas3]
+    documentationUrl: https://engineering.acme.com/api/governance#summary
+    recommended: true
+    resolved: true
+    tags: [style, docs]
+    type: style
+    extensions:
+      owner: platform-team
+    x-jira: GOV-142
+    given: $.paths[*]['get','put','post','delete','options','head','patch','trace']
+    then:
+      field: summary
+      function: truthy

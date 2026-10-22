@@ -1,0 +1,19 @@
+{
+  "for": [
+    "/req/given/alias-expansion"
+  ],
+  "purpose": "`#Info.description` is evaluated as `$..info.description`.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "info-description",
+        "path": [
+          "info",
+          "description"
+        ]
+      }
+    ]
+  }
+}

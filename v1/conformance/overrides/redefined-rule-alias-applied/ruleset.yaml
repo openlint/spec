@@ -1,0 +1,16 @@
+rules:
+  r:
+    given: $.info
+    then:
+      field: title
+      function: truthy
+overrides:
+  - files: ["**/*.yaml"]
+    aliases:
+      B:
+        - $.info
+    rules:
+      r:
+        given: "#B"
+        then:
+          function: truthy

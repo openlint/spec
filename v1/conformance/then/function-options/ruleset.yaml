@@ -1,0 +1,7 @@
+rules:
+  short-title:
+    given: $.info.title
+    then:
+      function: length
+      functionOptions:
+        max: 3

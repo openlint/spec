@@ -1,0 +1,11 @@
+{
+  "for": [
+    "/req/overrides/reject-foreign-property"
+  ],
+  "purpose": "An override with a property the Ruleset Object does not have makes a linter reject the ruleset for a document it applies to.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "rejected": true
+  }
+}

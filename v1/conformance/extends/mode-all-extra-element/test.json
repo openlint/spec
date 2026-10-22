@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/extends/mode-all"
+  ],
+  "purpose": "With `[./base.yaml, all, extra]`, the mode `all` applies and the extra element is ignored.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "base.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "base-rule"
+      }
+    ]
+  }
+}

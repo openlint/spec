@@ -1,0 +1,7 @@
+rules:
+  r:
+    severity: error
+    message: base message
+    given: $.nothing
+    then:
+      function: truthy

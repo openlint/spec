@@ -1,0 +1,23 @@
+{
+  "for": [
+    "/req/formats/unrecognized-document",
+    "/req/formats/ruleset-default"
+  ],
+  "purpose": "A document with none of the ruleset's formats gets the warning, the ruleset's own rule does not run, and an unscoped rule from an extended ruleset does.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "base.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "unrecognized-format",
+        "severity": 1
+      },
+      {
+        "code": "s"
+      }
+    ]
+  }
+}

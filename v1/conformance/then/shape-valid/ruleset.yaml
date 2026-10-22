@@ -1,0 +1,11 @@
+rules:
+  one:
+    given: $.info
+    then:
+      function: truthy
+  many:
+    given: $.info
+    then:
+      - function: truthy
+      - field: title
+        function: truthy

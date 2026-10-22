@@ -1,0 +1,26 @@
+{
+  "for": [
+    "/req/given/evaluate"
+  ],
+  "purpose": "Two path expressions in `given` each produce their results.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "info-filled",
+        "path": [
+          "info",
+          "title"
+        ]
+      },
+      {
+        "code": "info-filled",
+        "path": [
+          "info",
+          "description"
+        ]
+      }
+    ]
+  }
+}

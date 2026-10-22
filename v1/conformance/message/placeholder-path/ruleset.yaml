@@ -1,0 +1,6 @@
+rules:
+  r:
+    message: "{{path}}"
+    given: $.info.title
+    then:
+      function: falsy

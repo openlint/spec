@@ -1,0 +1,22 @@
+{
+  "for": [
+    "/req/overrides/extends"
+  ],
+  "purpose": "An applying override with `extends` and no `rules` replaces the rulesets the ruleset extends: `b` and the ruleset's own `r` run, `a` does not.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "files": [
+    "a.yaml",
+    "b.yaml"
+  ],
+  "expect": {
+    "results": [
+      {
+        "code": "b"
+      },
+      {
+        "code": "r"
+      }
+    ]
+  }
+}

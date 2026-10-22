@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/then/field"
+  ],
+  "purpose": "With `field` naming a property the node lacks, the function sees no value, so `defined` fails.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "info-description",
+        "path": [
+          "info"
+        ]
+      }
+    ]
+  }
+}

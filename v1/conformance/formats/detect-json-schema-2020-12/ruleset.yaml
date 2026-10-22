@@ -1,0 +1,11 @@
+rules:
+  is-jsonSchemaDraft2020_12:
+    formats: [jsonSchemaDraft2020_12]
+    given: $
+    then:
+      function: falsy
+  is-jsonSchemaDraft7:
+    formats: [jsonSchemaDraft7]
+    given: $
+    then:
+      function: falsy

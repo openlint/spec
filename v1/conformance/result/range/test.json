@@ -1,0 +1,21 @@
+{
+  "for": [
+    "/req/result/range"
+  ],
+  "purpose": "A result about the root value starts at line 0, character 0.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "root-falsy",
+        "range": {
+          "start": {
+            "line": 0,
+            "character": 0
+          }
+        }
+      }
+    ]
+  }
+}
