@@ -213,7 +213,7 @@ The tests follow these rules:
 - An invalid fixture violates one requirement only, so that its rejection proves that requirement and not another.
 - A recommendation has no test, because ignoring it still conforms.
 
-Issue: Whether these tests become a published conformance suite, where its runner would live, and how a linter would publish its results against it, is not decided. See <a href="https://github.com/orgs/openlint/discussions/7">discussion #7</a> and <a href="https://github.com/orgs/openlint/discussions/29">discussion #29</a>.
+Issue: Whether these tests become a published conformance suite, where its runner would live, and how a linter would publish its results against it, is not decided. See <a href="https://github.com/orgs/openlint/discussions/7">discussion #7</a> and <a href="https://github.com/orgs/openlint/discussions/29">discussion #29</a>. Tracked in <a href="https://github.com/openlint/spec/issues/7">spec#7</a>.
 
 # Terminology # {#terminology}
 
@@ -296,7 +296,7 @@ The ruleset schema is written in JSON Schema 2020-12 and published with each ver
 The root value of a [=ruleset=] MUST be valid against the <a href="ruleset.schema.json">ruleset schema</a> of this version of this specification, as JSON Schema 2020-12 [[!JSON-SCHEMA-CORE-2020-12]] [[!JSON-SCHEMA-VALIDATION-2020-12]] defines validity.
 </div>
 
-Issue: `documentationUrl` takes only an absolute `http`, `https`, or `ftp` URL with a public host, which is how the `url` format of OpenLint's validator reads a URL. The schema spells that out as a pattern. It rejects `mailto:` and `urn:` URIs, `localhost`, single-label intranet hosts such as `http://wiki/docs`, private and loopback addresses, and punycode host names; see <a href="#/conf/ruleset/documentation-url-intranet">/conf/ruleset/documentation-url-intranet</a>. Accepting any absolute URI [[RFC3986]] would let a ruleset link to internal documentation.
+Issue: `documentationUrl` takes only an absolute `http`, `https`, or `ftp` URL with a public host, which is how the `url` format of OpenLint's validator reads a URL. The schema spells that out as a pattern. It rejects `mailto:` and `urn:` URIs, `localhost`, single-label intranet hosts such as `http://wiki/docs`, private and loopback addresses, and punycode host names; see <a href="#/conf/ruleset/documentation-url-intranet">/conf/ruleset/documentation-url-intranet</a>. Accepting any absolute URI [[RFC3986]] would let a ruleset link to internal documentation. Tracked in <a href="https://github.com/openlint/spec/issues/8">spec#8</a>.
 
 ## The Ruleset Object ## {#ruleset-object}
 
@@ -325,7 +325,7 @@ rules:
 
 `extends` inherits from one or more other rulesets. Its value is a string that identifies a ruleset, or an array. Each element of the array is such a string, or an array of the string and a mode. Elements after the mode are ignored.
 
-Issue: Elements after the mode are accepted and ignored, so `[./base.yaml, all, extra]` reads as `[./base.yaml, all]`. OpenLint accepts them although its own validation schema forbids them for this array. Rejecting them would catch a misplaced bracket.
+Issue: Elements after the mode are accepted and ignored, so `[./base.yaml, all, extra]` reads as `[./base.yaml, all]`. OpenLint accepts them although its own validation schema forbids them for this array. Rejecting them would catch a misplaced bracket. Tracked in <a href="https://github.com/openlint/spec/issues/8">spec#8</a>.
 
 The string identifies a ruleset as a built-in identifier (`spectral:oas`, `spectral:asyncapi`, `spectral:arazzo`), a file path, an npm module specifier, or a URL. The [=mode=] decides which of the inherited rules start out [=enabled=]:
 
@@ -371,7 +371,7 @@ A shorthand in the `rules` of a file-scoped [=override=] names a rule the rulese
 
 Note: Severities are not written the same way everywhere. A rule's `severity` takes a name or a number. A shorthand, in the root `rules` or in a file-scoped override, takes a name or a boolean but not a number. The `rules` of a pointer-scoped override take a name or a number but not a boolean.
 
-Issue: A numeric shorthand such as `r: 0` is rejected only by OpenLint's validation schema. Its type definitions and its merge code accept a number and would apply it as the severity. Accepting numbers in shorthands would remove the difference with `severity` without making any ruleset invalid.
+Issue: A numeric shorthand such as `r: 0` is rejected only by OpenLint's validation schema. Its type definitions and its merge code accept a number and would apply it as the severity. Accepting numbers in shorthands would remove the difference with `severity` without making any ruleset invalid. Tracked in <a href="https://github.com/openlint/spec/issues/8">spec#8</a>.
 
 <div class=example>
 ```yaml
@@ -440,7 +440,7 @@ Overrides apply adjustments to a subset of the documents being linted, matched b
 
 `files` entries are glob patterns, matched as minimatch 3.1.5 [[!MINIMATCH]] matches them, against the path of the document relative to the directory of the ruleset file, with `/` as the separator. minimatch has no specification of its own, so the glob dialect is what that version accepts.
 
-Issue: A glob dialect with a specification of its own, or a written subset of minimatch's, would let a linter in another language match `files` without reproducing minimatch.
+Issue: A glob dialect with a specification of its own, or a written subset of minimatch's, would let a linter in another language match `files` without reproducing minimatch. Tracked in <a href="https://github.com/openlint/spec/issues/10">spec#10</a>.
 
 There are two forms, distinguished by whether every glob in `files` carries a JSON Pointer [[!RFC6901]] fragment. An override that mixes the two kinds of glob is file-scoped.
 
@@ -543,7 +543,7 @@ given:
 
 <div class=schema-table data-def="FunctionInvocation"></div>
 
-Issue: `then: []` is accepted, and the rule then asserts nothing and never reports a result. Rejecting an empty array would catch a rule left unfinished.
+Issue: `then: []` is accepted, and the rule then asserts nothing and never reports a result. Rejecting an empty array would catch a rule left unfinished. Tracked in <a href="https://github.com/openlint/spec/issues/8">spec#8</a>.
 
 <div class=req id="/req/then/function-known" data-class=ruleset-core>
 `function` MUST name a [[#core-functions|core function]] or a [=custom function=] declared in `functions`.
@@ -553,7 +553,7 @@ Issue: `then: []` is accepted, and the rule then asserts nothing and never repor
 When `function` names a core function, `functionOptions` MUST satisfy that function's options in [[#core-functions]]: only the options its table lists, with the types listed, every required option present, and no `functionOptions` at all for a function that takes no options.
 </div>
 
-Issue: An unknown property inside an invocation, such as `functionOption` without the s, is ignored. When the function has no required option it runs with its defaults; when it has one, the ruleset is rejected for the missing `functionOptions` with a message that does not point at the misspelling. Rejecting the unknown property would catch the misspelling in both cases.
+Issue: An unknown property inside an invocation, such as `functionOption` without the s, is ignored. When the function has no required option it runs with its defaults; when it has one, the ruleset is rejected for the missing `functionOptions` with a message that does not point at the misspelling. Rejecting the unknown property would catch the misspelling in both cases. Tracked in <a href="https://github.com/openlint/spec/issues/8">spec#8</a>.
 
 <div class=example>
 ```yaml
@@ -635,7 +635,7 @@ A [=linter=] MUST lint a [=document=] whose root value is not an object, and `$`
 A [=linter=] MUST read a [=document=] and a [=ruleset=] as UTF-8.
 </div>
 
-Issue: A UTF-8 byte order mark is accepted, but OpenLint then reports `range` columns on every line after the first one too far to the left. A UTF-16 document is not rejected; it parses as garbage and produces `parser` results. Ignoring a byte order mark and rejecting other encodings would make both deterministic.
+Issue: A UTF-8 byte order mark is accepted, but OpenLint then reports `range` columns on every line after the first one too far to the left. A UTF-16 document is not rejected; it parses as garbage and produces `parser` results. Ignoring a byte order mark and rejecting other encodings would make both deterministic. Tracked in <a href="https://github.com/openlint/spec/issues/11">spec#11</a>.
 
 ## Parsing ## {#parsing}
 
@@ -649,7 +649,7 @@ When a [=document=] has a syntax error, a [=linter=] MUST produce a [=result=] w
 When a YAML [=document=] contains several documents, a [=linter=] MUST produce a [=result=] with the code `parser` and the severity `error`, and MUST lint the first document.
 </div>
 
-Issue: Whether rules run against the part of a document before a syntax error is not stated. OpenLint runs them against whatever tree its parser recovers, which for an unterminated flow collection can be nothing.
+Issue: Whether rules run against the part of a document before a syntax error is not stated. OpenLint runs them against whatever tree its parser recovers, which for an unterminated flow collection can be nothing. Tracked in <a href="https://github.com/openlint/spec/issues/11">spec#11</a>.
 
 <div class=req id="/req/parser-options/duplicate-keys" data-class=linter-core>
 When a [=document=] has a duplicate key, a [=linter=] MUST produce a [=result=] with the code `parser` and the severity of `duplicateKeys`, `error` when it is not set, and MUST NOT produce one when it is `off`.
@@ -659,7 +659,7 @@ When a [=document=] has a duplicate key, a [=linter=] MUST produce a [=result=] 
 When a YAML [=document=] has a mapping key that is not a string scalar, such as `1`, `true`, or `null`, a [=linter=] MUST produce a [=result=] with the code `parser` and the severity of `incompatibleValues`, `error` when it is not set, and MUST NOT produce one when it is `off`.
 </div>
 
-Issue: Non-string scalar keys are the one construct OpenLint reports under `incompatibleValues`. A mapping key that is itself a sequence or a mapping is reported as a warning by the YAML parser, with no option controlling it, and a `!!binary` or `!!set` tag ends the run with an error before any result. Whether those constructs belong under `incompatibleValues`, and whether a tag the linter cannot represent is a parser result, is open.
+Issue: Non-string scalar keys are the one construct OpenLint reports under `incompatibleValues`. A mapping key that is itself a sequence or a mapping is reported as a warning by the YAML parser, with no option controlling it, and a `!!binary` or `!!set` tag ends the run with an error before any result. Whether those constructs belong under `incompatibleValues`, and whether a tag the linter cannot represent is a parser result, is open. Tracked in <a href="https://github.com/openlint/spec/issues/11">spec#11</a>.
 
 ## Reference resolution ## {#resolution}
 
@@ -683,7 +683,7 @@ A [=linter=] MUST resolve a [=document=] whose references form a cycle without f
 When a `$ref` cannot be resolved, a [=linter=] MUST produce a [=result=] with the code `invalid-ref` and the severity `error`, and MUST leave the reference object in place for the rules.
 </div>
 
-Issue: What a rule sees at the position of a reference in a cycle, and whether resolution follows `$ref` in every position or only where the document's format expects one, is not stated.
+Issue: What a rule sees at the position of a reference in a cycle, and whether resolution follows `$ref` in every position or only where the document's format expects one, is not stated. Tracked in <a href="https://github.com/openlint/spec/issues/11">spec#11</a>.
 
 ## Formats ## {#formats}
 
@@ -814,7 +814,7 @@ A [=linter=] MUST reject a [=ruleset=] whose `extends` identifies a ruleset it c
 
 Issue: How a linter resolves file paths, npm module specifiers, and URLs, and what each is relative to, is implementation-defined and has to be specified. So is whether every conforming linter has to recognize the built-in identifiers, which name rulesets shipped with OpenLint; <a href="https://github.com/orgs/openlint/discussions/6">discussion #6</a> uses `openlint:openapi` as the name of a new core OpenAPI ruleset. Resolving an npm module specifier also ties `linter-core` to the JavaScript package ecosystem, so it could move to a class of its own, as custom functions have.
 
-Issue: In OpenLint, a cycle through `extends` between ruleset files is neither detected nor reported: the loader follows it until the process runs out of memory, so the ruleset never loads. Its core skips a definition it is already loading, but only for definitions held in memory. A conforming linter has to reject cycles, or the ruleset has to be invalid; which is open.
+Issue: In OpenLint, a cycle through `extends` between ruleset files is neither detected nor reported: the loader follows it until the process runs out of memory, so the ruleset never loads. Its core skips a definition it is already loading, but only for definitions held in memory. A conforming linter has to reject cycles, or the ruleset has to be invalid; which is open. Tracked in <a href="https://github.com/openlint/spec/issues/15">spec#15</a>.
 
 <div class=req id="/req/extension-properties/ignored" data-class=linter-core>
 A [=linter=] MUST NOT let an [=extension property=] change which [=results=] it produces.
@@ -836,7 +836,7 @@ When several [=overrides=] match a [=document=], a [=linter=] MUST apply them in
 For a [=document=] a file-scoped [=override=] applies to, a [=linter=] MUST load the rulesets the override's `extends` identifies and make their rules available in addition to those of the rulesets the ruleset extends, or, when the override has no `rules`, in place of them.
 </div>
 
-Issue: An override with `extends` and no `rules` drops, for the documents it matches, every rule the ruleset inherits through its own `extends`, while its own `rules` stay. With `rules`, it adds to them. Adding in both cases would make the two forms consistent.
+Issue: An override with `extends` and no `rules` drops, for the documents it matches, every rule the ruleset inherits through its own `extends`, while its own `rules` stay. With `rules`, it adds to them. Adding in both cases would make the two forms consistent. Tracked in <a href="https://github.com/openlint/spec/issues/9">spec#9</a>.
 
 <div class=req id="/req/overrides/aliases" data-class=linter-core>
 For a [=document=] a file-scoped [=override=] applies to, a [=linter=] MUST resolve the [=alias references=] of each rule the override defines and the ruleset does not against the override's `aliases` and the ruleset's, the override's alias taking precedence for a name both declare, and MUST resolve the alias references of every other rule as if the override declared no aliases.
@@ -860,7 +860,7 @@ For a [=document=] a [=file-scoped override=] applies to, a [=linter=] MUST reje
 A [=linter=] MUST NOT reject a [=ruleset=] for the reasons in the three requirements above when the override applies to no [=document=] being linted.
 </div>
 
-Issue: These three checks run only when the override applies to a document, as they do in OpenLint. Whether a Rule Object in an override's `rules` merges with the rule it redefines, as <a href="#/req/rules/redefinition-merge">/req/rules/redefinition-merge</a> says for `extends`, or replaces it, is not tested. A ruleset with such an error loads without error until the first document the override matches. Everything else in an override is checked when the ruleset loads. Checking these three at load time too would report the error before any document matches.
+Issue: These three checks run only when the override applies to a document, as they do in OpenLint. Whether a Rule Object in an override's `rules` merges with the rule it redefines, as <a href="#/req/rules/redefinition-merge">/req/rules/redefinition-merge</a> says for `extends`, or replaces it, is not tested. A ruleset with such an error loads without error until the first document the override matches. Everything else in an override is checked when the ruleset loads. Checking these three at load time too would report the error before any document matches. Tracked in <a href="https://github.com/openlint/spec/issues/9">spec#9</a>.
 
 <div class=req id="/req/overrides/pointer-scope" data-class=linter-core>
 For a pointer-scoped [=override=], a [=linter=] MUST apply the severities only to [=results=] whose path is at or below the location the pointer names.
@@ -915,7 +915,7 @@ A [=linter=] MUST apply definitions and adjustments of a [=rule=] in this order:
 When a Rule Object redefines a [=rule=] defined earlier in that order, a [=linter=] MUST replace each property the Rule Object has and MUST keep every property it does not have.
 </div>
 
-Issue: A redefinition keeps every property it does not set, so the base's `message` or `severity` survives a redefinition that changes `given` and `then`, and can stop matching what the rule now checks. Replacing the whole rule would make a redefinition independent of the rule it replaces.
+Issue: A redefinition keeps every property it does not set, so the base's `message` or `severity` survives a redefinition that changes `given` and `then`, and can stop matching what the rule now checks. Replacing the whole rule would make a redefinition independent of the rule it replaces. Tracked in <a href="https://github.com/openlint/spec/issues/9">spec#9</a>.
 
 <div class=req id="/req/shorthands/severity" data-class=linter-core>
 For a shorthand that is a severity name, a [=linter=] MUST set the rule's [=effective severity=] to it and MUST [=enable=] the rule, or not enable it when the name is `off`.
@@ -1107,7 +1107,7 @@ When a [=rule=] ran against the [=resolved document=] and the value a [=result=]
 When the [=rule=] that produced a [=result=] has a `documentationUrl`, a [=linter=] SHOULD carry it in the result's `documentationUrl`, and when the rule has none but the [=ruleset=] that defines it has one, that URL followed by `#` and the [=rule name=].
 </div>
 
-Issue: Indices in `path` are strings, `["names", "1"]`, as OpenLint reports them. Numbers would tell an index apart from a key that happens to be numeric.
+Issue: Indices in `path` are strings, `["names", "1"]`, as OpenLint reports them. Numbers would tell an index apart from a key that happens to be numeric. Tracked in <a href="https://github.com/openlint/spec/issues/14">spec#14</a>.
 
 ### The message ### {#message}
 
@@ -1132,7 +1132,7 @@ When a [=rule=] has `message`, the `message` of every [=result=] it produces MUS
 A [=linter=] MUST substitute `{{error}}` with the message the [=function=] produced, `{{description}}` with the rule's `description`, `{{path}}` with the path to the offending value as a JSON Pointer [[!RFC6901]] with a leading `#`, `{{property}}` with the last key or index of that path, and `{{value}}` with the offending value.
 </div>
 
-Issue: `{{value}}` substitutes a string as it is and an object as `[object Object]`, which no ruleset wants. A JSON serialization of the value would be useful, and is a change in output.
+Issue: `{{value}}` substitutes a string as it is and an object as `[object Object]`, which no ruleset wants. A JSON serialization of the value would be useful, and is a change in output. Tracked in <a href="https://github.com/openlint/spec/issues/14">spec#14</a>.
 
 <div class=req id="/req/message/default" data-class=linter-core>
 When a [=rule=] has no `message`, the `message` of every [=result=] it produces MUST be the rule's `description`, or the message the [=function=] produced when the rule has no `description`.
@@ -1303,7 +1303,7 @@ A regular expression is written bare, `^[a-z-]+$`, or between slashes with flags
 `pattern` MUST fail when the option `match` is given and the value does not match it, or when the option `notMatch` is given and the value matches it. Both options are regular expressions as defined by ECMAScript [[!ECMA-262-2025]].
 </div>
 
-Issue: `pattern` takes the regular expressions and flags of ECMAScript, so a linter written in another language has to reproduce ECMAScript's semantics. I-Regexp [[RFC9485]] is a dialect meant to behave the same in every language, but it has no lookaround or backreferences, so rulesets that use them would break. Which dialect a later version adopts is open.
+Issue: `pattern` takes the regular expressions and flags of ECMAScript, so a linter written in another language has to reproduce ECMAScript's semantics. I-Regexp [[RFC9485]] is a dialect meant to behave the same in every language, but it has no lookaround or backreferences, so rulesets that use them would break. Which dialect a later version adopts is open. Tracked in <a href="https://github.com/openlint/spec/issues/12">spec#12</a>.
 
 <div class=example>
 ```yaml
@@ -1329,7 +1329,7 @@ It applies to non-empty strings.
 `casing` MUST fail when the value is a non-empty string that is not written in the case named by the option `type`: one of `flat`, `camel`, `pascal`, `kebab`, `cobol`, `snake`, and `macro`, where only ASCII letters and digits count as written in a case.
 </div>
 
-Issue: The exact character classes of each case have to be stated before this requirement is complete.
+Issue: The exact character classes of each case have to be stated before this requirement is complete. Tracked in <a href="https://github.com/openlint/spec/issues/13">spec#13</a>.
 
 <div class=example>
 ```yaml
@@ -1377,7 +1377,7 @@ It applies to arrays and objects.
 `alphabetical` MUST fail when the elements of an array, or the keys of an object, are not in ascending order, where numbers are compared by value, strings as `localeCompare` of ECMAScript [[!ECMA-402]] compares them with no locale given, and two values of different types count as in order. With the option `keyedBy`, the elements of an array of objects are compared by that property.
 </div>
 
-Issue: `localeCompare` without a locale uses the locale of the environment, so the order of strings such as `ä` and `z` can differ between machines. A fixed collation, such as code point order, would make the function portable at the cost of changing the order of mixed-case names.
+Issue: `localeCompare` without a locale uses the locale of the environment, so the order of strings such as `ä` and `z` can differ between machines. A fixed collation, such as code point order, would make the function portable at the cost of changing the order of mixed-case names. Tracked in <a href="https://github.com/openlint/spec/issues/13">spec#13</a>.
 
 <div class=example>
 ```yaml
@@ -1546,7 +1546,7 @@ A [=linter=] MUST report a [=problem=] that carries a `path` at that path in the
 A [=linter=] MUST treat a [=custom function=] that returns nothing as returning no [=problems=].
 </div>
 
-Issue: A function that throws, or returns something that is not a list of problems, ends the run with no results and an error. Reporting it as a result for the rule, with the error as its message, would keep the results of the other rules. See <a href="https://github.com/orgs/openlint/discussions/28">discussion #28</a>.
+Issue: A function that throws, or returns something that is not a list of problems, ends the run with no results and an error. Reporting it as a result for the rule, with the error as its message, would keep the results of the other rules. See <a href="https://github.com/orgs/openlint/discussions/28">discussion #28</a>. Tracked in <a href="https://github.com/openlint/spec/issues/14">spec#14</a>.
 
 Note: The contract is tested through the JavaScript binding, the only binding this version defines, so the fixtures of its tests are JavaScript functions.
 
