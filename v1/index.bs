@@ -213,7 +213,7 @@ The tests follow these rules:
 - An invalid fixture violates one requirement only, so that its rejection proves that requirement and not another.
 - A recommendation has no test, because ignoring it still conforms.
 
-Issue: Whether these tests become a published conformance suite, where its runner would live, and how a linter would publish its results against it, is not decided.
+Issue: Whether these tests become a published conformance suite, where its runner would live, and how a linter would publish its results against it, is not decided. See <a href="https://github.com/orgs/openlint/discussions/7">discussion #7</a> and <a href="https://github.com/orgs/openlint/discussions/29">discussion #29</a>.
 
 # Terminology # {#terminology}
 
@@ -503,7 +503,7 @@ rules:
 A [=ruleset=] SHOULD use the core functions where they express the assertion, and name a [=custom function=] only for an assertion they cannot express.
 </div>
 
-Issue: OpenLint runs [=custom function|custom functions=] without isolation. Whether a conforming linter has to sandbox them, or refuse functions that come from a remote ruleset, is open.
+Issue: OpenLint runs [=custom function|custom functions=] without isolation. Whether a conforming linter has to sandbox them, or refuse functions that come from a remote ruleset, is open. See <a href="https://github.com/orgs/openlint/discussions/28">discussion #28</a>.
 
 ## The Rule Object ## {#rule-object}
 
@@ -525,7 +525,7 @@ The value of `given` is a [=path expression=] or a non-empty array of them. A pa
 An [=alias reference=] in a [=rule=] MUST name an [=alias=] declared under `aliases` in the [=ruleset=] whose `rules` contain the rule or, for a rule in a file-scoped [=override=], in that override or that ruleset. When the rule redefines a rule inherited through `extends`, the ruleset that defines the inherited rule MUST declare that alias too.
 </div>
 
-Issue: A redefined rule keeps resolving its alias references against the ruleset that first defined it, so redefining an inherited rule with an alias reference works only when both rulesets declare the alias, and then uses the inherited ruleset's. Resolving against the redefining ruleset's aliases would let an extending ruleset retarget a rule with aliases of its own.
+Issue: A redefined rule keeps resolving its alias references against the ruleset that first defined it, so redefining an inherited rule with an alias reference works only when both rulesets declare the alias, and then uses the inherited ruleset's. Resolving against the redefining ruleset's aliases would let an extending ruleset retarget a rule with aliases of its own. See <a href="https://github.com/orgs/openlint/discussions/2">discussion #2</a>.
 
 A bare property name such as `paths` is not a path expression. It begins with neither `$` nor `#`, so the ruleset schema rejects it, and so does a conforming linter.
 
@@ -695,7 +695,7 @@ path: formats-table.include
 
 Any other identifier, such as the typo `oas31`, makes the ruleset invalid, wherever `formats` appears. How a rule names formats is defined in [[#rule-formats]]; how a linter detects them and which rules run is defined in [[#document-selection]].
 
-Issue: The set of identifiers is closed, because OpenLint rejects an identifier it does not register. The previous document and schema accepted any string, so that formats added later, or registered by a host application, would stay valid. Which of the two this specification wants is open.
+Issue: The set of identifiers is closed, because OpenLint rejects an identifier it does not register. The previous document and schema accepted any string, so that formats added later, or registered by a host application, would stay valid. Which of the two this specification wants is open. See <a href="https://github.com/orgs/openlint/discussions/5">discussion #5</a>.
 
 # Linting # {#linting}
 
@@ -842,7 +842,7 @@ Issue: An override with `extends` and no `rules` drops, for the documents it mat
 For a [=document=] a file-scoped [=override=] applies to, a [=linter=] MUST resolve the [=alias references=] of each rule the override defines and the ruleset does not against the override's `aliases` and the ruleset's, the override's alias taking precedence for a name both declare, and MUST resolve the alias references of every other rule as if the override declared no aliases.
 </div>
 
-Issue: An alias declared in an override does not reach the rules the ruleset defines, so overriding an alias by name changes nothing for them. The previous document said an override's aliases merge by name with the ruleset's. Applying them to every rule, for the documents the override matches, would make that true.
+Issue: An alias declared in an override does not reach the rules the ruleset defines, so overriding an alias by name changes nothing for them. The previous document said an override's aliases merge by name with the ruleset's. Applying them to every rule, for the documents the override matches, would make that true. See <a href="https://github.com/orgs/openlint/discussions/2">discussion #2</a>.
 
 <div class=req id="/req/overrides/reject-foreign-property" data-class=linter-core>
 For a [=document=] a [=file-scoped override=] applies to, a [=linter=] MUST reject the [=ruleset=] when the override has a property the Ruleset Object does not have.
@@ -949,7 +949,7 @@ A [=linter=] MUST detect a [=format=] for a [=document=] when the document's roo
 A [=linter=] MUST detect a [=document=]'s formats only among the identifiers named in the `formats` of the [=ruleset=], of its [=rules=], and of the rulesets it extends and their rules. An identifier named only by a target of a scoped [=alias=] is never detected.
 </div>
 
-Issue: Because detection is limited to the identifiers a ruleset names, a scoped alias whose target names a format no rule names never uses that target, even for a document of that format. Detecting every identifier in the table would make scoped aliases independent of the rules that use them.
+Issue: Because detection is limited to the identifiers a ruleset names, a scoped alias whose target names a format no rule names never uses that target, even for a document of that format. Detecting every identifier in the table would make scoped aliases independent of the rules that use them. See <a href="https://github.com/orgs/openlint/discussions/2">discussion #2</a> and <a href="https://github.com/orgs/openlint/discussions/5">discussion #5</a>.
 
 Issue: The conditions in the table are the ones OpenLint applies. They read the string form of a version value, so `openapi: 3.0` written as a YAML number is OpenAPI 3 but not 3.0, and they accept `openapi: 3abc`. Conditions on the typed value would be stricter. Which document types the format supports is discussed in <a href="https://github.com/orgs/openlint/discussions/5">discussion #5</a>.
 
@@ -997,7 +997,7 @@ A [=linter=] MUST evaluate `given` against the [=resolved document=], unless the
 A [=linter=] MUST evaluate a JSONPath expression as JSONPath-Plus 10.4.0 [[!JSONPATH-PLUS]] evaluates it, including its filter expressions in parentheses, such as `$..parameters[?(@.in === "header")]`.
 </div>
 
-Issue: JSONPath-Plus has no specification of its own, and its filter expressions are JavaScript. OpenLint evaluates most expressions with Nimma and falls back to JSONPath-Plus for the rest; a filter in the syntax of JSONPath [[RFC9535]], `?@.in == 'header'`, matches nothing in it. Making RFC 9535 normative would give the dialect a specification, at the cost of the rulesets that use JavaScript filters.
+Issue: JSONPath-Plus has no specification of its own, and its filter expressions are JavaScript. OpenLint evaluates most expressions with Nimma and falls back to JSONPath-Plus for the rest; a filter in the syntax of JSONPath [[RFC9535]], `?@.in == 'header'`, matches nothing in it. Making RFC 9535 normative would give the dialect a specification, at the cost of the rulesets that use JavaScript filters. See <a href="https://github.com/orgs/openlint/discussions/28">discussion #28</a> and <a href="https://github.com/orgs/openlint/discussions/2">discussion #2</a>.
 
 <div class=req id="/req/given/once-per-node" data-class=linter-core>
 A [=linter=] MUST apply a rule's `then` to a node once, even when several of the rule's [=path expressions=] match it.
@@ -1021,7 +1021,7 @@ For a scoped [=alias=], a [=linter=] MUST use the `given` of the last target who
 
 Note: Aliases are resolved against the ruleset that defines the rule, not the ruleset that extends it. A rule inherited through `extends` keeps the aliases of the ruleset it came from.
 
-Issue: Only the last matching target counts, so a document with two formats, such as `oas3` and `oas3_1`, uses one target even when two match. Using every matching target, or the first, would read more naturally as a list.
+Issue: Only the last matching target counts, so a document with two formats, such as `oas3` and `oas3_1`, uses one target even when two match. Using every matching target, or the first, would read more naturally as a list. See <a href="https://github.com/orgs/openlint/discussions/5">discussion #5</a>.
 
 ## Applying functions ## {#applying-functions}
 
@@ -1524,9 +1524,9 @@ A ruleset declares the [=custom function|custom functions=] it uses as described
 
 Custom functions are specified in two parts. The contract, the class `/conf/linter-custom-functions`, says how a [=linter=] resolves a function a ruleset names, calls it, and reports what it returns, whatever language the function is written in. A binding says how a function is written and found in one language. This version defines one binding, for JavaScript, the class `/conf/linter-custom-functions-javascript`. A linter claims the contract together with a binding, and can decline both.
 
-Issue: A [=linter=] written in Go needs a Go binding, and this version defines none. <a href="https://quobix.com/vacuum/api/custom-functions/">vacuum</a>, a linter written in Go, loads custom functions as Go plugins from a directory named on its command line, registered under the name each function reports, and does not read `functions` or `functionsDir`. A Go binding would have to say where a linter finds a function, which symbol it loads, and the function's signature in types this specification owns. Go plugins also load only into a binary built with the same Go version and package versions, so a plugin built for one linter does not load into another.
+Issue: A [=linter=] written in Go needs a Go binding, and this version defines none. <a href="https://quobix.com/vacuum/api/custom-functions/">vacuum</a>, a linter written in Go, loads custom functions as Go plugins from a directory named on its command line, registered under the name each function reports, and does not read `functions` or `functionsDir`. A Go binding would have to say where a linter finds a function, which symbol it loads, and the function's signature in types this specification owns. Go plugins also load only into a binary built with the same Go version and package versions, so a plugin built for one linter does not load into another. See <a href="https://github.com/orgs/openlint/discussions/28">discussion #28</a>.
 
-Issue: A binding ties a function to one language, so a ruleset whose functions are written in that language runs only on linters that bind it. A binding to WebAssembly, or to a function that runs as a separate process, would let any linter run functions written in any language that targets it. Whether a later version defines such a binding is open.
+Issue: A binding ties a function to one language, so a ruleset whose functions are written in that language runs only on linters that bind it. A binding to WebAssembly, or to a function that runs as a separate process, would let any linter run functions written in any language that targets it. Whether a later version defines such a binding is open. See <a href="https://github.com/orgs/openlint/discussions/28">discussion #28</a>.
 
 ### The contract ### {#custom-functions-contract}
 
@@ -1546,7 +1546,7 @@ A [=linter=] MUST report a [=problem=] that carries a `path` at that path in the
 A [=linter=] MUST treat a [=custom function=] that returns nothing as returning no [=problems=].
 </div>
 
-Issue: A function that throws, or returns something that is not a list of problems, ends the run with no results and an error. Reporting it as a result for the rule, with the error as its message, would keep the results of the other rules.
+Issue: A function that throws, or returns something that is not a list of problems, ends the run with no results and an error. Reporting it as a result for the rule, with the error as its message, would keep the results of the other rules. See <a href="https://github.com/orgs/openlint/discussions/28">discussion #28</a>.
 
 Note: The contract is tested through the JavaScript binding, the only binding this version defines, so the fixtures of its tests are JavaScript functions.
 
@@ -1577,7 +1577,7 @@ module.exports = (value, options) => {
 ```
 </div>
 
-Issue: A function module in CommonJS and one in ES module syntax both load in OpenLint, and the function receives a third argument with the document, the rule, and the path. Neither is stated normatively.
+Issue: A function module in CommonJS and one in ES module syntax both load in OpenLint, and the function receives a third argument with the document, the rule, and the path. Neither is stated normatively. See <a href="https://github.com/orgs/openlint/discussions/28">discussion #28</a>.
 
 # Security and privacy considerations # {#security}
 
