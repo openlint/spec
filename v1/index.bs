@@ -85,7 +85,7 @@ Max ToC Depth: 3
   },
   "ecma-402": {
     "title": "ECMAScript 2025 Internationalization API Specification, 12th edition (ECMA-402)",
-    "href": "https://262.ecma-international.org/",
+    "href": "https://402.ecma-international.org/12.0/",
     "publisher": "Ecma International"
   },
   "jsonpath-plus": {
@@ -825,7 +825,7 @@ A [=linter=] MUST NOT let an [=extension property=] change which [=results=] it 
 An [=override=] changes the ruleset for the documents its `files` globs match, so a linter applies overrides per document, after loading and before working out the rule state. A [=file-scoped override=] can add rulesets, rules, aliases, and formats; a [=pointer-scoped override=] only changes severities at the locations its pointers name.
 
 <div class=req id="/req/overrides/scope" data-class=linter-core>
-A [=linter=] MUST apply an [=override=] to a [=document=] only when the document's path, relative to the directory of the ruleset file and with `/` as the separator, matches one of the override's `files` globs.
+A [=linter=] MUST apply an [=override=] to a [=document=] only when the document's path, relative to the directory of the ruleset file and with `/` as the separator, matches one of the override's `files` globs, as minimatch 3.1.5 [[!MINIMATCH]] matches them.
 </div>
 
 <div class=req id="/req/overrides/order" data-class=linter-core>
@@ -892,7 +892,7 @@ When neither a [=rule=] nor any definition it redefines has a `severity`, a [=li
 </div>
 
 <div class=req id="/req/rules/recommended" data-class=linter-core>
-A [=linter=] MUST [=enable=] every [=rule=] a [=ruleset=] defines in its own `rules` whose `recommended` is `true` or absent, and MUST NOT enable one whose `recommended` is `false` unless a [=shorthand=] in an extending ruleset enables it.
+A [=linter=] MUST [=enable=] every [=rule=] the [=ruleset=] being linted defines in its own `rules` whose `recommended` is `true` or absent, and MUST NOT enable one whose `recommended` is `false` unless a [=shorthand=] or an [=override=] enables it. Whether a rule inherited through `extends` is enabled depends on the [=mode=] it is inherited with (/req/extends/mode-recommended, /req/extends/mode-all, /req/extends/mode-off) and on the shorthands that adjust it.
 </div>
 
 <div class=req id="/req/extends/mode-recommended" data-class=linter-core>
@@ -905,6 +905,10 @@ When a [=ruleset=] is extended with the mode `all`, a [=linter=] MUST [=enable=]
 
 <div class=req id="/req/extends/mode-off" data-class=linter-core>
 When a [=ruleset=] is extended with the mode `off`, a [=linter=] MUST make every [=rule=] inherited from it available and MUST NOT [=enable=] any of them.
+</div>
+
+<div class=req id="/req/extends/extra-elements" data-class=linter-core>
+A [=linter=] MUST ignore the elements of an `extends` array element after its [=mode=].
 </div>
 
 <div class=req id="/req/extends/order" data-class=linter-core>
@@ -1088,7 +1092,7 @@ The `severity` of a [=result=] MUST be the numeric form of the rule's [=effectiv
 </div>
 
 <div class=req id="/req/result/range" data-class=linter-core>
-The `range` of a [=result=] MUST locate the value the result is about in the source text of the [=document=]: `start` at its first character and `end` just after its last, each with a zero-based `line` and a zero-based `character` counted in UTF-16 code units.
+The `range` of a [=result=] MUST locate the value the result is about in the source text of the [=document=]: `start` at its first character, or for a block mapping or block sequence that is the value of a key, just after the `:` that follows the key, and `end` just after its last character, each with a zero-based `line` and a zero-based `character` counted in UTF-16 code units.
 </div>
 
 <div class=req id="/req/result/source" data-class=linter-core>
@@ -1300,7 +1304,7 @@ It applies to strings.
 A regular expression is written bare, `^[a-z-]+$`, or between slashes with flags, `/^[a-z-]+$/i`, with the flags of ECMAScript.
 
 <div class=req id="/req/functions/pattern" data-class=linter-core>
-`pattern` MUST fail when the option `match` is given and the value does not match it, or when the option `notMatch` is given and the value matches it. Both options are regular expressions as defined by ECMAScript [[!ECMA-262-2025]].
+`pattern` MUST fail when the option `match` is given and the value does not match it, or when the option `notMatch` is given and the value matches it. Both options are regular expressions as defined by ECMAScript [[!ECMA-262-2025]], written bare or between slashes followed by ECMAScript flags.
 </div>
 
 Issue: `pattern` takes the regular expressions and flags of ECMAScript, so a linter written in another language has to reproduce ECMAScript's semantics. I-Regexp [[RFC9485]] is a dialect meant to behave the same in every language, but it has no lookaround or backreferences, so rulesets that use them would break. Which dialect a later version adopts is open.

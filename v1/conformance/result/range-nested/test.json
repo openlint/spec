@@ -1,0 +1,26 @@
+{
+  "for": [
+    "/req/result/range"
+  ],
+  "purpose": "A block mapping that is the value of a key starts just after the key's `:`; a scalar starts at its first character. Both end just after their last character.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "nested",
+        "range": {
+          "start": { "line": 2, "character": 8 },
+          "end": { "line": 3, "character": 28 }
+        }
+      },
+      {
+        "code": "scalar",
+        "range": {
+          "start": { "line": 3, "character": 19 },
+          "end": { "line": 3, "character": 28 }
+        }
+      }
+    ]
+  }
+}
