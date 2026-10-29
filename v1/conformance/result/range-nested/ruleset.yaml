@@ -1,0 +1,9 @@
+rules:
+  nested:
+    given: $.paths./pets.get
+    then:
+      function: falsy
+  scalar:
+    given: $.paths./pets.get.operationId
+    then:
+      function: falsy
