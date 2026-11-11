@@ -1,0 +1,11 @@
+{
+  "name": "spectral-baseline",
+  "private": true,
+  "description": "The Spectral release the conformance tests are checked against, with its whole dependency tree locked so the baseline cannot change underneath the tests.",
+  "dependencies": {
+    "@stoplight/spectral-cli": "6.17.0"
+  },
+  "overrides": {
+    "@stoplight/spectral-core": "1.24.0"
+  }
+}

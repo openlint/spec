@@ -85,10 +85,12 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 24
-      - name: Install Spectral
-        run: npm install --prefix "$RUNNER_TEMP/spectral" @stoplight/spectral-cli@6.17.0
+      - name: Install Spectral from its lockfile
+        # The whole dependency tree is locked in tools/spectral, so a new
+        # release of a Spectral dependency can't change the baseline.
+        run: npm ci --prefix tools/spectral
       - name: Run the conformance tests of every draft
         run: |
           for dir in v*/; do
-            tools/conformance.py "${dir%/}" --linter "node $RUNNER_TEMP/spectral/node_modules/@stoplight/spectral-cli/dist/index.js lint -r {ruleset} -f json {document}"
+            tools/conformance.py "${dir%/}" --linter "node tools/spectral/node_modules/@stoplight/spectral-cli/dist/index.js lint -r {ruleset} -f json {document}"
           done
