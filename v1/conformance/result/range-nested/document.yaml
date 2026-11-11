@@ -1,0 +1,4 @@
+paths:
+  /pets:
+    get:
+      operationId: list_pets

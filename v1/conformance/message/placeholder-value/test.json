@@ -1,0 +1,16 @@
+{
+  "for": [
+    "/req/message/placeholders"
+  ],
+  "purpose": "`{{value}}` is the offending value; a string is substituted as it is.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "r",
+        "message": "Petstore"
+      }
+    ]
+  }
+}
