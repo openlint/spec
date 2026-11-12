@@ -1,2 +1,2 @@
-bikeshed==7.2.0
+bikeshed==7.2.1
 ruff==0.17.3
