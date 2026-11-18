@@ -271,7 +271,7 @@ tools/conformance.py v1 --linter 'node ../openlint/packages/cli/dist/index.js li
 tools/conformance.py v1 --linter 'node <scratch>/node_modules/@stoplight/spectral-cli/dist/index.js lint -r {ruleset} -f json {document}'
 ```
 
-A full run takes about ten minutes per linter. While you work, add `--only <prefix>` to run only the tests whose identifier starts with that prefix, such as `--only /conf/given`.
+A full run takes about two minutes per linter. While you work, add `--only <prefix>` to run only the tests whose identifier starts with that prefix, such as `--only /conf/given`.
 
 Run a new test against both linters before you rely on it. A test that fails on either linter means that the test or the requirement is wrong, because the draft states the current behavior. Tests of a `proposed` requirement are the exception: the runner reports them and does not count them.
 
