@@ -1,0 +1,6 @@
+number-then-numeric-string: [2, "1"]
+number-then-empty-string: [1, ""]
+numeric-string-then-number: ["2", 1]
+number-then-string: [2, a]
+string-then-number: [b, 1]
+number-then-greater-numeric-string: [1, "2"]

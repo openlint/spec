@@ -1,0 +1,21 @@
+{
+  "for": [
+    "/req/functions/alphabetical"
+  ],
+  "purpose": "The keys of an object are compared as strings, in the order of the document.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "unsorted"
+      },
+      {
+        "code": "document-order"
+      },
+      {
+        "code": "as-strings"
+      }
+    ]
+  }
+}

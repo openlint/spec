@@ -2,7 +2,7 @@
   "for": [
     "/req/functions/alphabetical"
   ],
-  "purpose": "Strings are compared with `localeCompare`, so `a` comes before `B` and `B` after `a`.",
+  "purpose": "Strings are compared by collation and not by code point, so `a` comes before `B`.",
   "ruleset": "ruleset.yaml",
   "document": "document.yaml",
   "expect": {

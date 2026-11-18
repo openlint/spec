@@ -1,0 +1,25 @@
+rules:
+  number-then-numeric-string:
+    given: $.number-then-numeric-string
+    then:
+      function: alphabetical
+  number-then-empty-string:
+    given: $.number-then-empty-string
+    then:
+      function: alphabetical
+  numeric-string-then-number:
+    given: $.numeric-string-then-number
+    then:
+      function: alphabetical
+  number-then-string:
+    given: $.number-then-string
+    then:
+      function: alphabetical
+  string-then-number:
+    given: $.string-then-number
+    then:
+      function: alphabetical
+  number-then-greater-numeric-string:
+    given: $.number-then-greater-numeric-string
+    then:
+      function: alphabetical

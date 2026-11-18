@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/functions/alphabetical"
+  ],
+  "purpose": "Two numeric strings are compared as strings, as is a numeric string before a string that is not numeric, and a string that is not numeric is in order before a numeric string.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "numeric-strings"
+      },
+      {
+        "code": "numeric-string-then-smaller-string"
+      }
+    ]
+  }
+}

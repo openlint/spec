@@ -1,0 +1,5 @@
+missing: [{name: a}, {title: b}]
+not-object: [{name: a}, b]
+single: [b]
+object-value: {b: 1, a: 2}
+array-element: [{name: a}, [b]]
