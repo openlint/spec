@@ -73,7 +73,8 @@ details.test > summary .test-outcome { justify-self: end; }
 .req em.rfc2119 { font-style: normal; font-weight: 600; letter-spacing: .02em; }
 .test-for { color: #5f6368; }
 .req > p:last-child, .test > p:last-child { margin-bottom: 0; }
-table.requirements-index td:first-child { font-family: ui-monospace, Menlo, monospace; font-size: .9em; }
+table.requirements-index td:first-child > a { font-family: ui-monospace, Menlo, monospace; font-size: .9em; }
+table.requirements-index .req-status { display: inline-block; margin-left: .6em; font-size: .8em; white-space: nowrap; vertical-align: .1em; }
 @media (prefers-color-scheme: dark) {
   .req { background: rgba(138, 180, 248, .08); }
   .test { background: rgba(255, 255, 255, .05); }
