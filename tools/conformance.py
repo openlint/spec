@@ -48,7 +48,7 @@ from specbuild.config import SpecError
 from specbuild.fixtures import fixture_path
 from specbuild.versions import discover_versions, parse_version
 
-TIMEOUT = 120
+TIMEOUT = 10
 PREFLIGHT_RULESET = "rules:\n  preflight:\n    given: $\n    then:\n      function: truthy\n"
 
 
