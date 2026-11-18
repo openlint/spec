@@ -1,0 +1,3 @@
+extends:
+  - ./left.yaml
+  - ./right.yaml

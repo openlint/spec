@@ -1,0 +1,13 @@
+{
+  "for": [
+    "/req/extends/no-cycle"
+  ],
+  "purpose": "A ruleset that extends a ruleset that extends it back is invalid.",
+  "ruleset": "ruleset.yaml",
+  "files": [
+    "other.yaml"
+  ],
+  "expect": {
+    "ruleset": "invalid"
+  }
+}
