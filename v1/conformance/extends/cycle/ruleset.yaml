@@ -1,0 +1,6 @@
+extends: ./other.yaml
+rules:
+  r:
+    given: $
+    then:
+      function: truthy

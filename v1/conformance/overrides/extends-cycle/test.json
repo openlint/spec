@@ -1,0 +1,10 @@
+{
+  "for": [
+    "/req/extends/no-cycle"
+  ],
+  "purpose": "A ruleset with an override whose `extends` identifies the ruleset itself is invalid, even when the override applies to no document.",
+  "ruleset": "ruleset.yaml",
+  "expect": {
+    "ruleset": "invalid"
+  }
+}

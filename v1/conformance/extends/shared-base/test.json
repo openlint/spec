@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/extends/no-cycle"
+  ],
+  "purpose": "A ruleset that extends two rulesets that both extend the same ruleset is valid.",
+  "ruleset": "ruleset.yaml",
+  "files": [
+    "left.yaml",
+    "right.yaml",
+    "base.yaml"
+  ],
+  "expect": {
+    "ruleset": "valid"
+  }
+}

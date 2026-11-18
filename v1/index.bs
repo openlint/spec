@@ -349,6 +349,12 @@ extends:
 
 With `off`, a ruleset can extend a large ruleset and enable only the rules it names. [[#loading]] defines loading, and [[#rule-state]] the effect of the modes.
 
+A ruleset that is extended can extend other rulesets in turn, so `extends` can lead from a ruleset back to the same ruleset. Following `extends` from such a ruleset would never end, so it is invalid. The `extends` of an override counts too, whether or not the override applies to a document, so that validity does not depend on the documents being linted. A ruleset can still reach another ruleset along two paths.
+
+<div class=req id="/req/extends/no-cycle" data-class=ruleset-core data-status=proposed>
+A [=ruleset=] MUST NOT extend itself, either directly or through any number of other rulesets. The `extends` of an [=override=] counts in the same way as the `extends` of its ruleset.
+</div>
+
 ### `rules` ### {#rules}
 
 `rules` maps a [=rule name=] to either a [[#rule-object|Rule Object]], which defines a rule or redefines an inherited one, or a shorthand, which adjusts a rule inherited through [[#extends]]. Other rulesets refer to a rule by its name to disable it or change its severity, so renaming a rule breaks them.
@@ -789,7 +795,7 @@ The scenario is also the conformance test <a href="#/conf/linter/walkthrough">/c
 
 ## Loading a ruleset ## {#loading}
 
-Loading turns the ruleset file into the set of rules that will run. A linter first checks the ruleset against [[#ruleset-format]]. It then loads the rulesets it extends, recursively, so that their rules are available under their names. Overrides are applied next, per document; see [[#applying-overrides]].
+Loading turns the ruleset file into the set of rules that will run. A linter first checks the ruleset against [[#ruleset-format]]. It then loads the rulesets it extends, recursively, so that their rules are available under their names. A ruleset that extends itself, directly or through other rulesets, is invalid; see <a href="#/req/extends/no-cycle">/req/extends/no-cycle</a>. Overrides are applied next, per document; see [[#applying-overrides]].
 
 
 <div class=example>
@@ -813,8 +819,6 @@ A [=linter=] MUST reject a [=ruleset=] whose `extends` identifies a ruleset it c
 </div>
 
 Issue: How a linter resolves file paths, npm module specifiers, and URLs, and what each is relative to, is implementation-defined and has to be specified. So is whether every conforming linter has to recognize the built-in identifiers, which name rulesets shipped with OpenLint; <a href="https://github.com/orgs/openlint/discussions/6">discussion #6</a> uses `openlint:openapi` as the name of a new core OpenAPI ruleset. Resolving an npm module specifier also ties `linter-core` to the JavaScript package ecosystem, so it could move to a class of its own, as custom functions have.
-
-Issue: In OpenLint, a cycle through `extends` between ruleset files is neither detected nor reported: the loader follows it until the process runs out of memory, so the ruleset never loads. Its core skips a definition it is already loading, but only for definitions held in memory. A conforming linter has to reject cycles, or the ruleset has to be invalid; which is open. Tracked in <a href="https://github.com/openlint/spec/issues/15">spec#15</a>.
 
 <div class=req id="/req/extension-properties/ignored" data-class=linter-core>
 A [=linter=] MUST NOT let an [=extension property=] change which [=results=] it produces.
