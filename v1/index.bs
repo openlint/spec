@@ -83,10 +83,15 @@ Max ToC Depth: 3
     "href": "https://semver.org/spec/v2.0.0.html",
     "authors": ["Tom Preston-Werner"]
   },
-  "ecma-402": {
-    "title": "ECMAScript 2025 Internationalization API Specification, 12th edition (ECMA-402)",
-    "href": "https://402.ecma-international.org/12.0/",
-    "publisher": "Ecma International"
+  "uts10": {
+    "title": "Unicode Technical Standard #10: Unicode Collation Algorithm",
+    "href": "https://www.unicode.org/reports/tr10/",
+    "publisher": "Unicode Consortium"
+  },
+  "uts35": {
+    "title": "Unicode Technical Standard #35: Unicode Locale Data Markup Language (LDML)",
+    "href": "https://www.unicode.org/reports/tr35/",
+    "publisher": "Unicode Consortium"
   },
   "jsonpath-plus": {
     "title": "JSONPath-Plus 10.4.0",
@@ -1377,11 +1382,19 @@ It applies to arrays and objects.
 
 <table class="data"><thead><tr><th>Option</th><th>Type</th><th>Required</th><th>Default</th><th>Meaning</th></tr></thead><tbody><tr><td>`keyedBy`</td><td>string</td><td></td><td></td><td>For an array of objects, the property to compare the elements by.</td></tr></tbody></table>
 
-<div class=req id="/req/functions/alphabetical" data-class=linter-core>
-`alphabetical` MUST fail when the elements of an array, or the keys of an object, are not in ascending order, where numbers are compared by value, strings as `localeCompare` of ECMAScript [[!ECMA-402]] compares them with no locale given, and two values of different types count as in order. With the option `keyedBy`, the elements of an array of objects are compared by that property.
-</div>
+`alphabetical` compares each element with the one after it. The elements of an object are its keys, in the order of the document. With the option `keyedBy`, it compares the value of that property in each element instead of the element itself. The table says when a compared value is out of order with the next one.
 
-Issue: `localeCompare` without a locale uses the locale of the environment, so the order of strings such as `ä` and `z` can differ between machines. A fixed collation, such as code point order, would make the function portable at the cost of changing the order of mixed-case names. Tracked in <a href="https://github.com/openlint/spec/issues/13">spec#13</a>.
+<table class="data"><thead><tr><th>Value</th><th>Next value</th><th>Out of order when</th></tr></thead><tbody><tr><td>A number</td><td>A number or a numeric string</td><td>The value is greater than the next one, where a numeric string counts as the number it denotes.</td></tr><tr><td>A string</td><td>A string</td><td>The value sorts after the next one, also when both are numeric strings, unless only the next one is a numeric string.</td></tr><tr><td>A number</td><td>A string that is not numeric</td><td>Never.</td></tr><tr><td>A string</td><td>A number</td><td>Never.</td></tr><tr><td>A boolean, null, an array, or an object</td><td>Any value</td><td>Always.</td></tr><tr><td>Any value</td><td>A boolean, null, an array, or an object</td><td>Always.</td></tr></tbody></table>
+
+A numeric string is a string that reads as a number, as the grammar <a href="https://262.ecma-international.org/16.0/#prod-StringNumericLiteral">`StringNumericLiteral`</a> of ECMAScript [[!ECMA-262-2025]] defines. An empty string, or one of only white space, is numeric too and counts as 0.
+
+Strings are ordered for the locale the linter runs under, as the Unicode Collation Algorithm [[!UTS10]] and the locale data of CLDR [[!UTS35]] define.
+
+Note: Locales order some strings differently, so the same ruleset and document can give different results in different environments.
+
+<div class=req id="/req/functions/alphabetical" data-class=linter-core>
+`alphabetical` MUST pass when there are fewer than two elements. Otherwise it MUST fail, with one problem, when a compared value is out of order with the next one as the table above defines, or when the option `keyedBy` is given and an element is not an object or lacks that property. In every other case it MUST pass.
+</div>
 
 <div class=example>
 ```yaml

@@ -1,0 +1,24 @@
+{
+  "for": [
+    "/req/functions/alphabetical"
+  ],
+  "purpose": "With `keyedBy`, an element that is a string or an array, or an object without the property, fails, unless there are fewer than two elements.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "missing"
+      },
+      {
+        "code": "not-object"
+      },
+      {
+        "code": "object-value"
+      },
+      {
+        "code": "array-element"
+      }
+    ]
+  }
+}

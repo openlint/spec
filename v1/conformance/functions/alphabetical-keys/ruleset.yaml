@@ -1,0 +1,17 @@
+rules:
+  sorted:
+    given: $.sorted
+    then:
+      function: alphabetical
+  unsorted:
+    given: $.unsorted
+    then:
+      function: alphabetical
+  document-order:
+    given: $.document-order
+    then:
+      function: alphabetical
+  as-strings:
+    given: $.as-strings
+    then:
+      function: alphabetical

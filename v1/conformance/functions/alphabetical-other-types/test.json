@@ -1,0 +1,33 @@
+{
+  "for": [
+    "/req/functions/alphabetical"
+  ],
+  "purpose": "A compared value that is a boolean, null, an array, or an object fails, in either position and with `keyedBy`, with one problem however many there are, unless there are fewer than two elements.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "with-boolean"
+      },
+      {
+        "code": "with-null"
+      },
+      {
+        "code": "with-object"
+      },
+      {
+        "code": "with-array"
+      },
+      {
+        "code": "several"
+      },
+      {
+        "code": "boolean-first"
+      },
+      {
+        "code": "keyed-boolean"
+      }
+    ]
+  }
+}

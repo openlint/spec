@@ -1,0 +1,39 @@
+rules:
+  with-boolean:
+    given: $.with-boolean
+    then:
+      function: alphabetical
+  with-null:
+    given: $.with-null
+    then:
+      function: alphabetical
+  single:
+    given: $.single
+    then:
+      function: alphabetical
+  with-object:
+    given: $.with-object
+    then:
+      function: alphabetical
+  with-array:
+    given: $.with-array
+    then:
+      function: alphabetical
+  several:
+    given: $.several
+    then:
+      function: alphabetical
+  boolean-first:
+    given: $.boolean-first
+    then:
+      function: alphabetical
+  keyed-boolean:
+    given: $.keyed-boolean
+    then:
+      function: alphabetical
+      functionOptions:
+        keyedBy: name
+  empty:
+    given: $.empty
+    then:
+      function: alphabetical

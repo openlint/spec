@@ -2,7 +2,7 @@
   "for": [
     "/req/functions/alphabetical"
   ],
-  "purpose": "Numbers are compared by value, so `[2, 10]` is in order and `[10, 9]` is not.",
+  "purpose": "Numbers are compared by value, so `[2, 10]` and `[1, 1]` are in order and `[10, 9]` is not.",
   "ruleset": "ruleset.yaml",
   "document": "document.yaml",
   "expect": {

@@ -1,0 +1,4 @@
+numeric-strings: ["9", "10"]
+string-then-numeric-string: [b, "1"]
+numeric-string-then-string: ["1", b]
+numeric-string-then-smaller-string: ["2", "1a"]

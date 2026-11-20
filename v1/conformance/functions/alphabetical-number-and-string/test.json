@@ -1,0 +1,18 @@
+{
+  "for": [
+    "/req/functions/alphabetical"
+  ],
+  "purpose": "A number is compared by value with a numeric string after it, the empty string included, and every other pair of a number and a string is in order.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "number-then-numeric-string"
+      },
+      {
+        "code": "number-then-empty-string"
+      }
+    ]
+  }
+}

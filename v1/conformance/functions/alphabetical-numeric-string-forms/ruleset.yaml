@@ -1,0 +1,17 @@
+rules:
+  greater:
+    given: $.greater[*]
+    then:
+      function: alphabetical
+  equal:
+    given: $.equal[*]
+    then:
+      function: alphabetical
+  not-numeric:
+    given: $.not-numeric[*]
+    then:
+      function: alphabetical
+  not-numeric-words:
+    given: $.not-numeric-words[*]
+    then:
+      function: alphabetical

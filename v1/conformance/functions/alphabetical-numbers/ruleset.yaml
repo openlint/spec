@@ -1,5 +1,5 @@
 rules:
   r:
-    given: [$.ok, $.bad]
+    given: [$.ok, $.equal, $.bad]
     then:
       function: alphabetical

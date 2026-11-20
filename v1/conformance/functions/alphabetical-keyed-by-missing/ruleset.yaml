@@ -1,0 +1,31 @@
+rules:
+  missing:
+    given: $.missing
+    then:
+      function: alphabetical
+      functionOptions:
+        keyedBy: name
+  not-object:
+    given: $.not-object
+    then:
+      function: alphabetical
+      functionOptions:
+        keyedBy: name
+  single:
+    given: $.single
+    then:
+      function: alphabetical
+      functionOptions:
+        keyedBy: name
+  object-value:
+    given: $.object-value
+    then:
+      function: alphabetical
+      functionOptions:
+        keyedBy: name
+  array-element:
+    given: $.array-element
+    then:
+      function: alphabetical
+      functionOptions:
+        keyedBy: name

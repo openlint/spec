@@ -1,0 +1,63 @@
+{
+  "for": [
+    "/req/functions/alphabetical"
+  ],
+  "purpose": "A string in any notation of the grammar is numeric and has the value it denotes, and a string that only resembles a number is not numeric.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "greater"
+      },
+      {
+        "code": "greater"
+      },
+      {
+        "code": "greater"
+      },
+      {
+        "code": "greater"
+      },
+      {
+        "code": "greater"
+      },
+      {
+        "code": "greater"
+      },
+      {
+        "code": "greater"
+      },
+      {
+        "code": "greater"
+      },
+      {
+        "code": "greater"
+      },
+      {
+        "code": "greater"
+      },
+      {
+        "code": "greater"
+      },
+      {
+        "code": "greater"
+      },
+      {
+        "code": "greater"
+      },
+      {
+        "code": "greater"
+      },
+      {
+        "code": "greater"
+      },
+      {
+        "code": "not-numeric-words"
+      },
+      {
+        "code": "not-numeric-words"
+      }
+    ]
+  }
+}

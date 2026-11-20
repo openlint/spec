@@ -1,0 +1,15 @@
+{
+  "for": [
+    "/req/functions/alphabetical"
+  ],
+  "purpose": "A value with several elements out of order fails with one problem.",
+  "ruleset": "ruleset.yaml",
+  "document": "document.yaml",
+  "expect": {
+    "results": [
+      {
+        "code": "names"
+      }
+    ]
+  }
+}

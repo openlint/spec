@@ -1,0 +1,4 @@
+sorted: {a: 1, b: 2}
+unsorted: {b: 1, a: 2}
+document-order: {"2": 1, "1": 2}
+as-strings: {"9": 1, "10": 2}

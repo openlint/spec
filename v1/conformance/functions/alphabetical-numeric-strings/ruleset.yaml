@@ -1,0 +1,17 @@
+rules:
+  numeric-strings:
+    given: $.numeric-strings
+    then:
+      function: alphabetical
+  string-then-numeric-string:
+    given: $.string-then-numeric-string
+    then:
+      function: alphabetical
+  numeric-string-then-string:
+    given: $.numeric-string-then-string
+    then:
+      function: alphabetical
+  numeric-string-then-smaller-string:
+    given: $.numeric-string-then-smaller-string
+    then:
+      function: alphabetical
