@@ -63,6 +63,7 @@ When the format ships only as part of one linter, it stops moving when the linte
 | Problems with the format, the schema or this document | [openlint/spec issues](https://github.com/openlint/spec/issues)         |
 | Problems with the linter                              | [openlint/openlint issues](https://github.com/openlint/openlint/issues) |
 | Ideas, direction and questions                        | [OpenLint discussions](https://github.com/orgs/openlint/discussions)    |
+| Quick questions and chat                              | [OpenLint Slack](https://join.slack.com/t/openlintworkspace/shared_invite/zt-4hgoweggz-~h3UNfIyoy~pYUgQ_ivwow) |
 
 The most useful contribution is a ruleset that behaves differently from what this document says. That's a bug in the specification.
 
